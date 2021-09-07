@@ -58,6 +58,15 @@ struct a3_Keyframe
 {
 	// index in keyframe pool
 	a3ui32 index;
+
+	// interval of time for which this keyframe is active
+	a3real duration;
+
+	// inverse of duration
+	a3real durationInv;
+
+	// value of the sample described by the keyframe, for this example it is just an integer
+	a3ui32 data;
 };
 
 // pool of keyframe descriptors
