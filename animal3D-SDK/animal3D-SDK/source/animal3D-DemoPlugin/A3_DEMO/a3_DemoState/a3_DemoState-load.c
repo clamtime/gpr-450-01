@@ -153,8 +153,7 @@ void a3demo_loadGeometry(a3_DemoState *demoState)
 	a3_KeyframePool* kfPool = NULL;
 	a3keyframePoolCreate(kfPool, 20);
 	a3_ClipPool* cPool = NULL;
-	cPool->clip->keyframePool = kfPool;
-	a3clipPoolCreate(cPool, 5);
+	a3clipPoolCreate(cPool, 5, kfPool);
 
 	a3_ClipController* cc1 = NULL, * cc2 = NULL, * cc3 = NULL;
 
