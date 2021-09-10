@@ -51,6 +51,7 @@ struct a3_ClipController
 
 	// current clip being played (if index should it be a3ui32?)
 	a3ui32 currentClipIndex;
+	a3index clipIndex_pool; // diff way
 
 	// current time relative to start of clip [0, clip duration)
 	a3real clipTime;
@@ -59,7 +60,8 @@ struct a3_ClipController
 	a3real clipParameter;
 
 	// current keyframe being played
-	a3ui32 currentKeyframeIndex;
+	a3index currentKeyframeIndex, nextKeyframeIndex;
+	a3index keyframeIndex0_clip, keyframeIndex1_clip;
 
 	// current time relative to start of keyframe [0, keyframe duration)
 	a3real keyframeTime;
@@ -75,6 +77,9 @@ struct a3_ClipController
 
 	// clip pool to play from
 	a3_ClipPool* clipPool;
+
+	a3_Clip const* clipPtr;
+	a3_Keyframe const* keyframePtr0, * keyframePtr1;
 };
 
 
@@ -89,6 +94,8 @@ a3i32 a3clipControllerUpdate(a3_ClipController* clipCtrl, const a3real dt);
 // set clip to play
 a3i32 a3clipControllerSetClip(a3_ClipController* clipCtrl, const a3_ClipPool* clipPool, const a3ui32 clipIndex_pool);
 
+// evaluate the current value at time
+a3i32 a3clipControllerEvaluate(a3_ClipController const* clipCtrl, a3_Sample* sample_out);
 
 //-----------------------------------------------------------------------------
 

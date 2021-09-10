@@ -36,6 +36,7 @@
 extern "C"
 {
 #else	// !__cplusplus
+typedef struct a3_Sample					a3_Sample;
 typedef struct a3_Keyframe					a3_Keyframe;
 typedef struct a3_KeyframePool				a3_KeyframePool;
 typedef struct a3_Clip						a3_Clip;
@@ -49,6 +50,13 @@ typedef struct a3_ClipPool					a3_ClipPool;
 enum
 {
 	a3keyframeAnimation_nameLenMax = 32,
+};
+
+// single generic value at time
+struct a3_Sample
+{
+	a3real time; // (the x-axis)
+	a3real value; // (the y-axis)
 };
 
 
@@ -67,6 +75,9 @@ struct a3_Keyframe
 
 	// value of the sample described by the keyframe, for this example it is just an integer
 	a3ui32 data;
+
+	// the known sample at the start of the interval
+	a3_Sample sample;
 };
 
 // pool of keyframe descriptors

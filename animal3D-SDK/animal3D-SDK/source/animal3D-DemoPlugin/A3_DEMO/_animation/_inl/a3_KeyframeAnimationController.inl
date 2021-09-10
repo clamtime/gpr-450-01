@@ -32,6 +32,14 @@
 // update clip controller
 inline a3i32 a3clipControllerUpdate(a3_ClipController* clipCtrl, const a3real dt)
 {
+	// step/nearest -> nothing special, same as lab1
+	// lerp:
+	//  if end of keyframe, k0 <- k1, calc new k1
+	//  if beginning(reverse), k1 <- k0, calc new k0
+	// catmull:
+	//  if end: kp <- k0 <- k1 <- kn, calc new kn
+	//  if begin: kn <- k1 <- k0 <- kp, calc new kp
+
 	a3_Clip * currentClip = clipCtrl->clipPool->clip + clipCtrl->currentClipIndex;
 
 	// pre-resolution: apply the time update -> inside switch statement
@@ -127,8 +135,36 @@ inline a3i32 a3clipControllerUpdate(a3_ClipController* clipCtrl, const a3real dt
 inline a3i32 a3clipControllerSetClip(a3_ClipController* clipCtrl, const a3_ClipPool* clipPool, const a3ui32 clipIndex_pool)
 {
 	clipCtrl->currentClipIndex = clipIndex_pool;
-
+	clipCtrl->clipPtr = clipPool->clip + clipIndex_pool;
 	return -1;
+}
+
+
+
+// evaluate the current value at time
+a3i32 a3clipControllerEvaluate(a3_ClipController const* clipCtrl, a3_Sample* sample_out)
+{
+	if (clipCtrl && clipCtrl->clipPtr && sample_out)
+	{
+		// 0: no interpolation
+		//*sample_out = clipCtrl->keyframePtr0->sample;
+
+		// 1: nearest
+		// if (u < 0.5) then k0, else k1
+
+		// 2: lerp
+		// k = k0 + (k1 - k0)u
+		sample_out->time = clipCtrl->keyframeTime;
+		sample_out->value = a3lerp(
+			clipCtrl->keyframePtr0->sample.value,
+			clipCtrl->keyframePtr1->sample.value,
+			clipCtrl->keyframeParameter);
+
+		// 3: catmull-rom/cubic Hermite
+
+
+		return clipCtrl->currentKeyframeIndex;
+	}
 }
 
 
