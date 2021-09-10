@@ -50,7 +50,7 @@ struct a3_ClipController
 	a3byte name[a3keyframeAnimation_nameLenMax];
 
 	// current clip being played (if index should it be a3ui32?)
-	a3_Clip* currentClipIndex;
+	a3ui32 currentClipIndex;
 
 	// current time relative to start of clip [0, clip duration)
 	a3real clipTime;
@@ -58,8 +58,8 @@ struct a3_ClipController
 	// clip parameter, normalized clipTime [0, 1)
 	a3real clipParameter;
 
-	// current keyframe being played (if index should it be a3ui32?)
-	a3_Keyframe currentKeyframeIndex;
+	// current keyframe being played
+	a3ui32 currentKeyframeIndex;
 
 	// current time relative to start of keyframe [0, keyframe duration)
 	a3real keyframeTime;
