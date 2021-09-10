@@ -191,68 +191,68 @@ void a3demo_loadGeometry(a3_DemoState *demoState)
 
 	// procedural scene objects
 	// attempt to load stream if requested
-	if (demoState->streaming && a3fileStreamOpenRead(fileStream, geometryStream))
-	{
-		// read from stream
+	//if (demoState->streaming && a3fileStreamOpenRead(fileStream, geometryStream))
+	//{
+	//	// read from stream
 
-		// static display objects
-		for (i = 0; i < displayShapesCount; ++i)
-			a3fileStreamReadObject(fileStream, displayShapesData + i, (a3_FileStreamReadFunc)a3geometryLoadDataBinary);
+	//	// static display objects
+	//	for (i = 0; i < displayShapesCount; ++i)
+	//		a3fileStreamReadObject(fileStream, displayShapesData + i, (a3_FileStreamReadFunc)a3geometryLoadDataBinary);
 
-		// procedurally-generated objects
-		for (i = 0; i < proceduralShapesCount; ++i)
-			a3fileStreamReadObject(fileStream, proceduralShapesData + i, (a3_FileStreamReadFunc)a3geometryLoadDataBinary);
+	//	// procedurally-generated objects
+	//	for (i = 0; i < proceduralShapesCount; ++i)
+	//		a3fileStreamReadObject(fileStream, proceduralShapesData + i, (a3_FileStreamReadFunc)a3geometryLoadDataBinary);
 
-		// loaded model objects
-		for (i = 0; i < loadedModelsCount; ++i)
-			a3fileStreamReadObject(fileStream, loadedModelsData + i, (a3_FileStreamReadFunc)a3geometryLoadDataBinary);
+	//	// loaded model objects
+	//	for (i = 0; i < loadedModelsCount; ++i)
+	//		a3fileStreamReadObject(fileStream, loadedModelsData + i, (a3_FileStreamReadFunc)a3geometryLoadDataBinary);
 
-		// done
-		a3fileStreamClose(fileStream);
-	}
-	// not streaming or stream doesn't exist
-	else if (!demoState->streaming || a3fileStreamOpenWrite(fileStream, geometryStream))
-	{
-		// create new data
-		a3_ProceduralGeometryDescriptor displayShapes[2] = { a3geomShape_none };
-		a3_ProceduralGeometryDescriptor proceduralShapes[6] = { a3geomShape_none };
-		const a3_DemoStateLoadedModel loadedShapes[1] = {
-			{ A3_DEMO_OBJ"teapot/teapot.obj", downscale20x_y2z_x2y.mm, a3model_calculateVertexTangents },
-		};
+	//	// done
+	//	a3fileStreamClose(fileStream);
+	//}
+	//// not streaming or stream doesn't exist
+	//else if (!demoState->streaming || a3fileStreamOpenWrite(fileStream, geometryStream))
+	//{
+	//	// create new data
+	//	a3_ProceduralGeometryDescriptor displayShapes[2] = { a3geomShape_none };
+	//	a3_ProceduralGeometryDescriptor proceduralShapes[6] = { a3geomShape_none };
+	//	const a3_DemoStateLoadedModel loadedShapes[1] = {
+	//		{ A3_DEMO_OBJ"teapot/teapot.obj", downscale20x_y2z_x2y.mm, a3model_calculateVertexTangents },
+	//	};
 
-		// static scene procedural objects
-		//	(axes, grid)
-		a3proceduralCreateDescriptorAxes(displayShapes + 0, a3geomFlag_wireframe, 0.0f, 1);
-		a3proceduralCreateDescriptorPlane(displayShapes + 1, a3geomFlag_wireframe, a3geomAxis_default, 20.0f, 20.0f, 20, 20);
-		for (i = 0; i < displayShapesCount; ++i)
-		{
-			a3proceduralGenerateGeometryData(displayShapesData + i, displayShapes + i, 0);
-			a3fileStreamWriteObject(fileStream, displayShapesData + i, (a3_FileStreamWriteFunc)a3geometrySaveDataBinary);
-		}
+	//	// static scene procedural objects
+	//	//	(axes, grid)
+	//	a3proceduralCreateDescriptorAxes(displayShapes + 0, a3geomFlag_wireframe, 0.0f, 1);
+	//	a3proceduralCreateDescriptorPlane(displayShapes + 1, a3geomFlag_wireframe, a3geomAxis_default, 20.0f, 20.0f, 20, 20);
+	//	for (i = 0; i < displayShapesCount; ++i)
+	//	{
+	//		a3proceduralGenerateGeometryData(displayShapesData + i, displayShapes + i, 0);
+	//		a3fileStreamWriteObject(fileStream, displayShapesData + i, (a3_FileStreamWriteFunc)a3geometrySaveDataBinary);
+	//	}
 
-		// other procedurally-generated objects
-		a3proceduralCreateDescriptorPlane(proceduralShapes + 0, a3geomFlag_tangents, a3geomAxis_default, 1.0f, 1.0f, 1, 1);
-		a3proceduralCreateDescriptorBox(proceduralShapes + 1, a3geomFlag_tangents, 1.0f, 1.0f, 1.0f, 1, 1, 1);
-		a3proceduralCreateDescriptorSphere(proceduralShapes + 2, a3geomFlag_tangents, a3geomAxis_default, 1.0f, 32, 24);
-		a3proceduralCreateDescriptorCylinder(proceduralShapes + 3, a3geomFlag_tangents, a3geomAxis_x, 1.0f, 1.0f, 32, 4, 4);
-		a3proceduralCreateDescriptorCapsule(proceduralShapes + 4, a3geomFlag_tangents, a3geomAxis_x, 1.0f, 1.0f, 32, 12, 4);
-		a3proceduralCreateDescriptorTorus(proceduralShapes + 5, a3geomFlag_tangents, a3geomAxis_x, 1.0f, 0.25f, 32, 24);
-		for (i = 0; i < proceduralShapesCount; ++i)
-		{
-			a3proceduralGenerateGeometryData(proceduralShapesData + i, proceduralShapes + i, 0);
-			a3fileStreamWriteObject(fileStream, proceduralShapesData + i, (a3_FileStreamWriteFunc)a3geometrySaveDataBinary);
-		}
+	//	// other procedurally-generated objects
+	//	a3proceduralCreateDescriptorPlane(proceduralShapes + 0, a3geomFlag_tangents, a3geomAxis_default, 1.0f, 1.0f, 1, 1);
+	//	a3proceduralCreateDescriptorBox(proceduralShapes + 1, a3geomFlag_tangents, 1.0f, 1.0f, 1.0f, 1, 1, 1);
+	//	a3proceduralCreateDescriptorSphere(proceduralShapes + 2, a3geomFlag_tangents, a3geomAxis_default, 1.0f, 32, 24);
+	//	a3proceduralCreateDescriptorCylinder(proceduralShapes + 3, a3geomFlag_tangents, a3geomAxis_x, 1.0f, 1.0f, 32, 4, 4);
+	//	a3proceduralCreateDescriptorCapsule(proceduralShapes + 4, a3geomFlag_tangents, a3geomAxis_x, 1.0f, 1.0f, 32, 12, 4);
+	//	a3proceduralCreateDescriptorTorus(proceduralShapes + 5, a3geomFlag_tangents, a3geomAxis_x, 1.0f, 0.25f, 32, 24);
+	//	for (i = 0; i < proceduralShapesCount; ++i)
+	//	{
+	//		a3proceduralGenerateGeometryData(proceduralShapesData + i, proceduralShapes + i, 0);
+	//		a3fileStreamWriteObject(fileStream, proceduralShapesData + i, (a3_FileStreamWriteFunc)a3geometrySaveDataBinary);
+	//	}
 
-		// objects loaded from mesh files
-		for (i = 0; i < loadedModelsCount; ++i)
-		{
-			a3modelLoadOBJ(loadedModelsData + i, loadedShapes[i].filePath, loadedShapes[i].flag, loadedShapes[i].transform);
-			a3fileStreamWriteObject(fileStream, loadedModelsData + i, (a3_FileStreamWriteFunc)a3geometrySaveDataBinary);
-		}
+	//	// objects loaded from mesh files
+	//	for (i = 0; i < loadedModelsCount; ++i)
+	//	{
+	//		a3modelLoadOBJ(loadedModelsData + i, loadedShapes[i].filePath, loadedShapes[i].flag, loadedShapes[i].transform);
+	//		a3fileStreamWriteObject(fileStream, loadedModelsData + i, (a3_FileStreamWriteFunc)a3geometrySaveDataBinary);
+	//	}
 
-		// done
-		a3fileStreamClose(fileStream);
-	}
+	//	// done
+	//	a3fileStreamClose(fileStream);
+	//}
 
 
 	// GPU data upload process: 
