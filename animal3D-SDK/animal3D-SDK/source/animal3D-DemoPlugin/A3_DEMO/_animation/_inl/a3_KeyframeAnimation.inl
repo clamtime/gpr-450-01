@@ -32,6 +32,8 @@
 // calculate clip duration as sum of keyframes' durations
 inline a3i32 a3clipCalculateDuration(a3_Clip* clip)
 {
+	// is this 0:1??
+
 	a3i32 dur = (a3ui32)0;
 	for (int i = 0; i < (int)clip->count; i++)
 	{
