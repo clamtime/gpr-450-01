@@ -158,8 +158,10 @@ void a3demo_loadGeometry(a3_DemoState *demoState)
 
 	a3_ClipController* cc1 = NULL, * cc2 = NULL, * cc3 = NULL;
 
-	// aaaaa idk what do here :/
-	a3clipControllerInit(cc1, , cPool, , );
+	// initializing first clip controller
+	a3clipControllerInit(cc1, "Clip1_Controller", cPool, 1, 1);
+	a3clipControllerInit(cc2, "Clip2_Controller", cPool, 2, -1);
+	a3clipControllerInit(cc3, "Clip3_Controller", cPool, 4, 0);
 
 	
 	

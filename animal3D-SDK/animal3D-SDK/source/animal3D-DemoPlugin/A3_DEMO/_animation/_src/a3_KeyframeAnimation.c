@@ -76,7 +76,7 @@ a3i32 a3keyframeInit(a3_Keyframe* keyframe_out, const a3real duration, const a3u
 
 
 // allocate clip pool
-a3i32 a3clipPoolCreate(a3_ClipPool* clipPool_out, const a3ui32 count)
+a3i32 a3clipPoolCreate(a3_ClipPool* clipPool_out, const a3ui32 count, a3_Keyframe* keyframePool)
 {
 	// allocating space for the array
 	clipPool_out->count = count;
@@ -86,8 +86,7 @@ a3i32 a3clipPoolCreate(a3_ClipPool* clipPool_out, const a3ui32 count)
 	{
 		a3_Clip* currentClip = clipPool_out->clip + i;
 		// initializing each element of the array
-		a3clipInit(currentClip, currentClip->name, currentClip->keyframePool, 
-			currentClip->firstKeyframeIndex, currentClip->lastKeyframeIndex);
+		a3clipInit(currentClip, "Clip " + i, keyframePool, 0, 20);
 	}
 
 	return -1;
