@@ -113,6 +113,10 @@ struct a3_Clip
 
 	// number of keyframes referenced by clip
 	a3ui32 count;
+
+	// first and last keyframe indicies?
+	a3ui32 firstKeyframeIndex;
+	a3ui32 lastKeyframeIndex;
 };
 
 // group of clips

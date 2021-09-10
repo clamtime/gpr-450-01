@@ -90,6 +90,9 @@ a3i32 a3clipPoolRelease(a3_ClipPool* clipPool)
 // initialize clip with first and last indices
 a3i32 a3clipInit(a3_Clip* clip_out, const a3byte clipName[a3keyframeAnimation_nameLenMax], const a3_KeyframePool* keyframePool, const a3ui32 firstKeyframeIndex, const a3ui32 finalKeyframeIndex)
 {
+	clip_out->keyframePool = keyframePool;
+	clip_out->firstKeyframeIndex = firstKeyframeIndex;
+	clip_out->lastKeyframeIndex  = finalKeyframeIndex;
 	return -1;
 }
 
