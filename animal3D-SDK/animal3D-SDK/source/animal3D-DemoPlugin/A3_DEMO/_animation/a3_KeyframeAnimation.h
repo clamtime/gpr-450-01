@@ -96,11 +96,23 @@ a3i32 a3keyframeInit(a3_Keyframe* keyframe_out, const a3real duration, const a3u
 // metaphor: timeline
 struct a3_Clip
 {
+	// array of keyframes
+	a3_KeyframePool* keyframePool;
+
 	// clip name
 	a3byte name[a3keyframeAnimation_nameLenMax];
 
 	// index in clip pool
 	a3ui32 index;
+
+	// interval of time for which this clip is active
+	a3real duration;
+
+	// inverse of duration
+	a3real durationInv;
+
+	// number of keyframes referenced by clip
+	a3ui32 count;
 };
 
 // group of clips
