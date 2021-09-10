@@ -77,7 +77,8 @@
 #include "../a3_DemoState.h"
 
 #include <stdio.h>
-
+#include "../_animation/a3_KeyframeAnimation.h"
+#include "../_animation/a3_KeyframeAnimationController.h"
 
 //-----------------------------------------------------------------------------
 // GENERAL UTILITIES
@@ -147,6 +148,21 @@ inline void a3demo_initDummyDrawable_internal(a3_DemoState *demoState)
 // utility to load geometry
 void a3demo_loadGeometry(a3_DemoState *demoState)
 {
+	// set up keyframes and clips
+
+	a3_KeyframePool* kfPool = NULL;
+	a3keyframePoolCreate(kfPool, 20);
+	a3_ClipPool* cPool = NULL;
+	cPool->clip->keyframePool = kfPool;
+	a3clipPoolCreate(cPool, 5);
+
+	a3_ClipController* cc1 = NULL, * cc2 = NULL, * cc3 = NULL;
+
+	// aaaaa idk what do here :/
+	a3clipControllerInit(cc1, , cPool, , );
+
+	
+	
 	// tmp descriptor for loaded model
 	typedef struct a3_TAG_DEMOSTATELOADEDMODEL {
 		const a3byte *filePath;
