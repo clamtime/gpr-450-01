@@ -65,7 +65,7 @@ void a3starter_load(a3_DemoState const* demoState, a3_DemoMode0_Starter* demoMod
 {
 	a3ui32 i;
 
-	a3_DemoSceneObject* currentSceneObject;
+	//a3_DemoSceneObject* currentSceneObject;
 	a3_DemoProjector* projector;
 
 
@@ -94,7 +94,7 @@ void a3starter_load(a3_DemoState const* demoState, a3_DemoMode0_Starter* demoMod
 	for (i = 0; i < starterMaxCount_projector; ++i)
 		a3demo_initProjector(demoMode->projector + i);
 
-	currentSceneObject = demoMode->obj_skybox;
+	/*currentSceneObject = demoMode->obj_skybox;
 	currentSceneObject->scaleMode = 1;
 	currentSceneObject->scale.x = 256.0f;
 
@@ -136,7 +136,7 @@ void a3starter_load(a3_DemoState const* demoState, a3_DemoMode0_Starter* demoMod
 
 	currentSceneObject = demoMode->obj_teapot;
 	currentSceneObject->scaleMode = 0;
-	a3real3Set(currentSceneObject->position.v, +0.5f * sceneObjectDistance, -0.866f * sceneObjectDistance, sceneObjectHeight);
+	a3real3Set(currentSceneObject->position.v, +0.5f * sceneObjectDistance, -0.866f * sceneObjectDistance, sceneObjectHeight);*/
 
 
 	// set up cameras
