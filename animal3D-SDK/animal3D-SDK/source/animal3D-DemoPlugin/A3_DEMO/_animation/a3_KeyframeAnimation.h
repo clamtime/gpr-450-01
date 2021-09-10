@@ -131,7 +131,7 @@ struct a3_ClipPool
 
 
 // allocate clip pool
-a3i32 a3clipPoolCreate(a3_ClipPool* clipPool_out, const a3ui32 count);
+a3i32 a3clipPoolCreate(a3_ClipPool* clipPool_out, const a3ui32 count, a3_KeyframePool* keyframePool);
 
 // release clip pool
 a3i32 a3clipPoolRelease(a3_ClipPool* clipPool);
