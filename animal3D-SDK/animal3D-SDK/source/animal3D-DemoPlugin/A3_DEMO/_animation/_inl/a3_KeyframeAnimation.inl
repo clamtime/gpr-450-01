@@ -49,6 +49,14 @@ inline a3i32 a3clipCalculateDuration(a3_Clip* clip)
 // calculate keyframes' durations by distributing clip's duration
 inline a3i32 a3clipDistributeDuration(a3_Clip* clip, const a3real newClipDuration)
 {
+	a3real dur = newClipDuration / clip->count;
+	a3real durInv = 1 / dur;
+	for (a3ui32 i = 0; i < clip->count; i++)
+	{
+		(clip->keyframePool->keyframe + i)->duration = dur;
+		(clip->keyframePool->keyframe + i)->durationInv = durInv;
+	}
+
 	return -1;
 }
 
