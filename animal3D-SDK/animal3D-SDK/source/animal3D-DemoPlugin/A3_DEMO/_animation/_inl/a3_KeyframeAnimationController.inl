@@ -32,6 +32,11 @@
 // update clip controller
 inline a3i32 a3clipControllerUpdate(a3_ClipController* clipCtrl, const a3real dt)
 {
+	// pre-resolution: apply the time update
+	clipCtrl->keyframeTime += dt;
+	clipCtrl->clipTime += dt;
+
+	// resolve time
 	return -1;
 }
 

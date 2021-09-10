@@ -70,6 +70,9 @@ struct a3_ClipController
 	// +1 forward, 0 pause, -1 reverse
 	a3ui32 playbackDirection;
 
+	// +1 loop, 0 stop, -1 ping-pong
+	a3ui32 terminusAction;
+
 	// clip pool to play from
 	a3_ClipPool* clipPool;
 };
@@ -78,7 +81,7 @@ struct a3_ClipController
 //-----------------------------------------------------------------------------
 
 // initialize clip controller
-a3i32 a3clipControllerInit(a3_ClipController* clipCtrl_out, const a3byte ctrlName[a3keyframeAnimation_nameLenMax], const a3_ClipPool* clipPool, const a3ui32 clipIndex_pool);
+a3i32 a3clipControllerInit(a3_ClipController* clipCtrl_out, const a3byte ctrlName[a3keyframeAnimation_nameLenMax], const a3_ClipPool* clipPool, const a3ui32 clipIndex_pool, const a3ui32 terminusAction);
 
 // update clip controller
 a3i32 a3clipControllerUpdate(a3_ClipController* clipCtrl, const a3real dt);

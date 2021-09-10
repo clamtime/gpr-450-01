@@ -30,11 +30,12 @@
 //-----------------------------------------------------------------------------
 
 // initialize clip controller
-a3i32 a3clipControllerInit(a3_ClipController* clipCtrl_out, const a3byte ctrlName[a3keyframeAnimation_nameLenMax], const a3_ClipPool* clipPool, const a3ui32 clipIndex_pool)
+a3i32 a3clipControllerInit(a3_ClipController* clipCtrl_out, const a3byte ctrlName[a3keyframeAnimation_nameLenMax], const a3_ClipPool* clipPool, const a3ui32 clipIndex_pool, const a3ui32 terminusAction)
 {
-	*clipCtrl_out->name = ctrlName;
-	clipCtrl_out->clipPool = clipPool;
+	*clipCtrl_out->name = ctrlName[a3keyframeAnimation_nameLenMax];
+	*clipCtrl_out->clipPool = *clipPool;
 	clipCtrl_out->currentClipIndex = clipIndex_pool;
+	clipCtrl_out->terminusAction = terminusAction;
 	return -1;
 }
 
