@@ -78,18 +78,32 @@ a3i32 a3keyframeInit(a3_Keyframe* keyframe_out, const a3real duration, const a3u
 // allocate clip pool
 a3i32 a3clipPoolCreate(a3_ClipPool* clipPool_out, const a3ui32 count)
 {
+	// allocating space for the array
+	clipPool_out->count = count;
+	clipPool_out->clip = (a3_Clip*)calloc(count, sizeof(a3_Clip));
+
+	for (int i = 0; i < count; i++)
+	{
+		a3_Clip* currentClip = clipPool_out + i;
+		// initializing each element of the array
+		a3clipInit(currentClip, currentClip->name, currentClip->keyframePool, 
+			currentClip->firstKeyframeIndex, currentClip->lastKeyframeIndex);
+	}
+
 	return -1;
 }
 
 // release clip pool
 a3i32 a3clipPoolRelease(a3_ClipPool* clipPool)
 {
+	free(clipPool->clip);
 	return -1;
 }
 
 // initialize clip with first and last indices
 a3i32 a3clipInit(a3_Clip* clip_out, const a3byte clipName[a3keyframeAnimation_nameLenMax], const a3_KeyframePool* keyframePool, const a3ui32 firstKeyframeIndex, const a3ui32 finalKeyframeIndex)
 {
+	*clip_out->name = clipName;
 	clip_out->keyframePool = keyframePool;
 	clip_out->firstKeyframeIndex = firstKeyframeIndex;
 	clip_out->lastKeyframeIndex  = finalKeyframeIndex;
