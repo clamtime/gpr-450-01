@@ -42,6 +42,8 @@
 // main demo mode callback
 void a3starter_input_keyCharPress(a3_DemoState const* demoState, a3_DemoMode0_Starter* demoMode, a3i32 const asciiKey, a3i32 const state)
 {
+	// where interface input should be handled
+
 	switch (asciiKey)
 	{
 		// toggle render program

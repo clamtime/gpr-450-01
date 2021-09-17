@@ -68,6 +68,7 @@ void a3starter_load(a3_DemoState const* demoState, a3_DemoMode0_Starter* demoMod
 	//a3_DemoSceneObject* currentSceneObject;
 	a3_DemoProjector* projector;
 
+	//  where loading interface should happen?
 
 	// camera's starting orientation depends on "vertical" axis
 	// we want the exact same view in either case
