@@ -68,7 +68,13 @@ inline a3i32 a3spatialPoseReset(a3_SpatialPose* spatialPose)
 {
 	if (spatialPose)
 	{
+		spatialPose->transform = a3mat4_identity;
+		spatialPose->rotation = a3vec3_zero;
+		spatialPose->translation = a3vec3_zero;
+		spatialPose->scale = a3vec3_one;
 
+		// done
+		return 0;
 	}
 	return -1;
 }
@@ -93,6 +99,25 @@ inline a3i32 a3spatialPoseCopy(a3_SpatialPose* spatialPose_out, const a3_Spatial
 	return -1;
 }
 
+// concatenate/combine
+inline a3i32 a3spatialPoseConcat(a3_SpatialPose* spatialPose_out, const a3_SpatialPose* spatialPose_lh, const a3_SpatialPose* spatialPose_rh)
+{
+	if (spatialPose_out && spatialPose_lh && spatialPose_rh)
+	{
+
+	}
+	return -1;
+}
+
+// lerp
+inline a3i32 a3spatialPoseLerp(a3_SpatialPose* spatialPose_out, const a3_SpatialPose* spatialPose0, const a3_SpatialPose* spatialPose1, const a3real u)
+{
+	if (spatialPose_out && spatialPose0 && spatialPose1)
+	{
+
+	}
+	return -1;
+}
 
 //-----------------------------------------------------------------------------
 
