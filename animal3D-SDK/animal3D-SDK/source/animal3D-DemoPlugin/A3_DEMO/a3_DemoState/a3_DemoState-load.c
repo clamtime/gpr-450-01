@@ -148,7 +148,7 @@ inline void a3demo_initDummyDrawable_internal(a3_DemoState *demoState)
 // utility to load geometry
 void a3demo_loadGeometry(a3_DemoState *demoState)
 {
-	// set up keyframes and clips
+	/*// set up keyframes and clips
 
 	a3_KeyframePool* kfPool = NULL;
 	a3keyframePoolCreate(kfPool, 20);
@@ -160,7 +160,7 @@ void a3demo_loadGeometry(a3_DemoState *demoState)
 	// initializing first clip controller
 	a3clipControllerInit(cc1, "Clip1_Controller", cPool, 1, 1);
 	a3clipControllerInit(cc2, "Clip2_Controller", cPool, 2, -1);
-	a3clipControllerInit(cc3, "Clip3_Controller", cPool, 4, 0);
+	a3clipControllerInit(cc3, "Clip3_Controller", cPool, 4, 0);*/
 
 	
 	

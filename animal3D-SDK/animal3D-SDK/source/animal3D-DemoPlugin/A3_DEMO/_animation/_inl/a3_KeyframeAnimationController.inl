@@ -142,7 +142,7 @@ inline a3i32 a3clipControllerSetClip(a3_ClipController* clipCtrl, const a3_ClipP
 
 
 // evaluate the current value at time
-a3i32 a3clipControllerEvaluate(a3_ClipController const* clipCtrl, a3_Sample* sample_out)
+/*a3i32 a3clipControllerEvaluate(a3_ClipController const* clipCtrl, a3_Sample* sample_out)
 {
 	if (clipCtrl && clipCtrl->clipPtr && sample_out)
 	{
@@ -161,11 +161,15 @@ a3i32 a3clipControllerEvaluate(a3_ClipController const* clipCtrl, a3_Sample* sam
 			clipCtrl->keyframeParameter);
 
 		// 3: catmull-rom/cubic Hermite
-
-
-		return clipCtrl->currentKeyframeIndex;
+		//    CatmullRom(kP, k0, k1, kN, u)
+		//        kP: keyframe before k0
+		//        kN: keyframe after k1
+		sample_out->time = clipCtrl->keyframeTime;
+		sample_out->value = a3CatmullRom(clipCtrl->keyframePtrP->sample.value, clipCtrl->keyframePtr0->sample.value,
+			clipCtrl->keyframePtr1->sample.value, clipCtrl->keyframePtrN->sample.value, clipCtrl->keyframeParameter);
 	}
-}
+	return -1;
+}*/
 
 
 //-----------------------------------------------------------------------------

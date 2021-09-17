@@ -61,7 +61,7 @@ struct a3_ClipController
 
 	// current keyframe being played
 	a3index currentKeyframeIndex, nextKeyframeIndex;
-	a3index keyframeIndex0_clip, keyframeIndex1_clip;
+	a3index keyframeIndex0_clip, keyframeIndex1_clip, keyframeIndexP_clip, keyframeIndexN_clip;
 
 	// current time relative to start of keyframe [0, keyframe duration)
 	a3real keyframeTime;
@@ -79,7 +79,7 @@ struct a3_ClipController
 	a3_ClipPool* clipPool;
 
 	a3_Clip const* clipPtr;
-	a3_Keyframe const* keyframePtr0, * keyframePtr1;
+	a3_Keyframe const* keyframePtr0, * keyframePtr1, * keyframePtrP, * keyframePtrN;
 };
 
 
