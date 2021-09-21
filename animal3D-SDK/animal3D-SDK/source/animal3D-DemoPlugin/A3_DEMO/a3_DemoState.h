@@ -97,6 +97,7 @@ enum a3_DemoState_ObjectMaxCount
 	demoStateMaxCount_drawable = 16,
 
 	demoStateMaxCount_shaderProgram = 32,
+	demoStateMaxCount_uniformBuffer = 4;
 
 	demoStateMaxCount_texture = 8,
 
@@ -281,7 +282,13 @@ struct a3_DemoState
 				prog_drawTangentBasis[1];					// draw vertex/face tangent bases and wireframe
 		};
 	};
-
+	// ****TO-DO: UBOs
+	union {
+		a3_UniformBuffer ubo[demoStateMaxCount_uniformBuffer];
+		/*struct {
+			a3_UniformBuffer...
+		};*/
+	};
 
 	// textures
 	union {

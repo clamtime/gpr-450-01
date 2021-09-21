@@ -84,6 +84,17 @@ inline a3i32 a3spatialPoseConvert(a3mat4* mat_out, const a3_SpatialPose* spatial
 {
 	if (mat_out && spatialPose_in)
 	{
+		// RST -> mat4
+		// M = T * ((R2 * R1 * R0) * S)
+		
+		//		|		  tx|
+		// M =  |   RS	  ty|
+		//		|		  tz|
+		//		|0  0  0   1|
+
+		//		|x	  |
+		// S =  |  y  |
+		//		|    z|
 
 	}
 	return -1;
@@ -104,7 +115,12 @@ inline a3i32 a3spatialPoseConcat(a3_SpatialPose* spatialPose_out, const a3_Spati
 {
 	if (spatialPose_out && spatialPose_lh && spatialPose_rh)
 	{
-
+		//spatialPose_out->transform; // no >:(
+		spatialPose_out->rotation; // Euler: validate(lh + rh) - > constrain sum to rotational domain
+		spatialPose_out->scale; // Scale: comp(lh * rh)  -> component wise multiplication
+		spatialPose_out->translation; // Translate: addition (lh + rh)
+		
+		return 0;
 	}
 	return -1;
 }
@@ -114,7 +130,12 @@ inline a3i32 a3spatialPoseLerp(a3_SpatialPose* spatialPose_out, const a3_Spatial
 {
 	if (spatialPose_out && spatialPose0 && spatialPose1)
 	{
+		//spatialPose_out->transform; // no >:(
+		spatialPose_out->rotation; // Euler: lerp (p0, p1, u) -> (p1 - p0)u + p0
+		spatialPose_out->scale; // lerp is okay... but really... exp_lerp() -> (p1(p0^-1))^u * p0
+		spatialPose_out->translation; // lerp (p0, p1, u)
 
+		return 0;
 	}
 	return -1;
 }

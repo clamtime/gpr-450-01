@@ -540,7 +540,7 @@ void a3animation_render(a3_DemoState const* demoState, a3_DemoMode1_Animation co
 			currentHierarchy = currentHierarchyState->hierarchy;
 
 			// draw skeletal joints
-			//a3shaderUniformBufferActivate(demoState->ubo_transformLMVP_joint, 0);
+			//a3shaderUniformBufferActivate(demoState->ubo_transformLMVP_joint, 0); -> result of fk
 			a3shaderUniformSendFloat(a3unif_vec4, currentDemoProgram->uColor, 1, orange);
 			currentDrawable = demoState->draw_node;
 			a3vertexDrawableActivateAndRenderInstanced(currentDrawable, currentHierarchy->numNodes);
