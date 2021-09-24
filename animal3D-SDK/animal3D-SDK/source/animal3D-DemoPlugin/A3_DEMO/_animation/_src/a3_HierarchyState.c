@@ -94,14 +94,17 @@ a3i32 a3hierarchyStateCreate(a3_HierarchyState *state_out, const a3_Hierarchy *h
 	if (state_out && hierarchy && !state_out->hierarchy && hierarchy->nodes)
 	{
 		// determine memory requirements
+		const a3ui32 dataSize = sizeof(a3_HierarchyPoseGroup) * 4;
 
 		// allocate everything (one malloc)
 		//??? = (...)malloc(sz);
+		state_out->poseGroup = (a3_HierarchyPoseGroup*)malloc(dataSize);
 
 		// set pointers
 		state_out->hierarchy = hierarchy;
 
 		// reset all data
+		
 
 		// done
 		return 1;
@@ -117,9 +120,14 @@ a3i32 a3hierarchyStateRelease(a3_HierarchyState *state)
 	{
 		// release everything (one free)
 		//free(???);
+		free(state->poseGroup);
 
 		// reset pointers
 		state->hierarchy = 0;
+		state->poseGroup = 0;
+		state->samplePose = 0;
+		state->localSpacePose = 0;
+		state->objectSpacePose = 0;
 
 		// done
 		return 1;
