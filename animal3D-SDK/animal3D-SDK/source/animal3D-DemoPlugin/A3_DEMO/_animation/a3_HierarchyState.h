@@ -61,6 +61,9 @@ struct a3_HierarchyPoseGroup
 	// pointer to hierarchy
 	const a3_Hierarchy* hierarchy;
 
+	// array of poses
+	a3_HierarchyPose* posePool;
+
 	// number of hierarchical poses
 	a3ui32 poseCount;
 };
@@ -73,6 +76,7 @@ struct a3_HierarchyState
 	const a3_Hierarchy* hierarchy;
 };
 	
+
 
 //-----------------------------------------------------------------------------
 

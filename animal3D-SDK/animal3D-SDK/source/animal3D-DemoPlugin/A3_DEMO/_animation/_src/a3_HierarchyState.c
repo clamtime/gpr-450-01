@@ -38,14 +38,18 @@ a3i32 a3hierarchyPoseGroupCreate(a3_HierarchyPoseGroup *poseGroup_out, const a3_
 	if (poseGroup_out && hierarchy && !poseGroup_out->hierarchy && hierarchy->nodes)
 	{
 		// determine memory requirements
+		const a3ui32 dataSize = sizeof(a3_HierarchyPose) * poseCount;
 
 		// allocate everything (one malloc)
 		//??? = (...)malloc(sz);
+		poseGroup_out->posePool = (a3_HierarchyPose*)malloc(dataSize);
 
 		// set pointers
 		poseGroup_out->hierarchy = hierarchy;
+		poseGroup_out->poseCount = poseCount;
 
 		// reset all data
+		// ????
 
 		// done
 		return 1;
@@ -61,9 +65,12 @@ a3i32 a3hierarchyPoseGroupRelease(a3_HierarchyPoseGroup *poseGroup)
 	{
 		// release everything (one free)
 		//free(???);
+		free(poseGroup->posePool);
 
 		// reset pointers
 		poseGroup->hierarchy = 0;
+		poseGroup->posePool = 0;
+		poseGroup->poseCount = 0;
 
 		// done
 		return 1;
