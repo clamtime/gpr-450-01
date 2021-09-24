@@ -97,7 +97,7 @@ enum a3_DemoState_ObjectMaxCount
 	demoStateMaxCount_drawable = 16,
 
 	demoStateMaxCount_shaderProgram = 32,
-	demoStateMaxCount_uniformBuffer = 4;
+	demoStateMaxCount_uniformBuffer = 4,
 
 	demoStateMaxCount_texture = 8,
 
