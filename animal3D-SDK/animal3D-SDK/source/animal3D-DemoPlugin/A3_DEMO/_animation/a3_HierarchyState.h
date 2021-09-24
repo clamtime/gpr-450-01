@@ -65,7 +65,7 @@ struct a3_HierarchyPoseGroup
 	a3_HierarchyPose* hPose;
 
 	// number of hierarchical poses
-	a3ui32 poseCount;
+	a3ui32 poseCount, spatialPoseCount;
 };
 
 

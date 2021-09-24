@@ -47,6 +47,7 @@ a3i32 a3hierarchyPoseGroupCreate(a3_HierarchyPoseGroup *poseGroup_out, const a3_
 		// set pointers
 		poseGroup_out->hierarchy = hierarchy;
 		poseGroup_out->poseCount = poseCount;
+		poseGroup_out->spatialPoseCount = poseCount * hierarchy->numNodes;
 
 		// reset all data
 		// ????

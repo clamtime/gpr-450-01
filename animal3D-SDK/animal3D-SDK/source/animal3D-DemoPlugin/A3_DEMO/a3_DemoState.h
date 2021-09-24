@@ -286,7 +286,9 @@ struct a3_DemoState
 	union {
 		a3_UniformBuffer ubo[demoStateMaxCount_uniformBuffer];
 		/*struct {
-			a3_UniformBuffer...
+			a3_UniformBuffer
+				// needs to hold some information about FK results, but what??
+
 		};*/
 	};
 

@@ -85,16 +85,28 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 	// ****TO-DO:
 	// resolve animation: "the 4 steps"
 	//	-> interpolate (between deltas)
-	
+	a3_HierarchyState * hierarchyState = demoMode->hierarchyState_skel;
+	hierarchyState->samplePose = hierarchyState->poseGroup->hPose;
 	 
 	//	-> concatenate (with base)
+	for (i = 0; i < hierarchyState->poseGroup->spatialPoseCount; i++)
+	{
+		a3spatialPoseConcat(hierarchyState->localSpacePose->spatialPose + i, hierarchyState->poseGroup->hPose->spatialPose, hierarchyState->samplePose->spatialPose + i);
+	}
+
 	//	-> convert
+	for (i = 0; i < hierarchyState->poseGroup->spatialPoseCount; i++)
+	{
+		a3spatialPoseConcat(hierarchyState->localSpacePose->spatialPose + i, hierarchyState->poseGroup->hPose->spatialPose, hierarchyState->samplePose->spatialPose + i);
+	}
+
 	//	-> FK
-	
+	a3kinematicsSolveForward(hierarchyState);
 
 	// ****TO-DO:
 	// resolve graphics:
 	//	-> upload results of FK to UBO
+	
 }
 
 

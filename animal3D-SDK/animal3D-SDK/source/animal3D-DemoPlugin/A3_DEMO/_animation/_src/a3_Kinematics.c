@@ -45,6 +45,7 @@ a3i32 a3kinematicsSolveForwardPartial(const a3_HierarchyState *hierarchyState, c
 			if ((hierarchyState->hierarchy->nodes + i)->parentIndex >= 0)
 			{
 				// set object matrix from hierarchystate(?) to obj * local
+				
 			}
 			else
 			{
