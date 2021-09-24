@@ -39,6 +39,18 @@ a3i32 a3kinematicsSolveForwardPartial(const a3_HierarchyState *hierarchyState, c
 		//			- object matrix = parent object matrix * local matrix
 		//		- else
 		//			- copy local matrix to object matrix
+
+		for (a3ui32 i = 0; i < hierarchyState->hierarchy->numNodes; i++)
+		{
+			if ((hierarchyState->hierarchy->nodes + i)->parentIndex >= 0)
+			{
+				// set object matrix from hierarchystate(?) to obj * local
+			}
+			else
+			{
+				// root node - copy local matrix to obj
+			}
+		}
 	}
 	return -1;
 }

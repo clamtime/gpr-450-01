@@ -85,9 +85,12 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 	// ****TO-DO:
 	// resolve animation: "the 4 steps"
 	//	-> interpolate (between deltas)
+	
+	 
 	//	-> concatenate (with base)
 	//	-> convert
 	//	-> FK
+	
 
 	// ****TO-DO:
 	// resolve graphics:
