@@ -35,7 +35,9 @@ inline a3i32 a3spatialPoseSetRotation(a3_SpatialPose* spatialPose, const a3f32 r
 {
 	if (spatialPose)
 	{
-
+		spatialPose->rotation.x = rx_degrees;
+		spatialPose->rotation.y = ry_degrees;
+		spatialPose->rotation.z = rz_degrees;
 	}
 	return -1;
 }
@@ -45,7 +47,9 @@ inline a3i32 a3spatialPoseSetScale(a3_SpatialPose* spatialPose, const a3f32 sx, 
 {
 	if (spatialPose)
 	{
-
+		spatialPose->scale.x = sx;
+		spatialPose->scale.y = sy;
+		spatialPose->scale.z = sz;
 	}
 	return -1;
 }
@@ -55,7 +59,9 @@ inline a3i32 a3spatialPoseSetTranslation(a3_SpatialPose* spatialPose, const a3f3
 {
 	if (spatialPose)
 	{
-
+		spatialPose->translation.x = tx;
+		spatialPose->translation.y = ty;
+		spatialPose->translation.z = tz;
 	}
 	return -1;
 }
@@ -92,10 +98,39 @@ inline a3i32 a3spatialPoseConvert(a3mat4* mat_out, const a3_SpatialPose* spatial
 		//		|		  tz|
 		//		|0  0  0   1|
 
-		//		|x	  |
-		// S =  |  y  |
-		//		|    z|
+		// scale matrix
+		a3mat3* tempScale;
+		a3real3x3Set(tempScale->m, spatialPose_in->scale.x, 0, 0,
+							0, spatialPose_in->scale.y, 0,
+							0, 0, spatialPose_in->scale.z);
 
+		// rotation matrices
+		a3mat3* tempXRot, * tempYRot, * tempZRot;
+		a3real3x3Set(tempXRot->m, 1, 0, 0,
+						    0, a3cosd(spatialPose_in->rotation.x), -a3sind(spatialPose_in->rotation.x),
+						    0, a3sind(spatialPose_in->rotation.x), a3cosd(spatialPose_in->rotation.x) );
+
+		a3real3x3Set(tempYRot->m, a3cosd(spatialPose_in->rotation.y), 0, a3sind(spatialPose_in->rotation.y),
+							0,									1,	0,
+							-a3sind(spatialPose_in->rotation.y), 0, a3cosd(spatialPose_in->rotation.y) );
+
+		a3real3x3Set(tempZRot->m, a3cosd(spatialPose_in->rotation.z), -a3sind(spatialPose_in->rotation.z), 0,
+							a3sind(spatialPose_in->rotation.z), a3cosd(spatialPose_in->rotation.z),  0,
+							0,									0,									 1 );
+
+		a3mat3 * tempScaleRot;
+		a3real3x3Product(tempZRot->m, tempZRot->m, tempYRot->m);
+		a3real3x3Product(tempZRot->m, tempZRot->m, tempXRot->m);
+		a3real3x3Product(tempScaleRot->m, tempZRot->m, tempScale->m);
+
+		//a3real4x4SetIdentity(mat_out->m);
+		a3real4x4SetReal3x3(mat_out->m, tempScaleRot->m);
+		mat_out->m03 = spatialPose_in->translation.x;
+		mat_out->m13 = spatialPose_in->translation.y;
+		mat_out->m23 = spatialPose_in->translation.y;
+
+		
+		//a3real4x4MulTransform(mat_out->m, tempScaleRot->m);
 	}
 	return -1;
 }
@@ -105,7 +140,9 @@ inline a3i32 a3spatialPoseCopy(a3_SpatialPose* spatialPose_out, const a3_Spatial
 {
 	if (spatialPose_out && spatialPose_in)
 	{
-
+		spatialPose_out->rotation = spatialPose_in->rotation;
+		spatialPose_out->scale = spatialPose_in->scale;
+		spatialPose_out->translation = spatialPose_in->translation;
 	}
 	return -1;
 }
@@ -116,10 +153,20 @@ inline a3i32 a3spatialPoseConcat(a3_SpatialPose* spatialPose_out, const a3_Spati
 	if (spatialPose_out && spatialPose_lh && spatialPose_rh)
 	{
 		//spatialPose_out->transform; // no >:(
-		spatialPose_out->rotation; // Euler: validate(lh + rh) - > constrain sum to rotational domain
-		spatialPose_out->scale; // Scale: comp(lh * rh)  -> component wise multiplication
-		spatialPose_out->translation; // Translate: addition (lh + rh)
+		// Euler: validate(lh + rh) - > constrain sum to rotational domain
+		spatialPose_out->rotation.x = a3trigValid_sind(spatialPose_lh->rotation.x + spatialPose_rh->rotation.x);
+		spatialPose_out->rotation.y = a3trigValid_sind(spatialPose_lh->rotation.y + spatialPose_rh->rotation.y);
+		spatialPose_out->rotation.z = a3trigValid_sind(spatialPose_lh->rotation.z + spatialPose_rh->rotation.z);
+
+		// Scale: comp(lh * rh)  -> component wise multiplication
+		spatialPose_out->scale.x = spatialPose_lh->scale.x * spatialPose_rh->scale.x; 
+		spatialPose_out->scale.y = spatialPose_lh->scale.y * spatialPose_rh->scale.y; 
+		spatialPose_out->scale.z = spatialPose_lh->scale.z * spatialPose_rh->scale.z; 
 		
+		// Translate: addition (lh + rh)
+		spatialPose_out->translation.x = spatialPose_lh->translation.x + spatialPose_rh->translation.x; 
+		spatialPose_out->translation.y = spatialPose_lh->translation.y + spatialPose_rh->translation.y; 
+		spatialPose_out->translation.z = spatialPose_lh->translation.z + spatialPose_rh->translation.z; 
 		return 0;
 	}
 	return -1;
@@ -131,9 +178,14 @@ inline a3i32 a3spatialPoseLerp(a3_SpatialPose* spatialPose_out, const a3_Spatial
 	if (spatialPose_out && spatialPose0 && spatialPose1)
 	{
 		//spatialPose_out->transform; // no >:(
-		spatialPose_out->rotation; // Euler: lerp (p0, p1, u) -> (p1 - p0)u + p0
-		spatialPose_out->scale; // lerp is okay... but really... exp_lerp() -> (p1(p0^-1))^u * p0
-		spatialPose_out->translation; // lerp (p0, p1, u)
+		// Euler: lerp (p0, p1, u) -> (p1 - p0)u + p0
+		a3real3Lerp(spatialPose_out->rotation.v, spatialPose0->rotation.v, spatialPose1->rotation.v, u);
+
+		// lerp is okay... but really... exp_lerp() -> (p1(p0^-1))^u * p0
+		a3real3Lerp(spatialPose_out->scale.v, spatialPose0->scale.v, spatialPose1->scale.v, u);
+
+		// lerp (p0, p1, u)
+		a3real3Lerp(spatialPose_out->translation.v, spatialPose0->translation.v, spatialPose1->translation.v, u);
 
 		return 0;
 	}
