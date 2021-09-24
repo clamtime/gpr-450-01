@@ -44,10 +44,14 @@ a3i32 a3kinematicsSolveForwardPartial(const a3_HierarchyState *hierarchyState, c
 		{
 			if ((hierarchyState->hierarchy->nodes + i)->parentIndex >= 0)
 			{
+				a3spatialPoseConcat(hierarchyState->objectSpacePose,
+					hierarchyState->objectSpacePose, hierarchyState->localSpacePose);
 				// set object matrix from hierarchystate(?) to obj * local
 			}
 			else
 			{
+				a3spatialPoseCopy(hierarchyState->objectSpacePose, 
+					hierarchyState->localSpacePose);
 				// root node - copy local matrix to obj
 			}
 		}
