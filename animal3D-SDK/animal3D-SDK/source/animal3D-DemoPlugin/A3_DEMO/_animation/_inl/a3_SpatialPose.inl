@@ -35,9 +35,9 @@ inline a3i32 a3spatialPoseSetRotation(a3_SpatialPose* spatialPose, const a3f32 r
 {
 	if (spatialPose)
 	{
-		spatialPose->rotation.x = rx_degrees;
-		spatialPose->rotation.y = ry_degrees;
-		spatialPose->rotation.z = rz_degrees;
+		spatialPose->rotate_euler.x = rx_degrees;
+		spatialPose->rotate_euler.y = ry_degrees;
+		spatialPose->rotate_euler.z = rz_degrees;
 	}
 	return -1;
 }
@@ -75,9 +75,10 @@ inline a3i32 a3spatialPoseReset(a3_SpatialPose* spatialPose)
 	if (spatialPose)
 	{
 		spatialPose->transform = a3mat4_identity;
-		spatialPose->rotation = a3vec3_zero;
-		spatialPose->translation = a3vec3_zero;
-		spatialPose->scale = a3vec3_one;
+		spatialPose->rotate_quat = a3vec4_w;		// mul
+		spatialPose->rotate_euler = a3vec4_zero;
+		spatialPose->translation = a3vec4_zero;
+		spatialPose->scale = a3vec4_one;
 
 		// done
 		return 0;
@@ -107,15 +108,15 @@ inline a3i32 a3spatialPoseConvert(a3mat4* mat_out, const a3_SpatialPose* spatial
 		// rotation matrices
 		a3mat3* tempXRot, * tempYRot, * tempZRot;
 		a3real3x3Set(tempXRot->m, 1, 0, 0,
-						    0, a3cosd(spatialPose_in->rotation.x), -a3sind(spatialPose_in->rotation.x),
-						    0, a3sind(spatialPose_in->rotation.x), a3cosd(spatialPose_in->rotation.x) );
+						    0, a3cosd(spatialPose_in->rotate_euler.x), -a3sind(spatialPose_in->rotate_euler.x),
+						    0, a3sind(spatialPose_in->rotate_euler.x), a3cosd(spatialPose_in->rotate_euler.x) );
 
-		a3real3x3Set(tempYRot->m, a3cosd(spatialPose_in->rotation.y), 0, a3sind(spatialPose_in->rotation.y),
+		a3real3x3Set(tempYRot->m, a3cosd(spatialPose_in->rotate_euler.y), 0, a3sind(spatialPose_in->rotate_euler.y),
 							0,									1,	0,
-							-a3sind(spatialPose_in->rotation.y), 0, a3cosd(spatialPose_in->rotation.y) );
+							-a3sind(spatialPose_in->rotate_euler.y), 0, a3cosd(spatialPose_in->rotate_euler.y) );
 
-		a3real3x3Set(tempZRot->m, a3cosd(spatialPose_in->rotation.z), -a3sind(spatialPose_in->rotation.z), 0,
-							a3sind(spatialPose_in->rotation.z), a3cosd(spatialPose_in->rotation.z),  0,
+		a3real3x3Set(tempZRot->m, a3cosd(spatialPose_in->rotate_euler.z), -a3sind(spatialPose_in->rotate_euler.z), 0,
+							a3sind(spatialPose_in->rotate_euler.z), a3cosd(spatialPose_in->rotate_euler.z),  0,
 							0,									0,									 1 );
 
 		a3mat3 * tempScaleRot;
@@ -140,7 +141,7 @@ inline a3i32 a3spatialPoseCopy(a3_SpatialPose* spatialPose_out, const a3_Spatial
 {
 	if (spatialPose_out && spatialPose_in)
 	{
-		spatialPose_out->rotation = spatialPose_in->rotation;
+		spatialPose_out->rotate_euler = spatialPose_in->rotate_euler;
 		spatialPose_out->scale = spatialPose_in->scale;
 		spatialPose_out->translation = spatialPose_in->translation;
 	}
@@ -148,16 +149,24 @@ inline a3i32 a3spatialPoseCopy(a3_SpatialPose* spatialPose_out, const a3_Spatial
 }
 
 // concatenate/combine
-inline a3i32 a3spatialPoseConcat(a3_SpatialPose* spatialPose_out, const a3_SpatialPose* spatialPose_lh, const a3_SpatialPose* spatialPose_rh)
+inline a3i32 a3spatialPoseConcat(a3_SpatialPose* spatialPose_out, const a3_SpatialPose* spatialPose_lh, const a3_SpatialPose* spatialPose_rh, const a3boolean usingQuaternions)
 {
 	if (spatialPose_out && spatialPose_lh && spatialPose_rh)
 	{
 		//spatialPose_out->transform; // no >:(
-		// Euler: validate(lh + rh) - > constrain sum to rotational domain
-		spatialPose_out->rotation.x = a3trigValid_sind(spatialPose_lh->rotation.x + spatialPose_rh->rotation.x);
-		spatialPose_out->rotation.y = a3trigValid_sind(spatialPose_lh->rotation.y + spatialPose_rh->rotation.y);
-		spatialPose_out->rotation.z = a3trigValid_sind(spatialPose_lh->rotation.z + spatialPose_rh->rotation.z);
-
+		if (usingQuaternions)
+		{
+			// Quat: (lh * rh) = (w_l + v_l)(w_r + v_r)
+			//				   = (w_l*w_r - v_l . v_r) + (w_l*v_r + w_r*v_l + v_l x v_r)
+		}
+		
+		else
+		{
+			// Euler: validate(lh + rh) - > constrain sum to rotational domain
+			spatialPose_out->rotate_euler.x = a3trigValid_sind(spatialPose_lh->rotate_euler.x + spatialPose_rh->rotate_euler.x);
+			spatialPose_out->rotate_euler.y = a3trigValid_sind(spatialPose_lh->rotate_euler.y + spatialPose_rh->rotate_euler.y);
+			spatialPose_out->rotate_euler.z = a3trigValid_sind(spatialPose_lh->rotate_euler.z + spatialPose_rh->rotate_euler.z);
+		}
 		// Scale: comp(lh * rh)  -> component wise multiplication
 		spatialPose_out->scale.x = spatialPose_lh->scale.x * spatialPose_rh->scale.x; 
 		spatialPose_out->scale.y = spatialPose_lh->scale.y * spatialPose_rh->scale.y; 
@@ -173,13 +182,25 @@ inline a3i32 a3spatialPoseConcat(a3_SpatialPose* spatialPose_out, const a3_Spati
 }
 
 // lerp
-inline a3i32 a3spatialPoseLerp(a3_SpatialPose* spatialPose_out, const a3_SpatialPose* spatialPose0, const a3_SpatialPose* spatialPose1, const a3real u)
+inline a3i32 a3spatialPoseLerp(a3_SpatialPose* spatialPose_out, const a3_SpatialPose* spatialPose0, const a3_SpatialPose* spatialPose1, const a3real u, const a3boolean usingQuaternions)
 {
 	if (spatialPose_out && spatialPose0 && spatialPose1)
 	{
 		//spatialPose_out->transform; // no >:(
-		// Euler: lerp (p0, p1, u) -> (p1 - p0)u + p0
-		a3real3Lerp(spatialPose_out->rotation.v, spatialPose0->rotation.v, spatialPose1->rotation.v, u);
+		if (usingQuaternions)
+		{
+			// Quat: (3 opts) slerp(q0, q1, u)
+			// = (sin([1-t]y0q0 + sin([t]y)q1) / sin(y)
+			// y = acos(q0 . q1)
+			// (2) lerp - non-unit length -> uniform scale, s = |q|^2
+			// (3) nlerp = normalize(lerp)
+		}
+
+		else
+		{
+			// Euler: lerp (p0, p1, u) -> (p1 - p0)u + p0
+			a3real3Lerp(spatialPose_out->rotate_euler.v, spatialPose0->rotate_euler.v, spatialPose1->rotate_euler.v, u);
+		}
 
 		// lerp is okay... but really... exp_lerp() -> (p1(p0^-1))^u * p0
 		a3real3Lerp(spatialPose_out->scale.v, spatialPose0->scale.v, spatialPose1->scale.v, u);
