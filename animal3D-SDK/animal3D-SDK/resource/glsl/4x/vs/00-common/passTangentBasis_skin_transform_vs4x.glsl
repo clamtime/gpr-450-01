@@ -22,6 +22,8 @@
 	Calculate and pass tangent basis with skinning.
 */
 
+// encoded shader
+
 #version 450
 
 layout (location = 0) in vec4 aPosition;
