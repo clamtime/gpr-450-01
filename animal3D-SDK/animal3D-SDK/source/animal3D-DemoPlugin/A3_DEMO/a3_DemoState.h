@@ -287,8 +287,10 @@ struct a3_DemoState
 		a3_UniformBuffer ubo[demoStateMaxCount_uniformBuffer];
 		struct {
 			a3_UniformBuffer
-				// needs to hold some information about FK results, but what??
-
+				ubo_transformMVPB[1],
+				ubo_transformMVP[1],
+				ubo_transformBlend[1],
+				ubo_transformStack[1];
 		};
 	};
 
