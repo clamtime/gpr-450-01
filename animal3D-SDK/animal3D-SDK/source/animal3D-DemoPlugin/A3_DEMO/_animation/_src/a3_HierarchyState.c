@@ -48,12 +48,13 @@ a3i32 a3hierarchyPoseGroupCreate(a3_HierarchyPoseGroup *poseGroup_out, const a3_
 		poseGroup_out->hierarchy = hierarchy;
 		poseGroup_out->poseCount = poseCount;
 		poseGroup_out->spatialPoseCount = poseCount * hierarchy->numNodes;
+		a3hierarchyPoseReset(poseGroup_out->hPose, poseCount);
 
 		// reset all data
 		// ????
 		for (a3ui32 i = 0; i < poseGroup_out->poseCount; i++)
 		{
-			poseGroup_out->hPose[i].spatialPose = NULL;
+			a3spatialPoseReset(poseGroup_out->hPose[i].spatialPose);
 		}
 
 
@@ -144,7 +145,22 @@ a3i32 a3hierarchyPoseGroupLoadHTR(a3_HierarchyPoseGroup* poseGroup_out, a3_Hiera
 {
 	if (poseGroup_out && !poseGroup_out->poseCount && hierarchy_out && !hierarchy_out->numNodes && resourceFilePath && *resourceFilePath)
 	{
+		//a3_FileStream * fileStream;
+		//a3fileStreamOpenRead(fileStream, resourceFilePath);
 
+		// get data from file into hierarchy
+		// num segments -> number of necessary nodes
+		// num frames -> number of poses
+		// euler rotation order -> order to read the euler angles into the rotation matrix in (xyz, zyx, etc)
+		// scale factor -> global scale data
+		
+		// Segment names & hierarchy 
+		//	-> create nodes with the respective names of strings and connect them to the parent nodes
+
+		// BasePosition
+		//	-> starting with the base pose, record transformation data for each node
+		//	-> order: segment name, translation, rotation, segment length
+		//	-> translation data appears in xyz, convert to proper euler angle configuration depending on what was specified earlier
 	}
 	return -1;
 }
