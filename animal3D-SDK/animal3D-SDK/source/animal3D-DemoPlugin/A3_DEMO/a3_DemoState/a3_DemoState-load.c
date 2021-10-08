@@ -753,7 +753,10 @@ void a3demo_loadShaders(a3_DemoState *demoState)
 
 
 	// ****TO-DO: allocate UBOs
-	//a3bufferCreate(demoState->ubo_name, "ubo name", a3buffer_uniform, a3index_countMaxShort, 0);
+	a3bufferCreate(demoState->ubo_transformStack, "ubo:transformStack", a3buffer_uniform, a3index_countMaxShort, 0);
+	a3bufferCreate(demoState->ubo_transformBlend, "ubo:transformBlend", a3buffer_uniform, a3index_countMaxShort, 0);
+	a3bufferCreate(demoState->ubo_transformMVP, "ubo:transformMVP", a3buffer_uniform, a3index_countMaxShort, 0);
+	a3bufferCreate(demoState->ubo_transformMVPB, "ubo:transformMVPB", a3buffer_uniform, a3index_countMaxShort, 0);
 
 	//done
 	a3shaderProgramDeactivate();

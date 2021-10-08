@@ -285,11 +285,11 @@ struct a3_DemoState
 	// ****TO-DO: UBOs
 	union {
 		a3_UniformBuffer ubo[demoStateMaxCount_uniformBuffer];
-		/*struct {
+		struct {
 			a3_UniformBuffer
 				// needs to hold some information about FK results, but what??
 
-		};*/
+		};
 	};
 
 	// textures
