@@ -91,13 +91,13 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 	//	-> concatenate (with base)
 	for (i = 0; i < hierarchyState->poseGroup->spatialPoseCount; i++)
 	{
-		a3spatialPoseConcat(hierarchyState->localSpacePose->spatialPose + i, hierarchyState->poseGroup->hPose->spatialPose, hierarchyState->samplePose->spatialPose + i);
+		a3spatialPoseConcat(hierarchyState->localSpacePose->spatialPose + i, hierarchyState->poseGroup->hPose->spatialPose, hierarchyState->samplePose->spatialPose + i, false);
 	}
 
 	//	-> convert
 	for (i = 0; i < hierarchyState->poseGroup->spatialPoseCount; i++)
 	{
-		a3spatialPoseConcat(hierarchyState->localSpacePose->spatialPose + i, hierarchyState->poseGroup->hPose->spatialPose, hierarchyState->samplePose->spatialPose + i);
+		a3spatialPoseConcat(hierarchyState->localSpacePose->spatialPose + i, hierarchyState->poseGroup->hPose->spatialPose, hierarchyState->samplePose->spatialPose + i, false);
 	}
 
 	//	-> FK
