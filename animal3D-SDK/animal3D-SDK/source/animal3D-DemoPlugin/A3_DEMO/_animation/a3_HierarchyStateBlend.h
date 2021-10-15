@@ -39,6 +39,38 @@ extern "C"
 #endif	// __cplusplus
 	
 
+// blend operation function pointer
+
+typedef a3vec4(*a3_BlendOpLerp)(a3vec4 const v0, a3vec4 const v1, a3real const u);
+typedef struct a3_SpatialPoseBlendOpLerp
+{
+	a3_BlendOpLerp opOrientation, opAngles, opScale, opTranslation;
+} a3_SpatialPoseBlendOpLerp;
+
+inline a3vec4 a3vec4Lerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+{
+	// implement linear interpolation
+	return v0;
+}
+
+inline a3vec4 a3Vec4LogLerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+{
+	// implement log interpolation
+	return v0;
+}
+
+inline a3vec4 a3vec4Slerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+{
+	// implement spherical linear interpolation
+	return v0;
+}
+
+inline a3vec4 a3vec4Nlerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+{
+	// implement normalized linear interpolation
+	return v0;
+}
+
 //-----------------------------------------------------------------------------
 
 // pointer-based reset/identity operation for single spatial pose
