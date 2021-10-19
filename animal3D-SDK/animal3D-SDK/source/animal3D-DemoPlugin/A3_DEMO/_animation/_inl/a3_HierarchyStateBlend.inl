@@ -33,24 +33,29 @@
 inline a3vec4 a3vec4Lerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement linear interpolation
+	a3real4Lerp(v0.v, v0.v, v1.v, u);
 	return v0;
 }
 
 inline a3vec4 a3Vec4LogLerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement log interpolation
+	// (v1*v0^-1)^u * v0
+	
 	return v0;
 }
 
 inline a3vec4 a3vec4Slerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement spherical linear interpolation
+	a3real4Slerp(v0.v, v0.v, v1.v, u);
 	return v0;
 }
 
 inline a3vec4 a3vec4Nlerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement normalized linear interpolation
+	a3real4NLerp(v0.v, v0.v, v1.v, u);
 	return v0;
 }
 
@@ -59,6 +64,8 @@ inline a3vec4 a3vec4Nlerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
 inline a3_SpatialPose* a3spatialPoseOpIdentity(a3_SpatialPose* pose_out)
 {
 	pose_out->transform = a3mat4_identity;
+	pose_out->scale = a3vec4_one;
+	pose_out->angles = a3vec4_zero;
 	// ...
 
 	// done
@@ -99,6 +106,9 @@ inline a3_SpatialPose a3spatialPoseDOpLERP(a3_SpatialPose const pose0, a3_Spatia
 // pointer-based reset/identity operation for hierarchical pose
 inline a3_HierarchyPose* a3hierarchyPoseOpIdentity(a3_HierarchyPose* pose_out)
 {
+	pose_out->pose->transform = a3mat4_identity;
+	pose_out->pose->scale = a3vec4_one;
+	pose_out->pose->angles = a3vec4_zero;
 
 	// done
 	return pose_out;
