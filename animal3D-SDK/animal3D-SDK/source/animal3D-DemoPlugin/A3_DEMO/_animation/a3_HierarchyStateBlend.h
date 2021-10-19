@@ -48,16 +48,16 @@ typedef struct a3_SpatialPoseBlendOpLerp
 } a3_SpatialPoseBlendOpLerp;
 
 // linear interpolation
-inline a3vec4 a3vec4Lerp(a3vec4 const v0, a3vec4 const v1, a3real const u);
+ a3vec4 a3vec4Lerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
 
 // log interpolation
-inline a3vec4 a3Vec4LogLerp(a3vec4 const v0, a3vec4 const v1, a3real const u);
+ a3vec4 a3Vec4LogLerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
 
 // spherical linear interpolation
-a3vec4 a3vec4Slerp(a3vec4 const v0, a3vec4 const v1, a3real const u);
+a3vec4 a3vec4Slerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
 
 // implement normalized linear interpolation
-a3vec4 a3vec4Nlerp(a3vec4 const v0, a3vec4 const v1, a3real const u);
+a3vec4 a3vec4Nlerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
 
 //-----------------------------------------------------------------------------
 
@@ -66,6 +66,9 @@ a3_SpatialPose* a3spatialPoseOpIdentity(a3_SpatialPose* pose_out);
 
 // pointer-based LERP operation for single spatial pose
 a3_SpatialPose* a3spatialPoseOpLERP(a3_SpatialPose* pose_out, a3_SpatialPose const* pose0, a3_SpatialPose const* pose1, a3real const u);
+
+// pointer-based Cubic operation for single spatial pose
+a3_SpatialPose* a3spatialPoseOpCubic(a3_SpatialPose* pose_out, a3_SpatialPose const* poseP, a3_SpatialPose const* pose0, a3_SpatialPose const* pose1, a3_SpatialPose const* poseN, a3real const u);
 
 
 //-----------------------------------------------------------------------------

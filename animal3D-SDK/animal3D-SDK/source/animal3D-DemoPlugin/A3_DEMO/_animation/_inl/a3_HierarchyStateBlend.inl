@@ -30,14 +30,14 @@
 
 //-----------------------------------------------------------------------------
 
-inline a3vec4 a3vec4Lerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+inline a3vec4 a3vec4Lerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement linear interpolation
-	a3real4Lerp(v0.v, v0.v, v1.v, u);
+	a3real4Lerp(v_out.v, v0.v, v1.v, u);
 	return v0;
 }
 
-inline a3vec4 a3Vec4LogLerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+inline a3vec4 a3Vec4LogLerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement log interpolation
 	// (v1*v0^-1)^u * v0
@@ -45,17 +45,17 @@ inline a3vec4 a3Vec4LogLerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
 	return v0;
 }
 
-inline a3vec4 a3vec4Slerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+inline a3vec4 a3vec4Slerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement spherical linear interpolation
-	a3real4Slerp(v0.v, v0.v, v1.v, u);
+	a3real4Slerp(v_out.v, v0.v, v1.v, u);
 	return v0;
 }
 
-inline a3vec4 a3vec4Nlerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+inline a3vec4 a3vec4Nlerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement normalized linear interpolation
-	a3real4NLerp(v0.v, v0.v, v1.v, u);
+	a3real4NLerp(v_out.v, v0.v, v1.v, u);
 	return v0;
 }
 
@@ -75,8 +75,15 @@ inline a3_SpatialPose* a3spatialPoseOpIdentity(a3_SpatialPose* pose_out)
 // pointer-based LERP operation for single spatial pose
 inline a3_SpatialPose* a3spatialPoseOpLERP(a3_SpatialPose* pose_out, a3_SpatialPose const* pose0, a3_SpatialPose const* pose1, a3real const u)
 {
-
+	
 	// done
+	return pose_out;
+}
+
+inline a3_SpatialPose* a3spatialPoseOpCubic(a3_SpatialPose* pose_out, a3_SpatialPose const* poseP, a3_SpatialPose const* pose0, a3_SpatialPose const* pose1, a3_SpatialPose const* poseN, a3real const u)
+{
+
+	//done
 	return pose_out;
 }
 
