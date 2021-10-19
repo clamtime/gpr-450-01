@@ -39,6 +39,11 @@ extern "C"
 #endif	// __cplusplus
 	
 
+typedef a3_SpatialPose(*a3_BlendConstruct)(a3vec4 const r, a3vec4 const s, a3vec4 const t);
+typedef a3_SpatialPose(*a3_BlendCopy)(a3_SpatialPose* lhs, const a3_SpatialPose* rhs);
+typedef a3_SpatialPose(*a3_BlendNegate)(a3_SpatialPose* lhs, const a3_SpatialPose* rhs);
+typedef a3_SpatialPose(*a3_BlendConcat)(a3_SpatialPose* lhs, a3_SpatialPose* rhs);
+
 // blend operation function pointer
 
 typedef a3vec4(*a3_BlendOpLerp)(a3vec4 const v0, a3vec4 const v1, a3real const u);
@@ -90,6 +95,8 @@ a3_HierarchyPose* a3hierarchyPoseOpLERP(a3_HierarchyPose* pose_out, a3_Hierarchy
 
 
 //-----------------------------------------------------------------------------
+
+
 
 
 #ifdef __cplusplus
