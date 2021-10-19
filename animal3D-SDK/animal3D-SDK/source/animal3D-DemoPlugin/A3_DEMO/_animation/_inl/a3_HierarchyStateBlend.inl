@@ -30,6 +30,45 @@
 
 //-----------------------------------------------------------------------------
 
+inline a3_BlendConstruct a3BlendConstruct(a3vec4 const r, a3vec4 const s, a3vec4 const t)
+{
+	// todo: this
+	return 0;
+}
+
+inline a3_BlendCopy a3BlendCopy(a3_SpatialPose* lhs, const a3_SpatialPose* rhs)
+{
+	lhs->angles      = rhs->angles;
+	lhs->orientation = rhs->orientation;
+	lhs->scale       = rhs->scale;
+	lhs->transform   = rhs->transform;
+	lhs->translation = rhs->translation;
+
+	return &lhs;
+}
+
+inline a3_BlendNegate a3BlendNegate(a3_SpatialPose* lhs, const a3_SpatialPose* rhs)
+{
+	a3real4Sub(lhs->angles.v, rhs->angles.v);
+	a3real4Sub(lhs->orientation.v, rhs->orientation.v);
+	a3real4Sub(lhs->scale.v, rhs->scale.v);
+	a3real4Sub(lhs->transform.v, rhs->transform.v);
+	a3real4Sub(lhs->translation.v, rhs->translation.v);
+
+	return &lhs;
+}
+
+inline a3_BlendNegate a3BlendConcat(a3_SpatialPose* lhs, const a3_SpatialPose* rhs)
+{
+	a3real4Add(lhs->angles.v, rhs->angles.v);
+	a3real4Add(lhs->orientation.v, rhs->orientation.v);
+	a3real4Add(lhs->scale.v, rhs->scale.v);
+	a3real4Add(lhs->transform.v, rhs->transform.v);
+	a3real4Add(lhs->translation.v, rhs->translation.v);
+
+	return &lhs;
+}
+
 inline a3vec4 a3vec4Lerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
 {
 	// implement linear interpolation
@@ -79,11 +118,14 @@ inline a3_SpatialPose* a3spatialPoseOpNearest(a3_SpatialPose* pose_out, a3_Spati
 	if (u < 0.5)
 	{
 		// copy p0
+		a3BlendCopy(pose_out, pose0);
 	}
 	else
 	{
 		// copy p1
+		a3BlendCopy(pose_out, pose1);
 	}
+	return pose_out;
 }
 
 // pointer-based LERP operation for single spatial pose
