@@ -66,23 +66,42 @@ inline a3_SpatialPose* a3spatialPoseOpIdentity(a3_SpatialPose* pose_out)
 	pose_out->transform = a3mat4_identity;
 	pose_out->scale = a3vec4_one;
 	pose_out->angles = a3vec4_zero;
+	pose_out->translation = a3vec4_zero;
 	// ...
 
 	// done
 	return pose_out;
 }
 
+// pointer-based nearest operation for single spatial pose
+inline a3_SpatialPose* a3spatialPoseOpNearest(a3_SpatialPose* pose_out, a3_SpatialPose const* pose0, a3_SpatialPose const* pose1, a3real const u)
+{
+	if (u < 0.5)
+	{
+		// copy p0
+	}
+	else
+	{
+		// copy p1
+	}
+}
+
 // pointer-based LERP operation for single spatial pose
 inline a3_SpatialPose* a3spatialPoseOpLERP(a3_SpatialPose* pose_out, a3_SpatialPose const* pose0, a3_SpatialPose const* pose1, a3real const u)
 {
-	
+	a3vec4NLerp(pose_out->translation, pose0->translation, pose1->translation, u);
+	a3Vec4SLerp(pose_out->angles, pose0->angles, pose1->angles, u); // not quite right but i'm unsure on log lerp right now
+	a3vec4Nlerp(pose_out->scale, pose0->scale, pose1->scale, u);
 	// done
 	return pose_out;
 }
 
 inline a3_SpatialPose* a3spatialPoseOpCubic(a3_SpatialPose* pose_out, a3_SpatialPose const* poseP, a3_SpatialPose const* pose0, a3_SpatialPose const* pose1, a3_SpatialPose const* poseN, a3real const u)
 {
-
+	// not sure if this is correct but its the only way that makes sense to me right now
+	a3real4CatmullRom(pose_out->translation.v, poseP->translation.v, pose0->translation.v, pose1->translation.v, poseN->translation.v, u);
+	a3real4CatmullRom(pose_out->scale.v, poseP->scale.v, pose0->scale.v, pose1->scale.v, poseN->scale.v, u);
+	a3real4CatmullRom(pose_out->angles.v, poseP->angles.v, pose0->angles.v, pose1->angles.v, poseN->angles.v, u);
 	//done
 	return pose_out;
 }
@@ -113,10 +132,8 @@ inline a3_SpatialPose a3spatialPoseDOpLERP(a3_SpatialPose const pose0, a3_Spatia
 // pointer-based reset/identity operation for hierarchical pose
 inline a3_HierarchyPose* a3hierarchyPoseOpIdentity(a3_HierarchyPose* pose_out)
 {
-	pose_out->pose->transform = a3mat4_identity;
-	pose_out->pose->scale = a3vec4_one;
-	pose_out->pose->angles = a3vec4_zero;
-
+	a3spatialPoseOpIdentity(pose_out->pose);
+	
 	// done
 	return pose_out;
 }
@@ -124,7 +141,7 @@ inline a3_HierarchyPose* a3hierarchyPoseOpIdentity(a3_HierarchyPose* pose_out)
 // pointer-based LERP operation for hierarchical pose
 inline a3_HierarchyPose* a3hierarchyPoseOpLERP(a3_HierarchyPose* pose_out, a3_HierarchyPose const* pose0, a3_HierarchyPose const* pose1, a3real const u)
 {
-
+	a3spatialPoseOpLERP(pose_out->pose, pose0->pose, pose1->pose, u);
 	// done
 	return pose_out;
 }
