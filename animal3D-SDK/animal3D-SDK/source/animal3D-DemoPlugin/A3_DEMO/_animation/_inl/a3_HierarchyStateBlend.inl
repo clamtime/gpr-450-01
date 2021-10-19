@@ -30,10 +30,12 @@
 
 //-----------------------------------------------------------------------------
 
-inline a3_BlendConstruct a3BlendConstruct(a3vec4 const r, a3vec4 const s, a3vec4 const t)
+inline a3_BlendConstruct a3BlendConstruct(a3_SpatialPose* out, a3vec4 const r, a3vec4 const s, a3vec4 const t)
 {
-	// todo: this
-	return 0;
+	out->angles = r;
+	out->scale = s;
+	out->translation = t;
+	return out;
 }
 
 inline a3_BlendCopy a3BlendCopy(a3_SpatialPose* spatialOut, const a3_SpatialPose* lhs, const a3_SpatialPose* rhs)
