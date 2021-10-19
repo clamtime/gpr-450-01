@@ -30,6 +30,31 @@
 
 //-----------------------------------------------------------------------------
 
+inline a3vec4 a3vec4Lerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+{
+	// implement linear interpolation
+	return v0;
+}
+
+inline a3vec4 a3Vec4LogLerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+{
+	// implement log interpolation
+	return v0;
+}
+
+inline a3vec4 a3vec4Slerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+{
+	// implement spherical linear interpolation
+	return v0;
+}
+
+inline a3vec4 a3vec4Nlerp(a3vec4 const v0, a3vec4 const v1, a3real const u)
+{
+	// implement normalized linear interpolation
+	return v0;
+}
+
+//-----------------------------------------------------------------------------
 // pointer-based reset/identity operation for single spatial pose
 inline a3_SpatialPose* a3spatialPoseOpIdentity(a3_SpatialPose* pose_out)
 {
