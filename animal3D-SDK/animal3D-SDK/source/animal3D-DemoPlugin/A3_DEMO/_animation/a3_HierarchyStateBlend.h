@@ -39,7 +39,7 @@ extern "C"
 #endif	// __cplusplus
 	
 
-typedef a3_SpatialPose(*a3_BlendConstruct)(a3vec4 const r, a3vec4 const s, a3vec4 const t);
+typedef a3_SpatialPose(*a3_BlendConstruct)(a3_SpatialPose* out, a3vec4 const r, a3vec4 const s, a3vec4 const t);
 typedef a3_SpatialPose(*a3_BlendCopy)(a3_SpatialPose* spatialOut, const a3_SpatialPose* lhs, const a3_SpatialPose* rhs);
 typedef a3_SpatialPose(*a3_BlendNegate)(a3_SpatialPose* lhs, const a3_SpatialPose* rhs);
 typedef a3_SpatialPose(*a3_BlendConcat)(a3_SpatialPose* lhs, a3_SpatialPose* rhs);
