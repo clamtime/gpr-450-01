@@ -37,7 +37,44 @@ extern "C"
 #else	// !__cplusplus
 
 #endif	// __cplusplus
-	
+
+
+// ROBUST BLEND NODE for any op
+typedef a3_SpatialPose*(*a3_SpatialPoseBlendOp)(a3_SpatialPose* p_out, a3_SpatialPose const* ctrl[], a3real const param[]);
+
+typedef struct a3_SpatialPoseBlendNode
+{
+	a3_SpatialPoseBlendOp op;
+	a3_SpatialPose* p_out;
+	a3_SpatialPose const* p_ctrl[8];
+	a3real const* param[8];
+} a3_SpatialPoseBlendNode;
+
+
+inline a3_SpatialPoseBlendNode* a3spatialPoseBlendNodeCall(a3_SpatialPoseBlendNode* b)
+{
+	b->op(b->p_out, b->p_ctrl, b->param);
+	return b;
+}
+
+// e.g. lerp
+inline a3_SpatialPose* a3_SpatialPoseBlendLerp(a3_SpatialPose* p_out, a3_SpatialPose const* ctrl[2], a3real const param[1])
+{
+	// the formula: p0 + (p1 - p0)*u
+	a3_SpatialPose const* p0 = ctrl[0];
+	a3_SpatialPose const* p1 = ctrl[1];
+	a3real const u = param[0];
+	a3spatialPoseLerp(p_out, p0, p1, u);
+	return p_out;
+}
+
+
+
+// object based
+typedef a3_SpatialPose(*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose const p0,	a3_SpatialPose const p1, a3real const u);
+
+// pointer based
+typedef a3_SpatialPose* (*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose* p_out, a3_SpatialPose const* p0, a3_SpatialPose const* p1, a3real const u);
 
 typedef a3_SpatialPose(*a3_BlendConstruct)(a3_SpatialPose* out, a3vec4 const r, a3vec4 const s, a3vec4 const t);
 typedef a3_SpatialPose(*a3_BlendCopy)(a3_SpatialPose* spatialOut, const a3_SpatialPose* lhs, const a3_SpatialPose* rhs);
@@ -57,6 +94,11 @@ typedef struct a3_SpatialPoseBlendOpLerp
 
 // linear interpolation
  a3vec4 a3vec4Lerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
+
+ inline a3real* a3real4Lerp(a3real4 v_out, a3real4 const v1, a3real const u)
+ {
+	 return v_out;
+ }
 
 // log interpolation
  a3vec4 a3Vec4LogLerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
