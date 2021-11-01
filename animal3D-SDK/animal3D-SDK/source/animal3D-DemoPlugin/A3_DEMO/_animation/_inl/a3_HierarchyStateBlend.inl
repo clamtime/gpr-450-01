@@ -50,6 +50,7 @@ inline a3_BlendCopy a3BlendCopy(a3_SpatialPose* lhsout, a3_SpatialPose const* rh
 inline a3_BlendNegate a3BlendNegate(a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs)
 {
 	a3BlendCopy(out, lhs);
+
 	a3real4Sub(out->angles.v, rhs->angles.v);
 	a3real4Sub(out->orientation.v, rhs->orientation.v);
 	a3real4Sub(out->scale.v, rhs->scale.v);
@@ -59,22 +60,24 @@ inline a3_BlendNegate a3BlendNegate(a3_SpatialPose* out, a3_SpatialPose const* l
 
 inline a3_BlendConcat a3BlendConcat(a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs)
 {
-	a3real4Add(lhs->angles.v, rhs->angles.v);
-	a3real4Add(lhs->orientation.v, rhs->orientation.v);
-	a3real4ProductComp(lhs->scale.v, lhs->scale.v, rhs->scale.v);
-	a3real4Add(lhs->transform.v, rhs->transform.v);
-	a3real4Add(lhs->translation.v, rhs->translation.v);
+	a3BlendCopy(out, lhs);
 
-	return &lhs;
+	a3real4Add(out->angles.v, rhs->angles.v);
+	a3real4Add(out->orientation.v, rhs->orientation.v);
+	a3real4ProductComp(out->scale.v, lhs->scale.v, rhs->scale.v);
+	a3real4Add(out->transform.v, rhs->transform.v);
+	a3real4Add(out->translation.v, rhs->translation.v);
 }
 
-inline a3_BlendDeconcat a3BlendDeconcat(a3_SpatialPose* lhs, const a3_SpatialPose* rhs)
+inline a3_BlendDeconcat a3BlendDeconcat(a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs)
 {
-	a3real4Sub(lhs->angles.v, rhs->angles.v);
-	a3real4Sub(lhs->orientation.v, rhs->orientation.v);
-	a3real4QuotientComp(lhs->scale.v, lhs->scale.v, rhs->scale.v);
-	a3real4Sub(lhs->transform.v, rhs->transform.v);
-	a3real4Sub(lhs->translation.v, rhs->translation.v);
+	a3BlendCopy(out, lhs);
+
+	a3real4Sub(out->angles.v, rhs->angles.v);
+	a3real4Sub(out->orientation.v, rhs->orientation.v);
+	a3real4QuotientComp(out->scale.v, lhs->scale.v, rhs->scale.v);
+	a3real4Sub(out->transform.v, rhs->transform.v);
+	a3real4Sub(out->translation.v, rhs->translation.v);
 
 	return &lhs;
 }
