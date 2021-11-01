@@ -137,12 +137,12 @@ inline a3_SpatialPose* a3spatialPoseOpNearest(a3_SpatialPose* pose_out, a3_Spati
 	if (u < 0.5)
 	{
 		// copy p0
-		a3BlendCopy(pose_out, pose0);
+		a3BlendCopy(pose_out, pose_out, pose0);
 	}
 	else
 	{
 		// copy p1
-		a3BlendCopy(pose_out, pose1);
+		a3BlendCopy(pose_out, pose_out, pose1);
 	}
 	return pose_out;
 }
