@@ -38,35 +38,26 @@ inline a3_BlendConstruct a3BlendConstruct(a3_SpatialPose* out, a3vec4 const r, a
 	return out;
 }
 
-inline a3_BlendCopy a3BlendCopy(a3_SpatialPose* spatialOut, const a3_SpatialPose* lhs, const a3_SpatialPose* rhs)
+inline a3_BlendCopy a3BlendCopy(a3_SpatialPose* lhsout, a3_SpatialPose const* rhs)
 {
-	a3real4Add(spatialOut->angles.v     , lhs->angles.v);
-	a3real4Add(spatialOut->orientation.v, lhs->orientation.v);
-	a3real4Add(spatialOut->scale.v      , lhs->scale.v);
-	a3real4Add(spatialOut->transform.v  , lhs->transform.v);
-	a3real4Add(spatialOut->translation.v, lhs->translation.v);
-			   
-	a3real4Add(spatialOut->angles.v     , rhs->angles.v);
-	a3real4Add(spatialOut->orientation.v, rhs->orientation.v);
-	a3real4Add(spatialOut->scale.v      , rhs->scale.v);
-	a3real4Add(spatialOut->transform.v  , rhs->transform.v);
-	a3real4Add(spatialOut->translation.v, rhs->translation.v);
-
-	return spatialOut;
+	lhsout->angles	     = rhs->angles;
+	lhsout->orientation = rhs->orientation;
+	lhsout->scale       = rhs->scale;
+	lhsout->transform   = rhs->transform;
+	lhsout->translation = rhs->translation;
 }
 
-inline a3_BlendNegate a3BlendNegate(a3_SpatialPose* lhs, const a3_SpatialPose* rhs)
+inline a3_BlendNegate a3BlendNegate(a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs)
 {
-	a3real4Sub(lhs->angles.v, rhs->angles.v);
-	a3real4Sub(lhs->orientation.v, rhs->orientation.v);
-	a3real4Sub(lhs->scale.v, rhs->scale.v);
-	a3real4Sub(lhs->transform.v, rhs->transform.v);
-	a3real4Sub(lhs->translation.v, rhs->translation.v);
-
-	return &lhs;
+	a3BlendCopy(out, lhs);
+	a3real4Sub(out->angles.v, rhs->angles.v);
+	a3real4Sub(out->orientation.v, rhs->orientation.v);
+	a3real4Sub(out->scale.v, rhs->scale.v);
+	a3real4Sub(out->transform.v, rhs->transform.v);
+	a3real4Sub(out->translation.v, rhs->translation.v);
 }
 
-inline a3_BlendNegate a3BlendConcat(a3_SpatialPose* lhs, const a3_SpatialPose* rhs)
+inline a3_BlendConcat a3BlendConcat(a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs)
 {
 	a3real4Add(lhs->angles.v, rhs->angles.v);
 	a3real4Add(lhs->orientation.v, rhs->orientation.v);

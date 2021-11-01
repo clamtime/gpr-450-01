@@ -76,11 +76,11 @@ typedef a3_SpatialPose(*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose const p0,	a3_S
 // pointer based
 typedef a3_SpatialPose* (*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose* p_out, a3_SpatialPose const* p0, a3_SpatialPose const* p1, a3real const u);
 
-typedef a3_SpatialPose(*a3_BlendConstruct)(a3_SpatialPose* out, a3vec4 const r, a3vec4 const s, a3vec4 const t);
-typedef a3_SpatialPose(*a3_BlendCopy)(a3_SpatialPose* spatialOut, const a3_SpatialPose* lhs, const a3_SpatialPose* rhs);
-typedef a3_SpatialPose(*a3_BlendNegate)(a3_SpatialPose* lhs, const a3_SpatialPose* rhs);
-typedef a3_SpatialPose(*a3_BlendConcat)(a3_SpatialPose* lhs, a3_SpatialPose* rhs);
-typedef a3_SpatialPose(*a3_BlendDeconcat)(a3_SpatialPose* lhs, a3_SpatialPose* rhs);
+typedef a3_SpatialPose(*a3_BlendConstruct)(a3_SpatialPose* out,			a3vec4 const* r,		   a3vec4 const* s, a3vec4 const* t);
+typedef a3_SpatialPose(*a3_BlendCopy)(     a3_SpatialPose* lhsout, a3_SpatialPose const* rhs);
+typedef a3_SpatialPose(*a3_BlendNegate)(   a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs);
+typedef a3_SpatialPose(*a3_BlendConcat)(   a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs);
+typedef a3_SpatialPose(*a3_BlendDeconcat)( a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs);
 typedef a3_SpatialPose(*a3_BlendScale)(/*?*/);
 
 
