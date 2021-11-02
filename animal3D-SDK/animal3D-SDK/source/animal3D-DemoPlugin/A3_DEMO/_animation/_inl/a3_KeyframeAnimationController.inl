@@ -139,37 +139,15 @@ inline a3i32 a3clipControllerSetClip(a3_ClipController* clipCtrl, const a3_ClipP
 	return -1;
 }
 
-
-
-// evaluate the current value at time
-/*a3i32 a3clipControllerEvaluate(a3_ClipController const* clipCtrl, a3_Sample* sample_out)
+// blend between two clip controllers
+inline a3i32 a3clipControllerBlendClips(a3_ClipController const* clipCtrl_out, a3_ClipController const* clip0, a3_ClipController const* clip1)
 {
-	if (clipCtrl && clipCtrl->clipPtr && sample_out)
-	{
-		// 0: no interpolation
-		//*sample_out = clipCtrl->keyframePtr0->sample;
-
-		// 1: nearest
-		// if (u < 0.5) then k0, else k1
-
-		// 2: lerp
-		// k = k0 + (k1 - k0)u
-		sample_out->time = clipCtrl->keyframeTime;
-		sample_out->value = a3lerp(
-			clipCtrl->keyframePtr0->sample.value,
-			clipCtrl->keyframePtr1->sample.value,
-			clipCtrl->keyframeParameter);
-
-		// 3: catmull-rom/cubic Hermite
-		//    CatmullRom(kP, k0, k1, kN, u)
-		//        kP: keyframe before k0
-		//        kN: keyframe after k1
-		sample_out->time = clipCtrl->keyframeTime;
-		sample_out->value = a3CatmullRom(clipCtrl->keyframePtrP->sample.value, clipCtrl->keyframePtr0->sample.value,
-			clipCtrl->keyframePtr1->sample.value, clipCtrl->keyframePtrN->sample.value, clipCtrl->keyframeParameter);
-	}
-	return -1;
-}*/
+	// using keyframe blendop functions, lerp between keyframes here
+	
+	// once the delta pose is found for each clip, blend the two clips together based on the time relative to their lengths
+	//	-> in class we talked about blending between a walk animation with a 1 sec time and a run with a 0.5 sec time, and how to smoothly blend between the two
+	//	-> might need paramaters for how much of each we are blending, but unsure where exactly to get that information from
+}
 
 
 //-----------------------------------------------------------------------------

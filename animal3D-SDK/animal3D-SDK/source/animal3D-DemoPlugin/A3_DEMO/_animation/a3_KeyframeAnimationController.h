@@ -54,40 +54,43 @@ typedef struct a3_KeyframeBlendNode
 	a3real const* param[8];
 } a3_KeyframeBlendNode;
 
+// These are nodes and functions for blend tree -> end goal would be to have them setup in a way in which they can interact with each other and be connected to
+// a hierarchy that represents the blend tree, and correctly perform operations to blend between different poses and get the output pose required
 
-/*inline a3_KeyframeBlendNode* a3spatialPoseBlendNodeCall(a3_KeyframeBlendNode* b)
+inline a3_KeyframeBlendNode* a3keyframeBlendNodeCall(a3_KeyframeBlendNode* b)
 {
 	//b->op(b->p_out, b->p_ctrl, b->param);
 	return b;
 }
 
 // e.g. lerp
-inline a3_Keyframe* a3_SpatialPoseBlendLerp(a3_Keyframe* p_out, a3_Keyframe const* ctrl[2], a3real const param[1])
+inline a3_Keyframe* a3_KeyframeBlendLerp(a3_Keyframe* p_out, a3_Keyframe const* ctrl[2], a3real const param[1])
 {
 	// the formula: p0 + (p1 - p0)*u
 	a3_Keyframe const* p0 = ctrl[0];
 	a3_Keyframe const* p1 = ctrl[1];
 	a3real const u = param[0];
-	a3spatialPoseLerp(p_out, p0, p1, u);
+
+	a3hierarchyPoseLerp(p_out->sample.keypose, p0->sample.keypose, p1->sample.keypose, u, p_out->sample.numNodes);
 	return p_out;
 }
 
 // add
-inline a3_Keyframe* a3_SpatialPoseBlendConcat(a3_Keyframe* p_out, a3_Keyframe const* ctrl[2])
+inline a3_Keyframe* a3_KeyframeBlendConcat(a3_Keyframe* p_out, a3_Keyframe const* ctrl[2])
 {
 	a3_Keyframe const* p0 = ctrl[0];
 	a3_Keyframe const* p1 = ctrl[1];
-	a3spatialPoseConcat(p_out, p0, p1);
+	a3hierarchyPoseConcat(p_out->sample.keypose, p0->sample.keypose, p1->sample.keypose, p_out->sample.numNodes);
 	return p_out;
 }
 
 // scale
-inline a3_Keyframe* a3_SpatialPoseBlendScale(a3_Keyframe* p_out, a3_Keyframe const* p_base, a3_Keyframe const* ctrl[1])
+inline a3_Keyframe* a3_KeyframeBlendScale(a3_Keyframe* p_out, a3_Keyframe const* p_base, a3_Keyframe const* ctrl[1])
 {
 	a3_Keyframe const* p0 = ctrl[0];
-	a3spatialPoseConcat(p_out, p_base, p0);
+	a3hierarchyPoseConcat(p_out->sample.keypose, p_base->sample.keypose, p0->sample.keypose, p_out->sample.numNodes);
 	return p_out;
-}*/
+}
 
 
 
@@ -145,6 +148,9 @@ a3i32 a3clipControllerSetClip(a3_ClipController* clipCtrl, const a3_ClipPool* cl
 
 // evaluate the current value at time
 a3i32 a3clipControllerEvaluate(a3_ClipController const* clipCtrl, a3_Sample* sample_out);
+
+// blend two clips together
+a3i32 a3clipControllerBlendClips(a3_ClipController const* clipCtrl_out, a3_ClipController const* clip0, a3_ClipController const* clip1);
 
 //-----------------------------------------------------------------------------
 
