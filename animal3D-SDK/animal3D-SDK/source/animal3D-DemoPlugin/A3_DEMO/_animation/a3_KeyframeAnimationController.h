@@ -28,6 +28,7 @@
 
 
 #include "a3_KeyframeAnimation.h"
+#include "a3_HierarchyStateBlend.h"
 
 
 //-----------------------------------------------------------------------------
@@ -41,6 +42,54 @@ typedef struct a3_ClipController			a3_ClipController;
 
 
 //-----------------------------------------------------------------------------
+
+// clip controller - ROBUST BLEND NODE for any op
+typedef a3_Keyframe* (*a3_KeyframeBlendOp)(a3_Keyframe* p_out, a3_Keyframe const* ctrl[], a3real const param[]);
+
+typedef struct a3_KeyframeBlendNode
+{
+	a3_KeyframeBlendOp op;
+	a3_Keyframe* p_out;
+	a3_Keyframe const* p_ctrl[8];
+	a3real const* param[8];
+} a3_KeyframeBlendNode;
+
+
+/*inline a3_KeyframeBlendNode* a3spatialPoseBlendNodeCall(a3_KeyframeBlendNode* b)
+{
+	//b->op(b->p_out, b->p_ctrl, b->param);
+	return b;
+}
+
+// e.g. lerp
+inline a3_Keyframe* a3_SpatialPoseBlendLerp(a3_Keyframe* p_out, a3_Keyframe const* ctrl[2], a3real const param[1])
+{
+	// the formula: p0 + (p1 - p0)*u
+	a3_Keyframe const* p0 = ctrl[0];
+	a3_Keyframe const* p1 = ctrl[1];
+	a3real const u = param[0];
+	a3spatialPoseLerp(p_out, p0, p1, u);
+	return p_out;
+}
+
+// add
+inline a3_Keyframe* a3_SpatialPoseBlendConcat(a3_Keyframe* p_out, a3_Keyframe const* ctrl[2])
+{
+	a3_Keyframe const* p0 = ctrl[0];
+	a3_Keyframe const* p1 = ctrl[1];
+	a3spatialPoseConcat(p_out, p0, p1);
+	return p_out;
+}
+
+// scale
+inline a3_Keyframe* a3_SpatialPoseBlendScale(a3_Keyframe* p_out, a3_Keyframe const* p_base, a3_Keyframe const* ctrl[1])
+{
+	a3_Keyframe const* p0 = ctrl[0];
+	a3spatialPoseConcat(p_out, p_base, p0);
+	return p_out;
+}*/
+
+
 
 // clip controller
 // metaphor: playhead
