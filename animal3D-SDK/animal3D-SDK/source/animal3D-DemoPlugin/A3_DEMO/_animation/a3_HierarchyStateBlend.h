@@ -82,7 +82,8 @@ typedef a3_SpatialPose(*a3_BlendNegate)(   a3_SpatialPose* out, a3_SpatialPose c
 typedef a3_SpatialPose(*a3_BlendConcat)(   a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs);
 typedef a3_SpatialPose(*a3_BlendDeconcat)( a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs);
 typedef a3_SpatialPose(*a3_BlendScale)(/*?*/);
-
+typedef a3_SpatialPose(*a3_BiLerp)(a3_SpatialPose* out, a3_SpatialPose const* p00, a3_SpatialPose const* p01, 
+	a3_SpatialPose const* p10, a3_SpatialPose const* p11, a3real const u1, a3real const u2, a3real const u3);
 
 // blend operation function pointer
 

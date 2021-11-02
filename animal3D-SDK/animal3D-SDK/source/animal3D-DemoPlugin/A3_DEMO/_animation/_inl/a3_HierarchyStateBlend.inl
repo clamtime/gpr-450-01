@@ -157,6 +157,15 @@ inline a3_SpatialPose* a3spatialPoseOpCubic(a3_SpatialPose* pose_out, a3_Spatial
 	return pose_out;
 }
 
+inline a3_BiLerp* a3Bilerp(a3_SpatialPose* out, a3_SpatialPose const* p00, a3_SpatialPose const* p01,
+	a3_SpatialPose const* p10, a3_SpatialPose const* p11, a3real const u1, a3real const u2, a3real const u3)
+{
+	a3real4Bilerp(out->angles.v, p00->angles.v, p01->angles.v, p10->angles.v, p11->angles.v, u1, u2);
+	a3real4Bilerp(out->orientation.v, p00->orientation.v, p01->orientation.v, p10->orientation.v, p11->orientation.v, u1, u2);
+	a3real4Bilerp(out->scale.v, p00->scale.v, p01->scale.v, p10->scale.v, p11->scale.v, u1, u2);
+	a3real4Bilerp(out->translation.v, p00->translation.v, p01->translation.v, p10->translation.v, p11->translation.v, u1, u2);
+}
+
 
 //-----------------------------------------------------------------------------
 
