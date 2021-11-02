@@ -28,6 +28,7 @@
 
 #include "animal3D-A3DM/a3math/a3vector.h"
 #include "animal3D-A3DM/a3math/a3interpolation.h"
+#include "a3_HierarchyState.h"
 
 
 //-----------------------------------------------------------------------------
@@ -77,7 +78,10 @@ struct a3_Keyframe
 	a3ui32 data;
 
 	// the known sample at the start of the interval
-	a3_Sample sample;
+	//a3_Sample sample;
+
+	// the pose connected to the keyframe
+	a3_HierarchyPose * keypose;
 };
 
 // pool of keyframe descriptors
@@ -109,6 +113,9 @@ struct a3_Clip
 {
 	// array of keyframes
 	a3_KeyframePool* keyframePool;
+
+	// base pose
+	a3_HierarchyPose basePose;
 
 	// clip name
 	a3byte name[a3keyframeAnimation_nameLenMax];
