@@ -125,8 +125,8 @@ typedef a3_HierarchyPose(*a3_DescaleHierarchy)(a3_HierarchyPose* out, a3_Hierarc
 typedef a3_HierarchyPose(*a3_ConvertHierarchy)(a3_HierarchyPose* out, a3_HierarchyPose const* p, a3real nodeCount);
 typedef a3_HierarchyPose(*a3_RevertHierarchy)(a3_HierarchyPose* out, a3_HierarchyPose const* p, a3real nodeCount);
 
-typedef a3_HierarchyPose(*a3_FK)(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real4 nodeCount);
-typedef a3_HierarchyPose(*a3_IK)(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real4 nodeCount);
+typedef a3_HierarchyPose(*a3_FK)(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real nodeCount);
+typedef a3_HierarchyPose(*a3_IK)(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real nodeCount);
 
 
 

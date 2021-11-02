@@ -273,7 +273,7 @@ inline a3_RevertHierarchy a3RevertHierarchy(a3_HierarchyPose* out, a3_HierarchyP
 }
 
 
-inline a3_FK a3FK(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real4 nodeCount)
+inline a3_FK a3FK(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real nodeCount)
 {
 	for (a3index i = 0; i < nodeCount; ++i)
 	{
@@ -283,7 +283,7 @@ inline a3_FK a3FK(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 lo
 			// copy current local matrix to current object matrix
 	}
 }
-inline a3_IK a3IK(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real4 nodeCount)
+inline a3_IK a3IK(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real nodeCount)
 {
 	for (a3index i = 0; i < nodeCount; ++i)
 	{
