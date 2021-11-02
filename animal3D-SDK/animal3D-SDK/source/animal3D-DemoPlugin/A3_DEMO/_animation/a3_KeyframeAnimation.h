@@ -57,7 +57,10 @@ enum
 struct a3_Sample
 {
 	a3real time; // (the x-axis)
-	a3real value; // (the y-axis)
+	//a3real value; // (the y-axis)
+	// replacing "value" with keypose
+	a3_HierarchyPose* keypose;
+	a3ui32 numNodes;
 };
 
 
@@ -78,10 +81,10 @@ struct a3_Keyframe
 	a3ui32 data;
 
 	// the known sample at the start of the interval
-	//a3_Sample sample;
+	a3_Sample sample;
 
 	// the pose connected to the keyframe
-	a3_HierarchyPose * keypose;
+	//a3_HierarchyPose * keypose;
 };
 
 // pool of keyframe descriptors

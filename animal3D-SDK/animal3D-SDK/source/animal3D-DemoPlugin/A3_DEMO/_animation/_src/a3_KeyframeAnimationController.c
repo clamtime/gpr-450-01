@@ -52,18 +52,21 @@ a3i32 a3clipControllerEvaluate(a3_ClipController const* clipCtrl, a3_Sample* sam
 		// 2: lerp
 		// k = k0 + (k1 - k0)u
 		sample_out->time = clipCtrl->keyframeTime;
-		sample_out->value = a3lerp(
+		/*sample_out->value = a3lerp(
 			clipCtrl->keyframePtr0->sample.value,
 			clipCtrl->keyframePtr1->sample.value,
-			clipCtrl->keyframeParameter);
+			clipCtrl->keyframeParameter);*/
+		a3hierarchyPoseLerp(sample_out->keypose, clipCtrl->keyframePtr0->sample.keypose, clipCtrl->keyframePtr1->sample.keypose,
+							clipCtrl->keyframeParameter, sample_out->numNodes);
 
 		// 3: catmull-rom/cubic Hermite
 		//    CatmullRom(kP, k0, k1, kN, u)
 		//        kP: keyframe before k0
 		//        kN: keyframe after k1
-		sample_out->time = clipCtrl->keyframeTime;
-		sample_out->value = a3CatmullRom(clipCtrl->keyframePtrP->sample.value, clipCtrl->keyframePtr0->sample.value,
-			clipCtrl->keyframePtr1->sample.value, clipCtrl->keyframePtrN->sample.value, clipCtrl->keyframeParameter);
+		//sample_out->time = clipCtrl->keyframeTime;
+		
+		//sample_out->value = a3CatmullRom(clipCtrl->keyframePtrP->sample.value, clipCtrl->keyframePtr0->sample.value,
+			//clipCtrl->keyframePtr1->sample.value, clipCtrl->keyframePtrN->sample.value, clipCtrl->keyframeParameter);
 	}
 	return -1;
 }
