@@ -80,7 +80,6 @@ inline a3_BlendDeconcat a3BlendDeconcat(a3_SpatialPose* out, a3_SpatialPose cons
 }
 
 
-
 // HIERARCHICAL
 inline a3_BlendConstructHierarchy a3BlendConstructHierarchy(a3_HierarchyPose* out, a3vec4 const* r, a3vec4 const* s, a3vec4 const* t, a3real nodeCount)
 {
@@ -128,6 +127,8 @@ inline a3_BlendConcatHierarchy a3BlendConcatHierarchy(a3_HierarchyPose* out, a3_
 		a3real4Add((out->pose + i)->orientation.v, (rhs->pose + i)->orientation.v);
 		a3real4ProductComp((out->pose + i)->scale.v, (lhs->pose + i)->scale.v, (rhs->pose + i)->scale.v);
 		a3real4Add((out->pose + i)->translation.v, (rhs->pose + i)->translation.v);
+
+		
 	}
 }
 
@@ -155,6 +156,123 @@ inline a3_BiLerpHierarchy* a3BilerpHierarchy(a3_HierarchyPose* out, a3_Hierarchy
 		a3real4Bilerp((out->pose + i)->translation.v, (p00->pose + i)->translation.v, (p01->pose + i)->translation.v, (p10->pose + i)->translation.v, (p11->pose + i)->translation.v, u1, u2);
 	}
 }
+
+
+// proj3 spatial pose
+inline a3_Smoothstep a3Smoothstep(a3_SpatialPose* out, a3_SpatialPose const* p0, a3_SpatialPose const* p1, a3real u)
+{
+	// from wikipedia / AMD
+	//x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0); 
+	//return x * x * (3 - 2 * x);
+
+
+    // a3BlendDeconcat(a3BlendDeconcatReal(p0, p0, u), a3Descale(p0, p0, u), a3BlendDeconcat(p1, p1, p0));
+}
+
+inline a3_Descale a3Descale(a3_SpatialPose* out, a3_SpatialPose const* p, a3real const u)
+{
+	a3BlendCopy(out, p);
+
+	out->angles.v0 -= u;
+	out->angles.v1 -= u;
+	out->angles.v2 -= u;
+	out->angles.v3 -= u;
+
+	out->orientation.v0 -= u;
+	out->orientation.v1 -= u;
+	out->orientation.v2 -= u;
+	out->orientation.v3 -= u;
+
+
+	out->scale.v0 /= u;
+	out->scale.v1 /= u;
+	out->scale.v2 /= u;
+	out->scale.v3 /= u;
+
+	out->translation.v0 -= u;
+	out->translation.v1 -= u;
+	out->translation.v2 -= u;
+	out->translation.v3 -= u;
+}
+
+inline a3_Convert a3Convert(a3_SpatialPose* out, a3_SpatialPose const* p)
+{
+	//a3real4x4ConcatL(out->transform.m, p->orientation.v);
+	//a3real4x4ConcatL(out->transform.m, p->scale.v);
+	//a3real4x4ConcatL(out->transform.m, p->translation.v);
+}
+
+inline a3_Revert a3Revert(a3_SpatialPose* out, a3_SpatialPose const* p)
+{
+	//a3real4x4Deconcat(out->transform.m, p->orientation.v);
+	//a3real4x4Deconcat(out->transform.m, p->scale.v);
+	//a3real4x4Deconcat(out->transform.m, p->translation.v);
+}
+
+// proj3 hierarchical pose
+inline a3_SmoothstepHierarchy a3SmoothstepHierarchy(a3_HierarchyPose* out, a3_HierarchyPose const* p0, a3_HierarchyPose const* p1, a3real u, a3real nodeCount)
+{
+	// from wikipedia / AMD
+	//x = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0); 
+	//return x * x * (3 - 2 * x);
+
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		// a3BlendDeconcat(a3BlendDeconcatReal(p0->pose + i, p0->pose + i, u), a3Descale(p0->pose+i, p0->pose+i, u), a3BlendDeconcat(p1->pose + i, p1->pose + i, p0->pose + i));
+
+	}
+}
+
+inline a3_DescaleHierarchy a3DescaleHierarchy(a3_HierarchyPose* out, a3_HierarchyPose const* p, a3real const u, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		a3BlendCopy(out->pose + i, p->pose + i);
+
+		(out->pose + i)->angles.v0 -= u;
+		(out->pose + i)->angles.v1 -= u;
+		(out->pose + i)->angles.v2 -= u;
+		(out->pose + i)->angles.v3 -= u;
+		
+		(out->pose + i)->orientation.v0 -= u;
+		(out->pose + i)->orientation.v1 -= u;
+		(out->pose + i)->orientation.v2 -= u;
+		(out->pose + i)->orientation.v3 -= u;
+		
+		
+		(out->pose + i)->scale.v0 /= u;
+		(out->pose + i)->scale.v1 /= u;
+		(out->pose + i)->scale.v2 /= u;
+		(out->pose + i)->scale.v3 /= u;
+		
+		(out->pose + i)->translation.v0 -= u;
+		(out->pose + i)->translation.v1 -= u;
+		(out->pose + i)->translation.v2 -= u;
+		(out->pose + i)->translation.v3 -= u;
+	}
+}
+
+inline a3_ConvertHierarchy a3ConvertHierarchy(a3_HierarchyPose* out, a3_HierarchyPose const* p, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		//a3real4x4ConcatL((out->pose + i)->transform.m, (p->pose + i)->orientation.v);
+		//a3real4x4ConcatL((out->pose + i)->transform.m, (p->pose + i)->scale.v);
+		//a3real4x4ConcatL((out->pose + i)->transform.m, (p->pose + i)->translation.v);
+	}
+}
+
+inline a3_RevertHierarchy a3RevertHierarchy(a3_HierarchyPose* out, a3_HierarchyPose const* p, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		//a3real4x4DeconcatL((out->pose + i)->transform.m, (p->pose + i)->orientation.v);
+		//a3real4x4DeconcatL((out->pose + i)->transform.m, (p->pose + i)->scale.v);
+		//a3real4x4DeconcatL((out->pose + i)->transform.m, (p->pose + i)->translation.v);
+	}
+}
+
+
 
 inline a3vec4 a3vec4Lerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u)
 {
