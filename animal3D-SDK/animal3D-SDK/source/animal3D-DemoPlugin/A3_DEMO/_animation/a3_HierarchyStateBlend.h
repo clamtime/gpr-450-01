@@ -92,6 +92,8 @@ inline a3_SpatialPose* a3_SpatialPoseBlendScale(a3_SpatialPose* p_out, a3_Spatia
 //// pointer based
 //typedef a3_SpatialPose* (*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose* p_out, a3_SpatialPose const* p0, a3_SpatialPose const* p1, a3real const u);
 
+
+// SPATIAL POSE
 typedef a3_SpatialPose(*a3_BlendConstruct)(a3_SpatialPose* out,			a3vec4 const* r,		   a3vec4 const* s, a3vec4 const* t);
 typedef a3_SpatialPose(*a3_BlendCopy)(     a3_SpatialPose* lhsout, a3_SpatialPose const* rhs);
 typedef a3_SpatialPose(*a3_BlendNegate)(   a3_SpatialPose* out, a3_SpatialPose const* lhs, a3_SpatialPose const* rhs);
@@ -100,6 +102,17 @@ typedef a3_SpatialPose(*a3_BlendDeconcat)( a3_SpatialPose* out, a3_SpatialPose c
 typedef a3_SpatialPose(*a3_BlendScale)(/*?*/);
 typedef a3_SpatialPose(*a3_BiLerp)(a3_SpatialPose* out, a3_SpatialPose const* p00, a3_SpatialPose const* p01, 
 	a3_SpatialPose const* p10, a3_SpatialPose const* p11, a3real const u1, a3real const u2, a3real const u3);
+
+// HIERARCHICAL 
+typedef a3_HierarchyPose(*a3_BlendConstructHierarchy)(a3_HierarchyPose* out, a3vec4 const* r, a3vec4 const* s, a3vec4 const* t, a3real nodeCount);
+typedef a3_HierarchyPose(*a3_BlendCopyHierarchy)     (a3_HierarchyPose* lhsout, a3_HierarchyPose const* rhs, a3real nodeCount);
+typedef a3_HierarchyPose(*a3_BlendNegateHierarchy)   (a3_HierarchyPose* out, a3_HierarchyPose const* lhs, a3_HierarchyPose const* rhs, a3real nodeCount);
+typedef a3_HierarchyPose(*a3_BlendConcatHierarchy)   (a3_HierarchyPose* out, a3_HierarchyPose const* lhs, a3_HierarchyPose const* rhs, a3real nodeCount);
+typedef a3_HierarchyPose(*a3_BlendDeconcatHierarchy) (a3_HierarchyPose* out, a3_HierarchyPose const* lhs, a3_HierarchyPose const* rhs, a3real nodeCount);
+typedef a3_HierarchyPose(*a3_BlendScaleHierarchy)    (/*?*/);
+typedef a3_HierarchyPose(*a3_BiLerpHierarchy)        (a3_HierarchyPose* out, a3_HierarchyPose const* p00, a3_HierarchyPose const* p01,
+	a3_HierarchyPose const* p10, a3_HierarchyPose const* p11, a3real const u1, a3real const u2, a3real const u3, a3real nodeCount);
+
 
 // blend operation function pointer
 

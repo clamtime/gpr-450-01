@@ -79,6 +79,83 @@ inline a3_BlendDeconcat a3BlendDeconcat(a3_SpatialPose* out, a3_SpatialPose cons
 	a3real4Sub(out->translation.v, rhs->translation.v);
 }
 
+
+
+// HIERARCHICAL
+inline a3_BlendConstructHierarchy a3BlendConstructHierarchy(a3_HierarchyPose* out, a3vec4 const* r, a3vec4 const* s, a3vec4 const* t, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		(out->pose + i)->angles      = *r;
+		(out->pose + i)->scale       = *s;
+		(out->pose + i)->translation = *t;
+	}
+}
+
+inline a3_BlendCopyHierarchy a3BlendCopyHierarchy(a3_HierarchyPose* lhsout, a3_HierarchyPose const* rhs, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		(lhsout->pose + i)->angles      = (rhs->pose + i)->angles;
+		(lhsout->pose + i)->orientation = (rhs->pose + i)->orientation;
+		(lhsout->pose + i)->scale       = (rhs->pose + i)->scale;
+		(lhsout->pose + i)->translation = (rhs->pose + i)->translation;
+		(lhsout->pose + i)->transform   = (rhs->pose + i)->transform;
+	}
+}
+
+inline a3_BlendNegateHierarchy a3BlendNegateHierarchy(a3_HierarchyPose* out, a3_HierarchyPose const* lhs, a3_HierarchyPose const* rhs, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		a3BlendCopyHierarchy(out + i, lhs + i, nodeCount);
+
+		a3real4Sub((out->pose + i)->angles.v     , (rhs->pose + i)->angles.v);
+		a3real4Sub((out->pose + i)->orientation.v, (rhs->pose + i)->orientation.v);
+		a3real4Sub((out->pose + i)->scale.v      , (rhs->pose + i)->scale.v);
+		//a3real4Sub(out->transform.v, rhs->transform.v);
+		a3real4Sub((out->pose + i)->translation.v, (rhs->pose + i)->translation.v);
+	}
+}
+
+inline a3_BlendConcatHierarchy a3BlendConcatHierarchy(a3_HierarchyPose* out, a3_HierarchyPose const* lhs, a3_HierarchyPose const* rhs, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		a3BlendCopyHierarchy(out + i, lhs + i, nodeCount);
+
+		a3real4Add((out->pose + i)->angles.v, (rhs->pose + i)->angles.v);
+		a3real4Add((out->pose + i)->orientation.v, (rhs->pose + i)->orientation.v);
+		a3real4ProductComp((out->pose + i)->scale.v, (lhs->pose + i)->scale.v, (rhs->pose + i)->scale.v);
+		a3real4Add((out->pose + i)->translation.v, (rhs->pose + i)->translation.v);
+	}
+}
+
+inline a3_BlendDeconcatHierarchy a3BlendDeconcatHierarchy(a3_HierarchyPose* out, a3_HierarchyPose const* lhs, a3_HierarchyPose const* rhs, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		a3BlendCopyHierarchy(out + i, lhs + i, nodeCount);
+
+		a3real4Sub((out->pose + i)->angles.v, (rhs->pose + i)->angles.v);
+		a3real4Sub((out->pose + i)->orientation.v, (rhs->pose + i)->orientation.v);
+		a3real4QuotientComp((out->pose + i)->scale.v, (lhs->pose + i)->scale.v, (rhs->pose + i)->scale.v);
+		a3real4Sub((out->pose + i)->translation.v, (rhs->pose + i)->translation.v);
+	}
+}
+
+inline a3_BiLerpHierarchy* a3BilerpHierarchy(a3_HierarchyPose* out, a3_HierarchyPose const* p00, a3_HierarchyPose const* p01,
+	a3_HierarchyPose const* p10, a3_HierarchyPose const* p11, a3real const u1, a3real const u2, a3real const u3, a3real nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; i++)
+	{
+		a3real4Bilerp((out->pose + i)->angles.v     , (p00->pose + i)->angles.v		, (p01->pose + i)->angles.v		, (p10->pose + i)->angles.v		, (p11->pose + i)->angles.v, u1, u2);
+		a3real4Bilerp((out->pose + i)->orientation.v, (p00->pose + i)->orientation.v, (p01->pose + i)->orientation.v, (p10->pose + i)->orientation.v, (p11->pose + i)->orientation.v, u1, u2);
+		a3real4Bilerp((out->pose + i)->scale.v      , (p00->pose + i)->scale.v      , (p01->pose + i)->scale.v		, (p10->pose + i)->scale.v		, (p11->pose + i)->scale.v, u1, u2);
+		a3real4Bilerp((out->pose + i)->translation.v, (p00->pose + i)->translation.v, (p01->pose + i)->translation.v, (p10->pose + i)->translation.v, (p11->pose + i)->translation.v, u1, u2);
+	}
+}
+
 inline a3vec4 a3vec4Lerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u)
 {
 	// implement linear interpolation
