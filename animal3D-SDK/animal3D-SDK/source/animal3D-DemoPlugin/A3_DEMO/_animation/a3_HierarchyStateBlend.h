@@ -68,6 +68,22 @@ inline a3_SpatialPose* a3_SpatialPoseBlendLerp(a3_SpatialPose* p_out, a3_Spatial
 	return p_out;
 }
 
+// add
+inline a3_SpatialPose* a3_SpatialPoseBlendConcat(a3_SpatialPose* p_out, a3_SpatialPose const* ctrl[2])
+{
+	a3_SpatialPose const* p0 = ctrl[0];
+	a3_SpatialPose const* p1 = ctrl[1];
+	a3spatialPoseConcat(p_out, p0, p1);
+	return p_out;
+}
+
+// scale
+inline a3_SpatialPose* a3_SpatialPoseBlendScale(a3_SpatialPose* p_out, a3_SpatialPose const* p_base, a3_SpatialPose const* ctrl[1])
+{
+	a3_SpatialPose const* p0 = ctrl[0];
+	a3spatialPoseConcat(p_out, p_base, p0);
+	return p_out;
+}
 
 
 //// object based
