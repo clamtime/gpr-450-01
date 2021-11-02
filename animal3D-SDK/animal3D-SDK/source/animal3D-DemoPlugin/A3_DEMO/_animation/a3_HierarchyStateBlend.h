@@ -53,7 +53,7 @@ typedef struct a3_SpatialPoseBlendNode
 
 inline a3_SpatialPoseBlendNode* a3spatialPoseBlendNodeCall(a3_SpatialPoseBlendNode* b)
 {
-	b->op(b->p_out, b->p_ctrl, b->param);
+	//b->op(b->p_out, b->p_ctrl, b->param);
 	return b;
 }
 
@@ -70,11 +70,11 @@ inline a3_SpatialPose* a3_SpatialPoseBlendLerp(a3_SpatialPose* p_out, a3_Spatial
 
 
 
-// object based
-typedef a3_SpatialPose(*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose const p0,	a3_SpatialPose const p1, a3real const u);
-
-// pointer based
-typedef a3_SpatialPose* (*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose* p_out, a3_SpatialPose const* p0, a3_SpatialPose const* p1, a3real const u);
+//// object based
+//typedef a3_SpatialPose(*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose const p0,	a3_SpatialPose const p1, a3real const u);
+//
+//// pointer based
+//typedef a3_SpatialPose* (*a3_SpatialPoseBlendOpLerp)(a3_SpatialPose* p_out, a3_SpatialPose const* p0, a3_SpatialPose const* p1, a3real const u);
 
 typedef a3_SpatialPose(*a3_BlendConstruct)(a3_SpatialPose* out,			a3vec4 const* r,		   a3vec4 const* s, a3vec4 const* t);
 typedef a3_SpatialPose(*a3_BlendCopy)(     a3_SpatialPose* lhsout, a3_SpatialPose const* rhs);
@@ -93,21 +93,16 @@ typedef struct a3_SpatialPoseBlendOpLerp
 } a3_SpatialPoseBlendOpLerp;
 
 // linear interpolation
- a3vec4 a3vec4Lerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
-
- inline a3real* a3real4Lerp(a3real4 v_out, a3real4 const v1, a3real const u)
- {
-	 return v_out;
- }
+ a3vec4 a3vec4Lerp(a3vec4 *const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u);
 
 // log interpolation
- a3vec4 a3Vec4LogLerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
+ a3vec4 a3Vec4LogLerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u);
 
 // spherical linear interpolation
-a3vec4 a3vec4Slerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
+a3vec4 a3vec4Slerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u);
 
 // implement normalized linear interpolation
-a3vec4 a3vec4Nlerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u);
+a3vec4 a3vec4Nlerp(a3vec4 *const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u);
 
 //-----------------------------------------------------------------------------
 

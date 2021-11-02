@@ -35,7 +35,6 @@ inline a3_BlendConstruct a3BlendConstruct(a3_SpatialPose* out, a3vec4 const r, a
 	out->angles = r;
 	out->scale = s;
 	out->translation = t;
-	return out;
 }
 
 inline a3_BlendCopy a3BlendCopy(a3_SpatialPose* lhsout, a3_SpatialPose const* rhs)
@@ -54,7 +53,7 @@ inline a3_BlendNegate a3BlendNegate(a3_SpatialPose* out, a3_SpatialPose const* l
 	a3real4Sub(out->angles.v, rhs->angles.v);
 	a3real4Sub(out->orientation.v, rhs->orientation.v);
 	a3real4Sub(out->scale.v, rhs->scale.v);
-	a3real4Sub(out->transform.v, rhs->transform.v);
+	//a3real4Sub(out->transform.v, rhs->transform.v);
 	a3real4Sub(out->translation.v, rhs->translation.v);
 }
 
@@ -65,7 +64,7 @@ inline a3_BlendConcat a3BlendConcat(a3_SpatialPose* out, a3_SpatialPose const* l
 	a3real4Add(out->angles.v, rhs->angles.v);
 	a3real4Add(out->orientation.v, rhs->orientation.v);
 	a3real4ProductComp(out->scale.v, lhs->scale.v, rhs->scale.v);
-	a3real4Add(out->transform.v, rhs->transform.v);
+	//a3real4Add(out->transform.v, rhs->transform.v);
 	a3real4Add(out->translation.v, rhs->translation.v);
 }
 
@@ -76,39 +75,36 @@ inline a3_BlendDeconcat a3BlendDeconcat(a3_SpatialPose* out, a3_SpatialPose cons
 	a3real4Sub(out->angles.v, rhs->angles.v);
 	a3real4Sub(out->orientation.v, rhs->orientation.v);
 	a3real4QuotientComp(out->scale.v, lhs->scale.v, rhs->scale.v);
-	a3real4Sub(out->transform.v, rhs->transform.v);
+	//a3real4Sub(out->transform.v, rhs->transform.v);
 	a3real4Sub(out->translation.v, rhs->translation.v);
-
-	return &lhs;
 }
 
-inline a3vec4 a3vec4Lerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
+inline a3vec4 a3vec4Lerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u)
 {
 	// implement linear interpolation
-	a3real4Lerp(v_out.v, v0.v, v1.v, u);
-	return v0;
+	a3real4Lerp(v_out->v, v0->v, v1->v, u);
 }
 
-inline a3vec4 a3Vec4LogLerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
+inline a3vec4 a3Vec4LogLerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u)
 {
 	// implement log interpolation
 	// (v1*v0^-1)^u * v0
 	
-	return v0;
+	//return v0;
 }
 
-inline a3vec4 a3vec4Slerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
+inline a3vec4 a3vec4Slerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u)
 {
 	// implement spherical linear interpolation
-	a3real4Slerp(v_out.v, v0.v, v1.v, u);
-	return v0;
+	a3real4Slerp(v_out->v, v0->v, v1->v, u);
+	//return v0;
 }
 
-inline a3vec4 a3vec4Nlerp(a3vec4 const v_out, a3vec4 const v0, a3vec4 const v1, a3real const u)
+inline a3vec4 a3vec4Nlerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u)
 {
 	// implement normalized linear interpolation
-	a3real4NLerp(v_out.v, v0.v, v1.v, u);
-	return v0;
+	a3real4NLerp(v_out->v, v0->v, v1->v, u);
+	//return v0;
 }
 
 //-----------------------------------------------------------------------------
@@ -131,12 +127,12 @@ inline a3_SpatialPose* a3spatialPoseOpNearest(a3_SpatialPose* pose_out, a3_Spati
 	if (u < 0.5)
 	{
 		// copy p0
-		a3BlendCopy(pose_out, pose_out, pose0);
+		a3BlendCopy(pose_out, pose0);
 	}
 	else
 	{
 		// copy p1
-		a3BlendCopy(pose_out, pose_out, pose1);
+		a3BlendCopy(pose_out, pose1);
 	}
 	return pose_out;
 }
@@ -144,9 +140,9 @@ inline a3_SpatialPose* a3spatialPoseOpNearest(a3_SpatialPose* pose_out, a3_Spati
 // pointer-based LERP operation for single spatial pose
 inline a3_SpatialPose* a3spatialPoseOpLERP(a3_SpatialPose* pose_out, a3_SpatialPose const* pose0, a3_SpatialPose const* pose1, a3real const u)
 {
-	a3vec4NLerp(pose_out->translation, pose0->translation, pose1->translation, u);
-	a3Vec4SLerp(pose_out->angles, pose0->angles, pose1->angles, u); // not quite right but i'm unsure on log lerp right now
-	a3vec4Nlerp(pose_out->scale, pose0->scale, pose1->scale, u);
+	a3vec4Nlerp(&pose_out->translation, &pose0->translation, &pose1->translation, u);
+	a3vec4Slerp(&pose_out->angles, &pose0->angles, &pose1->angles, u); // not quite right but i'm unsure on log lerp right now
+	a3vec4Nlerp(&pose_out->scale, &pose0->scale, &pose1->scale, u);
 	// done
 	return pose_out;
 }
