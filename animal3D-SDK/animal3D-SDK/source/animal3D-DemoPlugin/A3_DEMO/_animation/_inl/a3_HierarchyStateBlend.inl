@@ -273,6 +273,29 @@ inline a3_RevertHierarchy a3RevertHierarchy(a3_HierarchyPose* out, a3_HierarchyP
 }
 
 
+inline a3_FK a3FK(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real4 nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; ++i)
+	{
+		// if (p.pose + i) -> some sort of parent index 
+			// parent object matrix * current object matrix
+		// else
+			// copy current local matrix to current object matrix
+	}
+}
+inline a3_IK a3IK(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real4 nodeCount)
+{
+	for (a3index i = 0; i < nodeCount; ++i)
+	{
+		// if (p.pose + i) -> some sort of parent index 
+			// invert parent object matrix * current object matrix
+		// else
+			// copy current object matrix to current local matrix
+	}
+}
+
+// end proj3 step1 funcs
+
 
 inline a3vec4 a3vec4Lerp(a3vec4* const v_out, a3vec4 const* v0, a3vec4 const* v1, a3real const u)
 {
