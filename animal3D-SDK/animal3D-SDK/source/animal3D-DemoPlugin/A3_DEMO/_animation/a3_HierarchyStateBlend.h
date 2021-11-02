@@ -113,6 +113,18 @@ typedef a3_HierarchyPose(*a3_BlendScaleHierarchy)    (/*?*/);
 typedef a3_HierarchyPose(*a3_BiLerpHierarchy)        (a3_HierarchyPose* out, a3_HierarchyPose const* p00, a3_HierarchyPose const* p01,
 	a3_HierarchyPose const* p10, a3_HierarchyPose const* p11, a3real const u1, a3real const u2, a3real const u3, a3real nodeCount);
 
+// SPATIAL POSE PROJ3
+typedef a3_SpatialPose(*a3_Smoothstep)(a3_SpatialPose* out, a3_SpatialPose const* p0, a3_SpatialPose const* p1, a3real const u);
+typedef a3_SpatialPose(*a3_Descale)(a3_SpatialPose* out, a3_SpatialPose const* p, a3real const u);
+typedef a3_SpatialPose(*a3_Convert)(a3_SpatialPose* out, a3_SpatialPose const* p);
+typedef a3_SpatialPose(*a3_Revert)(a3_SpatialPose* out, a3_SpatialPose const* p);
+
+// HIERARCHICAL PROJ3
+typedef a3_HierarchyPose(*a3_FK)(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real4 nodeCount);
+typedef a3_HierarchyPose(*a3_IK)(a3mat4* out, a3_HierarchyPose p, a3mat4 objectSpace, a3mat4 localSpace, a3real4 nodeCount);
+
+
+
 
 // blend operation function pointer
 
