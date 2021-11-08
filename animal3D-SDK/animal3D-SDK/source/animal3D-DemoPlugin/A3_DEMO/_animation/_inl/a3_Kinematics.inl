@@ -30,6 +30,11 @@
 
 //-----------------------------------------------------------------------------
 
+// EULER UML
+//  +fIntegrateEuler(x : ftype, dx_dt : ftype, dt : float) : ftype
+
+
+
 // partial FK solver
 inline a3i32 a3kinematicsSolveForwardPartial(const a3_HierarchyState* hierarchyState, const a3ui32 firstIndex, const a3ui32 nodeCount)
 {
