@@ -40,6 +40,7 @@ typedef struct a3_Sample					a3_Sample;
 typedef struct a3_Keyframe					a3_Keyframe;
 typedef enum a3_ClipTransitionFlag			a3_ClipTransitionFlag;
 typedef struct a3_ClipTransition			a3_ClipTransition;
+typedef struct a3_ClipTransitionBranching   a3_ClipTransitionBranching;
 typedef struct a3_Clip						a3_Clip;
 typedef struct a3_ClipPool					a3_ClipPool;
 #endif	// __cplusplus
@@ -117,6 +118,12 @@ struct a3_ClipTransition
 	a3i32 clipIndex;
 };
 
+struct a3_ClipTransitionBranching
+{
+	a3_ClipTransition* possibleTransitions;
+	a3i32 transitionIndex;
+};
+
 // description of single clip
 // metaphor: timeline
 struct a3_Clip
@@ -165,6 +172,9 @@ a3i32 a3clipPoolRelease(a3_ClipPool* clipPool);
 
 // initialize clip transition
 a3i32 a3clipTransitionInit(a3_ClipTransition* transition, a3_ClipTransitionFlag const transitionFlag, const a3i32 offset, a3_Clip const* clip);
+
+// initialize clip transition branching
+a3i32 a3a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, a3_ClipTransition* transitionList, const a3i32 amount);
 
 // initialize clip with first and last indices
 a3i32 a3clipInit(a3_Clip* clip_out, const a3byte clipName[a3keyframeAnimation_nameLenMax], a3_Keyframe const* keyframe_first, a3_Keyframe const* keyframe_final);

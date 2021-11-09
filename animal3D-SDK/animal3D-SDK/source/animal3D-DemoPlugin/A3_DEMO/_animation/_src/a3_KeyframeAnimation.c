@@ -118,6 +118,20 @@ a3i32 a3clipTransitionInit(a3_ClipTransition* transition, a3_ClipTransitionFlag 
 	return -1;
 }
 
+a3i32 a3a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, a3_ClipTransition* transitionList, const a3i32 amount)
+{
+	if (transitionList && amount > 0)
+	{
+		a3ui32 const memreq = sizeof(a3_ClipTransition) * amount;
+		transitionBranch->possibleTransitions = (a3_ClipTransition*)malloc(memreq);
+
+		for (a3index i = 0; i < amount; i++)
+		{
+			(transitionBranch + i)->possibleTransitions = (transitionList + i);
+		}
+	}
+}
+
 // initialize clip with first and last indices
 a3i32 a3clipInit(a3_Clip* clip_out, const a3byte clipName[a3keyframeAnimation_nameLenMax], a3_Keyframe const* keyframe_first, a3_Keyframe const* keyframe_final)
 {
