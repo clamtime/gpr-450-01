@@ -72,7 +72,28 @@ a3i32 a3kinematicsSolveInversePartial(const a3_HierarchyState *hierarchyState, c
 
 
 //-----------------------------------------------------------------------------
+// locomotion algorithms:
+// euler integration: implement euler's method of integration for the target var, given its derivative
+//	-> begins with current state of some variable x
+//	-> adds its current derivative (rate of change at time t)
+//	-> scaled by the current differential (delta-time or dt)
+a3real a3EulerIntegration(a3real x, a3real dx_dt, a3real dt);
 
+
+// kinematic integration: Implement kinematic integration for the target variable, given its first and second derivatives
+//	-> begins with current state of some variable x
+//	-> adds its current derivative (rate of change at time t) scaled by the current differential (delta-time or dt)
+//	-> add its currnet second derivative (rate of change of rate of change at time t) scaled by half of the squared differential (dt) 
+a3real a3KinematicIntegration(a3real x, a3real dx_dt, a3real d2x_dt2, a3real dt);
+
+
+// interpolation-based integration: implement euler's method of integration for the target var, given its derivative
+//	-> begins with current state of some variable x
+//	-> adds the dif between the target and the current values
+//	-> scaled by the interpolation parameter (between 0 and 1)
+a3real a3InterpBasedIntegration(a3real x, a3real xc, a3real u);
+
+//-----------------------------------------------------------------------------
 
 #ifdef __cplusplus
 }
