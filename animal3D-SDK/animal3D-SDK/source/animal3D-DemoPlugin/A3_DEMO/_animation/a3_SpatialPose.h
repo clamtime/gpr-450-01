@@ -157,15 +157,6 @@ a3i32 a3spatialPoseDeconcat(a3_SpatialPose* spatialPose_out, const a3_SpatialPos
 a3i32 a3spatialPoseLerp(a3_SpatialPose* spatialPose_out, const a3_SpatialPose* spatialPose_0, const a3_SpatialPose* spatialPose_1, const a3real u);
 
 
-// EULER UML
-//  +fIntegrateEuler(x : ftype, dx_dt : ftype, dt : float) : ftype
-
-// KINEMATIC UML
-//  +fIntegrateKinematic(x : ftype, dx_dt : ftype, d2x_dt2 : ftype, dt : float) : ftype
-
-// INTERP UML
-// +fIntegrateInterpolated(x : ftype, xc : ftype, u : float) : ftype
-
 //-----------------------------------------------------------------------------
 
 
