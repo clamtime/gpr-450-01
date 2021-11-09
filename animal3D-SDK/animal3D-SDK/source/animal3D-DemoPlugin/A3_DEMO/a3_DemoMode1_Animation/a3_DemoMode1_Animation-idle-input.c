@@ -133,9 +133,9 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 		{
 			// ****DONE:
 			// calculate normalized vectors given keyboard state
-			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
-			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
-			demoMode->axis_r[1] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
+			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
+			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
+			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
 		}
 		break;
 	}
