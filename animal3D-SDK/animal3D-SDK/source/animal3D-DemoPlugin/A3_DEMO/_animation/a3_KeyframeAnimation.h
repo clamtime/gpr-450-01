@@ -174,7 +174,7 @@ a3i32 a3clipPoolRelease(a3_ClipPool* clipPool);
 a3i32 a3clipTransitionInit(a3_ClipTransition* transition, a3_ClipTransitionFlag const transitionFlag, const a3i32 offset, a3_Clip const* clip);
 
 // initialize clip transition branching
-a3i32 a3a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, a3_ClipTransition* transitionList, const a3i32 amount);
+a3i32 a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, a3_ClipTransition* transitionList, const a3i32 amount);
 
 // initialize clip with first and last indices
 a3i32 a3clipInit(a3_Clip* clip_out, const a3byte clipName[a3keyframeAnimation_nameLenMax], a3_Keyframe const* keyframe_first, a3_Keyframe const* keyframe_final);

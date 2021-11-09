@@ -116,7 +116,7 @@ inline a3i32 a3kinematicsSolveInverse(const a3_HierarchyState *hierarchyState)
 
 // EULER UML
 //  +fIntegrateEuler(x : ftype, dx_dt : ftype, dt : float) : ftype
-a3real a3EulerIntegration(a3real x, a3real dx_dt, a3real dt)
+inline a3real a3EulerIntegration(a3real x, a3real dx_dt, a3real dt)
 {
 	a3real result = x + (dx_dt)*dt;
 	return result;
@@ -124,7 +124,7 @@ a3real a3EulerIntegration(a3real x, a3real dx_dt, a3real dt)
 
 // KINEMATIC UML
 //  +fIntegrateKinematic(x : ftype, dx_dt : ftype, d2x_dt2 : ftype, dt : float) : ftype
-a3real a3KinematicIntegration(a3real x, a3real dx_dt, a3real d2x_dt2, a3real dt)
+inline a3real a3KinematicIntegration(a3real x, a3real dx_dt, a3real d2x_dt2, a3real dt)
 {
 	a3real result = a3EulerIntegration(x, dx_dt, dt) + d2x_dt2 * ((dt * dt) / a3real_two);
 	return result;
@@ -133,7 +133,7 @@ a3real a3KinematicIntegration(a3real x, a3real dx_dt, a3real d2x_dt2, a3real dt)
 
 // INTERP UML
 // +fIntegrateInterpolated(x : ftype, xc : ftype, u : float) : ftype
-a3real a3InterpBasedIntegration(a3real x, a3real xc, a3real u)
+inline a3real a3InterpBasedIntegration(a3real x, a3real xc, a3real u)
 {
 	a3real result = a3lerp(x, xc, u);
 	return result;
