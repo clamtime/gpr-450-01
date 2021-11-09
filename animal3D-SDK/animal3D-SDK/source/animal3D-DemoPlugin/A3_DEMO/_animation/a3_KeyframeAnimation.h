@@ -121,7 +121,7 @@ struct a3_ClipTransition
 struct a3_ClipTransitionBranching
 {
 	a3_ClipTransition* possibleTransitions;
-	a3i32 transitionIndex;
+	a3i32 size;
 };
 
 // description of single clip
@@ -175,6 +175,9 @@ a3i32 a3clipTransitionInit(a3_ClipTransition* transition, a3_ClipTransitionFlag 
 
 // initialize clip transition branching
 a3i32 a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, a3_ClipTransition* transitionList, const a3i32 amount);
+
+// get clip transition from branching index
+a3i32 a3_ClipTransitionBranchingGetFromIndex(a3_ClipTransition* out, const a3_ClipTransitionBranching* transitionBranch, const a3i32 index);
 
 // initialize clip with first and last indices
 a3i32 a3clipInit(a3_Clip* clip_out, const a3byte clipName[a3keyframeAnimation_nameLenMax], a3_Keyframe const* keyframe_first, a3_Keyframe const* keyframe_final);

@@ -122,13 +122,23 @@ a3i32 a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranc
 {
 	if (transitionList && amount > 0)
 	{
-		a3ui32 const memreq = sizeof(a3_ClipTransition) * amount;
+		transitionBranch->size = amount;
+		a3ui32 const memreq = sizeof(a3_ClipTransition) * transitionBranch->size;
 		transitionBranch->possibleTransitions = (a3_ClipTransition*)malloc(memreq);
 
 		for (a3i32 i = 0; i < amount; i++)
 		{
 			(transitionBranch + i)->possibleTransitions = (transitionList + i);
 		}
+	}
+	return -1;
+}
+
+a3i32 a3_ClipTransitionBranchingGetFromIndex(a3_ClipTransition* out, const a3_ClipTransitionBranching* transitionBranch, const a3i32 index)
+{
+	if (index >= 0 && index < transitionBranch->size)
+	{
+		out = transitionBranch->possibleTransitions + index;
 	}
 	return -1;
 }
