@@ -467,9 +467,9 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 			a3clipCalculateDuration(demoMode->clipPool, j, fps);
 			
 			// get list of forward transitions for branching transitions
-			(demoMode->clipPool->transitionBranching->possibleTransitions + j)->clipIndex = (demoMode->clipPool->clip + j)->transitionForward->clipIndex;
-			(demoMode->clipPool->transitionBranching->possibleTransitions + j)->flag      = (demoMode->clipPool->clip + j)->transitionForward->flag;
-			(demoMode->clipPool->transitionBranching->possibleTransitions + j)->offset    = (demoMode->clipPool->clip + j)->transitionForward->offset;
+			((&demoMode->clipPool->transitionBranching)->possibleTransitions + j)->clipIndex = (demoMode->clipPool->clip + j)->transitionForward->clipIndex;
+			((&demoMode->clipPool->transitionBranching)->possibleTransitions + j)->flag      = (demoMode->clipPool->clip + j)->transitionForward->flag;
+			((&demoMode->clipPool->transitionBranching)->possibleTransitions + j)->offset    = (demoMode->clipPool->clip + j)->transitionForward->offset;
 		}
 
 

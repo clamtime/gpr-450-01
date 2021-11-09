@@ -163,7 +163,7 @@ struct a3_ClipPool
 	// counts
 	a3ui32 clipCount, keyframeCount, sampleCount;
 
-	a3_ClipTransitionBranching* transitionBranching;
+	a3_ClipTransitionBranching transitionBranching;
 };
 
 

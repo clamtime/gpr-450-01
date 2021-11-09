@@ -139,7 +139,7 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
 			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
 
-			demoMode->clipPool->transitionBranching->storedIterator = (a3i32)demoMode->axis_l[1];
+			(&demoMode->clipPool->transitionBranching)->storedIterator = (a3i32)demoMode->axis_l[1];
 		}
 		break;
 	}

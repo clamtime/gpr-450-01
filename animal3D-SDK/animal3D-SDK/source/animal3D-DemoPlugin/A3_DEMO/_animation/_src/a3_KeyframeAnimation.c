@@ -76,7 +76,7 @@ a3i32 a3clipPoolCreate(a3_ClipPool* clipPool_out, const a3ui32 clipCount, const 
 		clipPool_out->keyframe = (a3_Keyframe*)(clipPool_out->clip + clipCount);
 		clipPool_out->sample = (a3_Sample*)(clipPool_out->keyframe + keyframeCount);
 
-		a3_ClipTransitionBranchingInit(clipPool_out->transitionBranching, clipCount);
+		a3_ClipTransitionBranchingInit(&clipPool_out->transitionBranching, clipCount);
 
 		memset(clipPool_out->clip, 0, sz);
 		for (i = 0, clipPool_out->clipCount = clipCount; i < clipCount; ++i)
