@@ -118,7 +118,7 @@ inline a3i32 a3kinematicsSolveInverse(const a3_HierarchyState *hierarchyState)
 //  +fIntegrateEuler(x : ftype, dx_dt : ftype, dt : float) : ftype
 inline a3real a3EulerIntegration(a3real x, a3real dx_dt, a3real dt)
 {
-	a3real result = x + (dx_dt)*dt;
+	a3real result = x + (dx_dt / dt)*dt;
 	return result;
 }
 
@@ -126,7 +126,7 @@ inline a3real a3EulerIntegration(a3real x, a3real dx_dt, a3real dt)
 //  +fIntegrateKinematic(x : ftype, dx_dt : ftype, d2x_dt2 : ftype, dt : float) : ftype
 inline a3real a3KinematicIntegration(a3real x, a3real dx_dt, a3real d2x_dt2, a3real dt)
 {
-	a3real result = a3EulerIntegration(x, dx_dt, dt) + d2x_dt2 * ((dt * dt) / a3real_two);
+	a3real result = a3EulerIntegration(x, dx_dt, dt) + (d2x_dt2 / (dt * dt)) * ((dt * dt) / a3real_two);
 	return result;
 }
 

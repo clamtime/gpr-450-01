@@ -125,15 +125,17 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 		// capture axes
 		if (a3XboxControlIsConnected(demoState->xcontrol))
 		{
-			// ****TO-DO:
+			// ****DONE:
 			// get directly from joysticks
-			
+			a3XboxControlGetJoysticks(demoState->xcontrol, demoMode->axis_l, demoMode->axis_r);
 		}
 		else
 		{
-			// ****TO-DO:
+			// ****DONE:
 			// calculate normalized vectors given keyboard state
-
+			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
+			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
+			demoMode->axis_r[1] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
 		}
 		break;
 	}
