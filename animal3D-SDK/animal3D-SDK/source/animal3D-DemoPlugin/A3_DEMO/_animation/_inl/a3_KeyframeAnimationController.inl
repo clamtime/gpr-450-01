@@ -89,7 +89,10 @@ inline a3i32 a3clipControllerUpdate(a3_ClipController* clipCtrl, a3f64 dt)
 			// are we passing the forward terminus of the clip
 			if (clipCtrl->keyframeIndex == clipCtrl->clip->keyframeIndex_final)
 			{
-				// handle forward transition
+				// handle forward transition BRANCHING
+				a3_ClipTransition* toTransition = 0;
+				a3_ClipTransitionBranchingGetFromIndex(toTransition, clipCtrl->clipPool->transitionBranching, clipCtrl->clipPool->transitionBranching->storedIterator);
+				clipCtrl->clip = clipCtrl->clip + toTransition->clipIndex;
 
 				// default testing behavior: loop with overstep
 				clipCtrl->keyframeIndex = clipCtrl->clip->keyframeIndex_first;

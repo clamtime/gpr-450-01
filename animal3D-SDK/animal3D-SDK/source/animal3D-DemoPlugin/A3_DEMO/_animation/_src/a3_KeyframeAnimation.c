@@ -75,6 +75,9 @@ a3i32 a3clipPoolCreate(a3_ClipPool* clipPool_out, const a3ui32 clipCount, const 
 		clipPool_out->clip = (a3_Clip*)malloc(sz);
 		clipPool_out->keyframe = (a3_Keyframe*)(clipPool_out->clip + clipCount);
 		clipPool_out->sample = (a3_Sample*)(clipPool_out->keyframe + keyframeCount);
+
+		a3_ClipTransitionBranchingInit(clipPool_out->transitionBranching, clipCount);
+
 		memset(clipPool_out->clip, 0, sz);
 		for (i = 0, clipPool_out->clipCount = clipCount; i < clipCount; ++i)
 			clipPool_out->clip[i].index = i;
@@ -118,18 +121,13 @@ a3i32 a3clipTransitionInit(a3_ClipTransition* transition, a3_ClipTransitionFlag 
 	return -1;
 }
 
-a3i32 a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, a3_ClipTransition* transitionList, const a3i32 amount)
+a3i32 a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, const a3i32 amount)
 {
-	if (transitionList && amount > 0)
+	if (transitionBranch && amount > 0)
 	{
 		transitionBranch->size = amount;
 		a3ui32 const memreq = sizeof(a3_ClipTransition) * transitionBranch->size;
 		transitionBranch->possibleTransitions = (a3_ClipTransition*)malloc(memreq);
-
-		for (a3i32 i = 0; i < amount; i++)
-		{
-			(transitionBranch + i)->possibleTransitions = (transitionList + i);
-		}
 	}
 	return -1;
 }

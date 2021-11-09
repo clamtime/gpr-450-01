@@ -122,6 +122,7 @@ struct a3_ClipTransitionBranching
 {
 	a3_ClipTransition* possibleTransitions;
 	a3i32 size;
+	a3i32 storedIterator;
 };
 
 // description of single clip
@@ -161,6 +162,8 @@ struct a3_ClipPool
 
 	// counts
 	a3ui32 clipCount, keyframeCount, sampleCount;
+
+	a3_ClipTransitionBranching* transitionBranching;
 };
 
 
@@ -174,7 +177,7 @@ a3i32 a3clipPoolRelease(a3_ClipPool* clipPool);
 a3i32 a3clipTransitionInit(a3_ClipTransition* transition, a3_ClipTransitionFlag const transitionFlag, const a3i32 offset, a3_Clip const* clip);
 
 // initialize clip transition branching
-a3i32 a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, a3_ClipTransition* transitionList, const a3i32 amount);
+a3i32 a3_ClipTransitionBranchingInit(a3_ClipTransitionBranching* transitionBranch, const a3i32 amount);
 
 // get clip transition from branching index
 a3i32 a3_ClipTransitionBranchingGetFromIndex(a3_ClipTransition* out, const a3_ClipTransitionBranching* transitionBranch, const a3i32 index);

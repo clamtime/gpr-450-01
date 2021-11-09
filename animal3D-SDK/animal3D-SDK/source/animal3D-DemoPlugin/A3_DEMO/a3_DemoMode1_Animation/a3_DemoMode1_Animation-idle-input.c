@@ -84,6 +84,8 @@ void a3animation_input_keyCharHold(a3_DemoState const* demoState, a3_DemoMode1_A
 
 //-----------------------------------------------------------------------------
 
+
+
 void a3demo_input_controlProjector(
 	a3_DemoState* demoState, a3_DemoProjector* projector,
 	a3f64 const dt, a3real ctrlMoveSpeed, a3real ctrlRotateSpeed, a3real ctrlZoomSpeed);
@@ -91,7 +93,7 @@ void a3demo_input_controlProjector(
 void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode, a3f64 const dt)
 {
 	a3_DemoProjector* projector = demoMode->projector + demoMode->activeCamera;
-
+	
 	// right click to ray pick
 	if (a3mouseGetState(demoState->mouse, a3mouse_right) == a3input_down)
 	{
@@ -136,6 +138,8 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
 			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
 			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
+
+			demoMode->clipPool->transitionBranching->storedIterator = (a3i32)demoMode->axis_l[1];
 		}
 		break;
 	}

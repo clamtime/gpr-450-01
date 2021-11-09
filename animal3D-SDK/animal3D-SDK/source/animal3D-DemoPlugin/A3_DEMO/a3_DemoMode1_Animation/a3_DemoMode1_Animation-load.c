@@ -442,6 +442,7 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 			"xbot_turn_r_m",
 		};
 		a3ui32 const clipCount = sizeof(clipName) / sizeof(*clipName);
+
 		a3ui32 const sampleIndexFirst[] = {
 			1,1,25,134,167,222,519,1092,1233,1434,1475,1499,1517,1540,1557,1586,1609,1626,1655,1856,1909,1935,1953,1979,1996,2019,2045,2062,
 		};
@@ -464,7 +465,13 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 				demoMode->clipPool->keyframe + sampleIndexFirst[j],
 				demoMode->clipPool->keyframe + sampleIndexFinal[j] - 1);
 			a3clipCalculateDuration(demoMode->clipPool, j, fps);
+			
+			// get list of forward transitions for branching transitions
+			(demoMode->clipPool->transitionBranching->possibleTransitions + j)->clipIndex = (demoMode->clipPool->clip + j)->transitionForward->clipIndex;
+			(demoMode->clipPool->transitionBranching->possibleTransitions + j)->flag      = (demoMode->clipPool->clip + j)->transitionForward->flag;
+			(demoMode->clipPool->transitionBranching->possibleTransitions + j)->offset    = (demoMode->clipPool->clip + j)->transitionForward->offset;
 		}
+
 
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot");
 		a3clipControllerInit(demoMode->clipCtrl, "xbot_ctrl", demoMode->clipPool, j, rate, fps);
