@@ -184,13 +184,13 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 		switch (demoMode->ctrl_position)
 		{
 		case animation_input_direct:
-			demoMode->pos.x += (a3real)demoMode->axis_l[0];
-			demoMode->pos.y += (a3real)demoMode->axis_l[1];
+			demoMode->pos.x = (a3real)demoMode->axis_l[0];
+			demoMode->pos.y = (a3real)demoMode->axis_l[1];
 			break;
 
 		case animation_input_euler:
-			demoMode->vel.x += (a3real)demoMode->axis_l[0];
-			demoMode->vel.y += (a3real)demoMode->axis_l[1];
+			demoMode->vel.x = (a3real)demoMode->axis_l[0];
+			demoMode->vel.y = (a3real)demoMode->axis_l[1];
 			
 			demoMode->pos.x = a3EulerIntegration(demoMode->pos.x, demoMode->vel.x, dtr);
 			demoMode->pos.y = a3EulerIntegration(demoMode->pos.y, demoMode->vel.y, dtr);
@@ -198,11 +198,14 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 		
 		case animation_input_kinematic:
 			// not quite working right
-			demoMode->acc.x += (a3real)demoMode->axis_l[0];
-			demoMode->acc.y += (a3real)demoMode->axis_l[1];
+			demoMode->acc.x = (a3real)demoMode->axis_l[0];
+			demoMode->acc.y = (a3real)demoMode->axis_l[1];
 
 			demoMode->pos.x = a3KinematicIntegration(demoMode->pos.x, demoMode->vel.x, demoMode->acc.x, dtr);
 			demoMode->pos.y = a3KinematicIntegration(demoMode->pos.y, demoMode->vel.y, demoMode->acc.y, dtr);
+
+			demoMode->vel.x = a3EulerIntegration(demoMode->vel.x, demoMode->acc.x, dtr);
+			demoMode->vel.y = a3EulerIntegration(demoMode->vel.y, demoMode->acc.y, dtr);
 			break;
 		}
 
