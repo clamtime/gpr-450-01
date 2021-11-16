@@ -126,6 +126,22 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			dt, projector->ctrlMoveSpeed, projector->ctrlRotateSpeed, projector->ctrlZoomSpeed);
 		break;
 	case animation_ctrl_character:
+		// capture axes
+		if (a3XboxControlIsConnected(demoState->xcontrol))
+		{
+			// ****DONE:
+			// get directly from joysticks
+			a3XboxControlGetJoysticks(demoState->xcontrol, demoMode->axis_l, demoMode->axis_r);
+		}
+		else
+		{
+			// ****DONE:
+			// calculate normalized vectors given keyboard state
+			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
+			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
+			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
+		}
+		break;
 	case animation_ctrl_neckLookat:
 	case animation_ctrl_wristEffector_r:
 	case animation_ctrl_wristConstraint_r:
