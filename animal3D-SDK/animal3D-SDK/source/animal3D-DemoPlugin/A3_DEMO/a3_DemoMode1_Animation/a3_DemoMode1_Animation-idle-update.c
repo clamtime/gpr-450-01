@@ -393,11 +393,58 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 
 	// ****TO-DO:
 	// process input
+	demoMode->pos = demoMode->obj_skeleton_ctrl->position.xy;
+	demoMode->rot = a3deg2rad(-a3trigValid_asin(demoMode->obj_skeleton_ctrl->euler.z));
+
+
+	switch (demoMode->ctrl_position)
+	{
+	case animation_input_direct:
+		demoMode->pos.x = (a3real)demoMode->axis_l[0];
+		demoMode->pos.y = (a3real)demoMode->axis_l[1];
+		break;
+
+	case animation_input_euler:
+		demoMode->vel.x = (a3real)demoMode->axis_l[0];
+		demoMode->vel.y = (a3real)demoMode->axis_l[1];
+
+		demoMode->pos.x = a3EulerIntegration(demoMode->pos.x, demoMode->vel.x, dtr);
+		demoMode->pos.y = a3EulerIntegration(demoMode->pos.y, demoMode->vel.y, dtr);
+		break;
+
+	case animation_input_kinematic:
+		// not quite working right
+		demoMode->acc.x = (a3real)demoMode->axis_l[0];
+		demoMode->acc.y = (a3real)demoMode->axis_l[1];
+
+		demoMode->pos.x = a3KinematicIntegration(demoMode->pos.x, demoMode->vel.x, demoMode->acc.x, dtr);
+		demoMode->pos.y = a3KinematicIntegration(demoMode->pos.y, demoMode->vel.y, demoMode->acc.y, dtr);
+
+		demoMode->vel.x = a3EulerIntegration(demoMode->vel.x, demoMode->acc.x, dtr);
+		demoMode->vel.y = a3EulerIntegration(demoMode->vel.y, demoMode->acc.y, dtr);
+		break;
+	}
+
+	switch (demoMode->ctrl_rotation)
+	{
+	case animation_input_direct:
+		demoMode->rot += ((a3real)demoMode->axis_r[0] * (a3real_twopi - a3real_pi));
+		break;
+	case animation_input_euler:
+		demoMode->velr += ((a3real)demoMode->axis_r[0] * (a3real_twopi - a3real_pi));
+		demoMode->rot = a3EulerIntegration(demoMode->rot, demoMode->velr, dtr);
+		break;
+	case animation_input_kinematic:
+		demoMode->accr += ((a3real)demoMode->axis_r[0] * (a3real_twopi - a3real_pi));
+		demoMode->rot = a3KinematicIntegration(demoMode->rot, demoMode->velr, demoMode->accr, dtr);
+		break;
+
+	}
 
 	// apply input
-	//demoMode->obj_skeleton_ctrl->position.x = +(demoMode->pos.x);
-	//demoMode->obj_skeleton_ctrl->position.y = +(demoMode->pos.y);
-	//demoMode->obj_skeleton_ctrl->euler.z = -a3trigValid_sind(demoMode->rot);
+	demoMode->obj_skeleton_ctrl->position.x = +(demoMode->pos.x);
+	demoMode->obj_skeleton_ctrl->position.y = +(demoMode->pos.y);
+	demoMode->obj_skeleton_ctrl->euler.z = -a3trigValid_sind(demoMode->rot);
 }
 
 
