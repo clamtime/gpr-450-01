@@ -215,7 +215,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 		a3mat4 jointTransform_neck = a3mat4_identity, jointTransform_wrist = a3mat4_identity, jointTransform_elbow = a3mat4_identity, jointTransform_shoulder = a3mat4_identity;
 		a3ui32 j_neck, j_wrist, j_elbow, j_shoulder;
 
-		// NECK LOOK-AT
+		// NECK LOOK-AT 
 		{
 			// look-at effector
 			sceneObject = demoMode->obj_skeleton_neckLookat_ctrl;
