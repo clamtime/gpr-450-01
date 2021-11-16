@@ -356,6 +356,7 @@ void a3animation_update_sceneGraph(a3_DemoMode1_Animation* demoMode, a3f64 const
 void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode, a3f64 const dt)
 {
 	a3ui32 i;
+	a3real const dtr = (a3real)dt;
 	a3_DemoModelMatrixStack matrixStack[animationMaxCount_sceneObject];
 
 	// active camera
@@ -391,7 +392,7 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 		//	demoMode->hierarchyState_skel_final, demoMode->hierarchyPoseGroup_skel);
 	}
 
-	// ****TO-DO:
+	// ****DONE:
 	// process input
 	demoMode->pos = demoMode->obj_skeleton_ctrl->position.xy;
 	demoMode->rot = a3deg2rad(-a3trigValid_asin(demoMode->obj_skeleton_ctrl->euler.z));
@@ -412,7 +413,7 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 		demoMode->pos.y = a3EulerIntegration(demoMode->pos.y, demoMode->vel.y, dtr);
 		break;
 
-	case animation_input_kinematic:
+	/*case animation_input_kinematic:
 		// not quite working right
 		demoMode->acc.x = (a3real)demoMode->axis_l[0];
 		demoMode->acc.y = (a3real)demoMode->axis_l[1];
@@ -422,7 +423,7 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 
 		demoMode->vel.x = a3EulerIntegration(demoMode->vel.x, demoMode->acc.x, dtr);
 		demoMode->vel.y = a3EulerIntegration(demoMode->vel.y, demoMode->acc.y, dtr);
-		break;
+		break;*/
 	}
 
 	switch (demoMode->ctrl_rotation)
