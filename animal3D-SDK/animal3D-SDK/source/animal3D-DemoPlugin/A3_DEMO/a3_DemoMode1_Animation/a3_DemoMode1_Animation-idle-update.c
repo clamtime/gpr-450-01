@@ -184,7 +184,7 @@ void a3animation_update_ik(a3_HierarchyState* activeHS,
 	{
 		// IK pipeline
 		// ****TO-DO: direct opposite of FK
-
+		
 	}
 }
 
