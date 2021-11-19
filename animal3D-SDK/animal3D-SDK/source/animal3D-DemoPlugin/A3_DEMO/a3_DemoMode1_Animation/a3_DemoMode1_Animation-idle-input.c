@@ -126,6 +126,8 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			dt, projector->ctrlMoveSpeed, projector->ctrlRotateSpeed, projector->ctrlZoomSpeed);
 		break;
 	case animation_ctrl_character:
+		sceneObject = demoMode->obj_skeleton_ctrl + demoMode->ctrl_target - animation_ctrl_character;
+		a3demo_input_controlObject(demoState, sceneObject, dt, a3real_one, a3real_zero);
 		// capture axes
 		if (a3XboxControlIsConnected(demoState->xcontrol))
 		{
@@ -143,25 +145,60 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 		}
 		break;
 	case animation_ctrl_neckLookat:
+		sceneObject = demoMode->obj_skeleton_ctrl + demoMode->ctrl_target - animation_ctrl_character;
+		a3demo_input_controlObject(demoState, sceneObject, dt, a3real_one, a3real_zero);
+		// capture axes
+		if (a3XboxControlIsConnected(demoState->xcontrol))
+		{
+			// ****DONE:
+			// get directly from joysticks
+			a3XboxControlGetJoysticks(demoState->xcontrol, demoMode->axis_l, demoMode->axis_r);
+		}
+		else
+		{
+			// ****DONE:
+			// calculate normalized vectors given keyboard state
+			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
+			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
+		}
+		break;
 	case animation_ctrl_wristEffector_r:
+		sceneObject = demoMode->obj_skeleton_ctrl + demoMode->ctrl_target - animation_ctrl_character;
+		a3demo_input_controlObject(demoState, sceneObject, dt, a3real_one, a3real_zero);
+		// capture axes
+		if (a3XboxControlIsConnected(demoState->xcontrol))
+		{
+			// ****DONE:
+			// get directly from joysticks
+			a3XboxControlGetJoysticks(demoState->xcontrol, demoMode->axis_l, demoMode->axis_r);
+		}
+		else
+		{
+			// ****DONE:
+			// calculate normalized vectors given keyboard state
+			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
+			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
+		}
+		break;
 	case animation_ctrl_wristConstraint_r:
 		sceneObject = demoMode->obj_skeleton_ctrl + demoMode->ctrl_target - animation_ctrl_character;
 		a3demo_input_controlObject(demoState, sceneObject, dt, a3real_one, a3real_zero);
 		
-	/*	// capture axes
+		// capture axes
 		if (a3XboxControlIsConnected(demoState->xcontrol))
 		{
-			// ****TO-DO:
+			// ****DONE:
 			// get directly from joysticks
-		
+			a3XboxControlGetJoysticks(demoState->xcontrol, demoMode->axis_l, demoMode->axis_r);
 		}
 		else
 		{
-			// ****TO-DO:
+			// ****DONE:
 			// calculate normalized vectors given keyboard state
-
+			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
+			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
 		}
-	*/	break;
+		break;
 	}
 
 	// allow the controller, if connected, to change control targets
