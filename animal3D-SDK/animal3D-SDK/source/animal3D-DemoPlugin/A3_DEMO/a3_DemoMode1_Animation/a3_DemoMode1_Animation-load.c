@@ -424,13 +424,13 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 
 
 	// map relevant objects to scene graph
-	demoMode->obj_world_root->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_world_root");
-	demoMode->obj_camera_main->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_camera_main");
-	demoMode->obj_light_main->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_light_main");
-	demoMode->obj_skybox->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skybox");
-	demoMode->obj_skeleton_ctrl->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skeleton_ctrl");
-	demoMode->obj_skeleton_neckLookat_ctrl->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skeleton_neckLookat_ctrl");
-	demoMode->obj_skeleton_wristEffector_r_ctrl->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skeleton_wristEff_r_ctrl");
+	demoMode->obj_world_root->sceneGraphIndex					   = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_world_root");
+	demoMode->obj_camera_main->sceneGraphIndex					   = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_camera_main");
+	demoMode->obj_light_main->sceneGraphIndex					   = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_light_main");
+	demoMode->obj_skybox->sceneGraphIndex						   = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skybox");
+	demoMode->obj_skeleton_ctrl->sceneGraphIndex				   = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skeleton_ctrl");
+	demoMode->obj_skeleton_neckLookat_ctrl->sceneGraphIndex		   = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skeleton_neckLookat_ctrl");
+	demoMode->obj_skeleton_wristEffector_r_ctrl->sceneGraphIndex   = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skeleton_wristEff_r_ctrl");
 	demoMode->obj_skeleton_wristConstraint_r_ctrl->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skeleton_wristCon_r_ctrl");
 	demoMode->obj_skeleton->sceneGraphIndex = a3hierarchyGetNodeIndex(demoMode->sceneGraph, "scene_skeleton");
 
@@ -501,6 +501,14 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 		a3clipControllerInit(demoMode->clipCtrlA, "xbot_ctrlA", demoMode->clipPool, j, rate, fps);
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_skintest");
 		a3clipControllerInit(demoMode->clipCtrlB, "xbot_ctrlB", demoMode->clipPool, j, rate, fps);
+		
+		/* adding relevant clipcontrollers for proj */
+		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_walk_f");
+		a3clipControllerInit(demoMode->clipCtrlC, "xbot_ctrlC", demoMode->clipPool, j, rate, fps);
+		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_run_f");
+		a3clipControllerInit(demoMode->clipCtrlD, "xbot_ctrlD", demoMode->clipPool, j, rate, fps);
+		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_jump_f");
+		a3clipControllerInit(demoMode->clipCtrlE, "xbot_ctrlE", demoMode->clipPool, j, rate, fps);
 	}
 
 	// finally set up hierarchy states
