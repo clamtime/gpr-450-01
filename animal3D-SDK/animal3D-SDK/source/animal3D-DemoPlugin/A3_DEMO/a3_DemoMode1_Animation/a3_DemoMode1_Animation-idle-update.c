@@ -17,7 +17,7 @@
 /*
 	animal3D SDK: Minimal 3D Animation Framework
 	By Daniel S. Buckstein
-	
+
 	a3_DemoMode1_Animation-idle-update.c
 	Demo mode implementations: animation scene.
 
@@ -262,7 +262,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			// 1) check if solution exists
 			//	-> get vector between base and end effector; if it extends max length, straighten limb
 			//	-> position of end effector's target is at the minimum possible distance along this vector
-			
+
 			// ****TO-DO: 
 			// reassign resolved transforms to OBJECT-SPACE matrices
 			// work from root to leaf too get correct transformations
@@ -398,7 +398,7 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 	demoMode->rot = a3deg2rad(-a3trigValid_asin(demoMode->obj_skeleton_ctrl->euler.z));
 
 
-	switch (demoMode->ctrl_position)
+	/*switch (demoMode->ctrl_position)
 	{
 	case animation_input_direct:
 		demoMode->pos.x = (a3real)demoMode->axis_l[0];
@@ -413,20 +413,20 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 		demoMode->pos.y = a3EulerIntegration(demoMode->pos.y, demoMode->vel.y, dtr);
 		break;
 
-	/*case animation_input_kinematic:
-		// not quite working right
-		demoMode->acc.x = (a3real)demoMode->axis_l[0];
-		demoMode->acc.y = (a3real)demoMode->axis_l[1];
+		/*case animation_input_kinematic:
+			// not quite working right
+			demoMode->acc.x = (a3real)demoMode->axis_l[0];
+			demoMode->acc.y = (a3real)demoMode->axis_l[1];
 
-		demoMode->pos.x = a3KinematicIntegration(demoMode->pos.x, demoMode->vel.x, demoMode->acc.x, dtr);
-		demoMode->pos.y = a3KinematicIntegration(demoMode->pos.y, demoMode->vel.y, demoMode->acc.y, dtr);
+			demoMode->pos.x = a3KinematicIntegration(demoMode->pos.x, demoMode->vel.x, demoMode->acc.x, dtr);
+			demoMode->pos.y = a3KinematicIntegration(demoMode->pos.y, demoMode->vel.y, demoMode->acc.y, dtr);
 
-		demoMode->vel.x = a3EulerIntegration(demoMode->vel.x, demoMode->acc.x, dtr);
-		demoMode->vel.y = a3EulerIntegration(demoMode->vel.y, demoMode->acc.y, dtr);
-		break;*/
+			demoMode->vel.x = a3EulerIntegration(demoMode->vel.x, demoMode->acc.x, dtr);
+			demoMode->vel.y = a3EulerIntegration(demoMode->vel.y, demoMode->acc.y, dtr);
+			break;*/
 	}
 
-	switch (demoMode->ctrl_rotation)
+	/*switch (demoMode->ctrl_rotation)
 	{
 	case animation_input_direct:
 		demoMode->rot += ((a3real)demoMode->axis_r[0] * (a3real_twopi - a3real_pi));
@@ -442,11 +442,19 @@ void a3animation_update(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMod
 
 	}
 
-	// apply input
-	demoMode->obj_skeleton_ctrl->position.x = +(demoMode->pos.x);
-	demoMode->obj_skeleton_ctrl->position.y = +(demoMode->pos.y);
-	demoMode->obj_skeleton_ctrl->euler.z = -a3trigValid_sind(demoMode->rot);
-}
+	switch (demoMode->ctrl_target)
+	{
+	case animation_ctrl_character:
+		// apply input
+		demoMode->obj_skeleton_ctrl->position.x = +(demoMode->pos.x);
+		demoMode->obj_skeleton_ctrl->position.y = +(demoMode->pos.y);
+		demoMode->obj_skeleton_ctrl->euler.z = -a3trigValid_sind(demoMode->rot);
+		break;
+		*/
+	//}
+
+//
+//}
 
 
 //-----------------------------------------------------------------------------
