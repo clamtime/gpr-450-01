@@ -161,7 +161,8 @@ typedef enum a3_DemoMode1_Animation_InputMode				a3_DemoMode1_Animation_InputMod
 		a3_HierarchyState sceneGraphState[1];
 
 		// animation controllers
-		a3_ClipController clipCtrl[1], clipCtrlA[1], clipCtrlB[1], clipCtrlC[1], clipCtrlD[1], clipCtrlE[1];
+		a3_ClipController clipCtrl[1], clipCtrlA[1], clipCtrlB[1], clipCtrlWalkF[1], clipCtrlWalkB[1], clipCtrlRunF[1], clipCtrlJump[1];
+		a3_ClipController* clipCtrlCurrent;
 		a3_ClipPool clipPool[1];
 
 		// skeletal animation

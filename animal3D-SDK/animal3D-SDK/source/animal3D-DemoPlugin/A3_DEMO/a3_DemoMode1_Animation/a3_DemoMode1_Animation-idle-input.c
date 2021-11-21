@@ -34,7 +34,7 @@
 #include "../a3_DemoState.h"
 
 #include "../_a3_demo_utilities/a3_DemoMacros.h"
-
+#include <stdio.h>
 
 //-----------------------------------------------------------------------------
 // CALLBACKS
@@ -142,6 +142,20 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
 			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
 			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
+			
+			// TODO: adjust clip based on axis position
+			float vert = (float)demoMode->axis_l[1];
+			if (vert == 1)
+				demoMode->clipCtrlCurrent = demoMode->clipCtrlWalkF;
+			else if (vert == -1)
+				demoMode->clipCtrlCurrent = demoMode->clipCtrlWalkB;
+			else if (vert == 0)
+			{
+				//demoMode->clipCtrlC->keyframeIndex = 0;
+				demoMode->clipCtrlCurrent = demoMode->clipCtrlA;
+			}
+
+			printf("CLEMTEST: \n%f", vert);
 		}
 		break;
 	case animation_ctrl_neckLookat:
