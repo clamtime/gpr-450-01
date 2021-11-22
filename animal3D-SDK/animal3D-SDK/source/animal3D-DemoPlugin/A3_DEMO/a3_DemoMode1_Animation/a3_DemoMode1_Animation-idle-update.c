@@ -183,13 +183,19 @@ void a3animation_update_ik(a3_HierarchyState* activeHS,
 		activeHS->hierarchy == poseGroup->hierarchy)
 	{
 		// IK pipeline
-		// ****TO-DO: direct opposite of FK
+		// ****DONE: direct opposite of FK
 		// Convert?
-
+		a3hierarchyPoseRestore(activeHS->localSpace,
+			activeHS->hierarchy->numNodes,
+			poseGroup->channel,
+			poseGroup->order);
 		// Deconcat
-
+		a3hierarchyPoseDeconcat(activeHS->localSpace,	// local: goal to calculate
+			activeHS->animPose, // holds current sample pose
+			baseHS->localSpace, // holds base pose (animPose is all identity poses)
+			activeHS->hierarchy->numNodes);
 		// Solve Inverse
-
+		a3kinematicsSolveInverse(activeHS);
 	}
 }
 
