@@ -144,15 +144,32 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
 			
 			// TODO: adjust clip based on axis position
-			demoMode->characterController.axes.x = demoMode->axis_l[0];
-			demoMode->characterController.axes.y = demoMode->axis_l[1];
+			demoMode->characterController.axes.x = (a3real)demoMode->axis_l[0];
+			demoMode->characterController.axes.y = (a3real)demoMode->axis_l[1];
 			
-			if (demoMode->characterController.axes.y == 1)
-				demoMode->characterController.activeClip = demoMode->clipCtrlWalkF;
+			if (a3keyboardIsPressed(demoState->keyboard, a3key_space))
+			{
+				demoMode->characterController.activeClip = demoMode->characterController.jumpClipCtrl;
+			}
+			
+			
+			if (demoMode->characterController.activeClip == demoMode->characterController.jumpClipCtrl)
+			{
+				if (demoMode->characterController.activeClip->clipParam >= 0.95f)
+				{
+					// TODO: reset jump clip??
+					demoMode->characterController.activeClip = demoMode->characterController.idleClipCtrl;
+				}
+			}
+			else if (demoMode->characterController.axes.y == 1)
+			{
+				// TODO: make walk clip loop??
+				demoMode->characterController.walkClipCtrl->clip->transitionForward = a3clipTransitionInit
+				demoMode->characterController.activeClip = demoMode->characterController.walkClipCtrl;
+			}
 			else if (demoMode->characterController.axes.x == 0)
 			{
-				//demoMode->clipCtrlC->keyframeIndex = 0;
-				demoMode->characterController.activeClip = demoMode->clipCtrlA;
+				demoMode->characterController.activeClip = demoMode->characterController.idleClipCtrl;
 			}
 
 		}

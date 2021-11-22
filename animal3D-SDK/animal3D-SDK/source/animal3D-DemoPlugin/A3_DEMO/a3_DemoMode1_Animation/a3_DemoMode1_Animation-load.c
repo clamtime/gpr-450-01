@@ -498,18 +498,18 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot");
 		a3clipControllerInit(demoMode->clipCtrl, "xbot_ctrl", demoMode->clipPool, j, rate, fps);
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_idle_f");
-		a3clipControllerInit(demoMode->clipCtrlA, "xbot_ctrlA", demoMode->clipPool, j, rate, fps);
+		a3clipControllerInit(demoMode->characterController.idleClipCtrl, "xbot_ctrlA", demoMode->clipPool, j, rate, fps);
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_skintest");
 		a3clipControllerInit(demoMode->clipCtrlB, "xbot_ctrlB", demoMode->clipPool, j, rate, fps);
 		
 		/* adding relevant clipcontrollers for proj */
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_walk_f");
-		a3clipControllerInit(demoMode->clipCtrlWalkF, "xbot_walk_f", demoMode->clipPool, j, rate, fps);
+		a3clipControllerInit(demoMode->characterController.walkClipCtrl, "xbot_walk_f", demoMode->clipPool, j, rate, fps);
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_run_f");
-		a3clipControllerInit(demoMode->clipCtrlRunF, "xbot_run_f", demoMode->clipPool, j, rate, fps);
+		a3clipControllerInit(demoMode->characterController.runClipCtrl, "xbot_run_f", demoMode->clipPool, j, rate, fps);
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_jump_f");
-		a3clipControllerInit(demoMode->clipCtrlJump, "xbot_jump_f", demoMode->clipPool, j, rate, fps);
-		demoMode->clipCtrlCurrent = demoMode->clipCtrlA;
+		a3clipControllerInit(demoMode->characterController.jumpClipCtrl, "xbot_jump_f", demoMode->clipPool, j, rate, fps);
+		demoMode->characterController.activeClip = demoMode->clipCtrlA;
 	}
 
 	// finally set up hierarchy states
