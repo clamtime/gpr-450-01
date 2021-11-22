@@ -144,18 +144,17 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
 			
 			// TODO: adjust clip based on axis position
-			float vert = (float)demoMode->axis_l[1];
-			if (vert == 1)
-				demoMode->clipCtrlCurrent = demoMode->clipCtrlWalkF;
-			else if (vert == -1)
-				demoMode->clipCtrlCurrent = demoMode->clipCtrlWalkB;
-			else if (vert == 0)
+			demoMode->characterController.axes.x = demoMode->axis_l[0];
+			demoMode->characterController.axes.y = demoMode->axis_l[1];
+			
+			if (demoMode->characterController.axes.y == 1)
+				demoMode->characterController.activeClip = demoMode->clipCtrlWalkF;
+			else if (demoMode->characterController.axes.x == 0)
 			{
 				//demoMode->clipCtrlC->keyframeIndex = 0;
-				demoMode->clipCtrlCurrent = demoMode->clipCtrlA;
+				demoMode->characterController.activeClip = demoMode->clipCtrlA;
 			}
 
-			printf("CLEMTEST: \n%f", vert);
 		}
 		break;
 	case animation_ctrl_neckLookat:

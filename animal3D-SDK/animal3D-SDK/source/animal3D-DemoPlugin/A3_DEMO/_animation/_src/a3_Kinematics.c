@@ -23,6 +23,7 @@
 */
 
 #include "../a3_Kinematics.h"
+#include <A3_DEMO/_animation/a3_KeyframeAnimationController.h>
 
 
 //-----------------------------------------------------------------------------
