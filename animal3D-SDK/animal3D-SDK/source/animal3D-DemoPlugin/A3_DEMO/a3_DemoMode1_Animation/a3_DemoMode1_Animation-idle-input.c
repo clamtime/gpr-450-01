@@ -155,10 +155,23 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			
 			if (demoMode->characterController.activeClip == demoMode->characterController.jumpClipCtrl)
 			{
-				if (demoMode->characterController.activeClip->clipParam >= 0.95f)
+				if (demoMode->characterController.activeClip->clipParam >= 1.0f)
 				{
 					// TODO: reset jump clip??
 					demoMode->characterController.activeClip = demoMode->characterController.idleClipCtrl;
+
+
+					demoMode->characterController.jumpClipCtrl->keyframeIndex = 
+						demoMode->characterController.jumpClipCtrl->clip->keyframeIndex_first;
+
+					demoMode->characterController.jumpClipCtrl->keyframe = 
+						demoMode->characterController.jumpClipCtrl->clipPool->keyframe + demoMode->characterController.jumpClipCtrl->keyframeIndex;
+
+					demoMode->characterController.jumpClipCtrl->keyframeTime_sec = 
+						demoMode->characterController.jumpClipCtrl->keyframeTime_sec - demoMode->characterController.jumpClipCtrl->keyframe->duration_sec;
+
+					demoMode->characterController.jumpClipCtrl->clipParam = 0.0f;
+					demoMode->characterController.jumpClipCtrl->clipTime_sec = 0.0f;
 				}
 			}
 			else if (demoMode->characterController.axes.y == 1)
