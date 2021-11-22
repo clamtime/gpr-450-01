@@ -509,6 +509,9 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 		a3clipControllerInit(demoMode->characterController.runClipCtrl, "xbot_run_f", demoMode->clipPool, j, rate, fps);
 		j = a3clipGetIndexInPool(demoMode->clipPool, "xbot_jump_f");
 		a3clipControllerInit(demoMode->characterController.jumpClipCtrl, "xbot_jump_f", demoMode->clipPool, j, rate, fps);
+		a3clipTransitionInit(demoMode->characterController.stopTransition, a3clip_stopFlag, 0, demoMode->characterController.jumpClipCtrl->clip);
+		//demoMode->characterController.jumpClipCtrl->clip->transitionForward = demoMode->characterController.stopTransition;
+		
 		demoMode->characterController.activeClip = demoMode->clipCtrlA;
 	}
 

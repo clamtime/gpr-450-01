@@ -164,8 +164,7 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			else if (demoMode->characterController.axes.y == 1)
 			{
 				// TODO: make walk clip loop??
-				//demoMode->characterController.walkClipCtrl->clip->transitionForward = a3clipTransitionInit
-
+//				demoMode->characterController.walkClipCtrl->clip->transitionForward = a3clipTransitionInit
 				demoMode->characterController.activeClip = demoMode->characterController.walkClipCtrl;
 			}
 			else if (demoMode->characterController.axes.x == 0)
