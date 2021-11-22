@@ -238,6 +238,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			// ****TO-DO: 
 			// make "look-at" matrix
 			// in this example, +Z is towards locator, +Y is up
+			 
 
 			// ****TO-DO: 
 			// reassign resolved transforms to OBJECT-SPACE matrices
@@ -323,7 +324,7 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 		// run solvers
 		a3animation_update_applyEffectors(demoMode, activeHS_ik, baseHS, poseGroup);
 		// run full IK pipeline (if not resolving with effectors)
-		//a3animation_update_ik(activeHS_ik, baseHS, poseGroup);
+		a3animation_update_ik(activeHS_ik, baseHS, poseGroup);
 	}
 
 	// blend FK/IK to final
