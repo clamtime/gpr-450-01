@@ -147,7 +147,7 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 		demoMode->characterController.axes.x = (a3real)demoMode->axis_l[0];
 		demoMode->characterController.axes.y = (a3real)demoMode->axis_l[1];
 
-		if (a3keyboardIsPressed(demoState->keyboard, a3key_space))
+		if (a3keyboardIsPressed(demoState->keyboard, a3key_space) || a3XboxControlIsPressed(demoState->xcontrol, a3xbox_A))
 		{
 			demoMode->characterController.activeClip = demoMode->characterController.jumpClipCtrl;
 		}
