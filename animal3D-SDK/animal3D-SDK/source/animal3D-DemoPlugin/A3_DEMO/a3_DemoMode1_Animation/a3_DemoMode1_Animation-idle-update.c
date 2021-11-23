@@ -34,7 +34,7 @@
 #include "../a3_DemoState.h"
 
 #include "../_a3_demo_utilities/a3_DemoMacros.h"
-
+#include <stdio.h>
 
 //-----------------------------------------------------------------------------
 // UTILS
@@ -297,12 +297,14 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 
 				a3real4Sub(effectorToShoulder, jointTransform_shoulder.v3.xyz.v);
 
-				activeHS->localSpace->pose[j_wrist].transformMat = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat;
-
+				//activeHS->localSpace->pose;
+				activeHS->animPose->pose[j_wrist].transformMat = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat;
 				a3kinematicsSolveInverse(activeHS);
+				printf("not in range\n");
 			}
 			else
 			{
+				printf("in range\n");
 				// solve for ik
 				//a3kinematicsSolveInversePartial(activeHS, j_shoulder, activeHS->hierarchy->numNodes);
 			}
