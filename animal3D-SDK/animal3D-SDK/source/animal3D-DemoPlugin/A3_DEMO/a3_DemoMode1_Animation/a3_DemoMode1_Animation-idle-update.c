@@ -245,7 +245,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			a3vec4 z = controlLocator_neckLookat;
 			jointTransform_neck.v0 = z;
 			
-			a3mat4 lookAt = jointTransform_neck;
+			//a3mat4 lookAt = jointTransform_neck;
 
 			// ****TO-DO: 
 			// reassign resolved transforms to OBJECT-SPACE matrices
