@@ -241,17 +241,30 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			// z = v / |v|
 			// x = 
 			
+			// do i need to get a rotation matrix before this? this feels right but im unsure
 			a3real4Normalize(controlLocator_neckLookat.v);
-			a3vec4 z = controlLocator_neckLookat;
-			jointTransform_neck.v0 = z;
-			
-			//a3mat4 lookAt = jointTransform_neck;
+			a3vec3 x = a3vec3_zero;
+			a3vec3 y = a3vec3_zero;
+			a3vec3 z = controlLocator_neckLookat.xyz;
+			a3real3Cross(x.v, z.v, a3vec3_y.v);
+			//a3real4Normalize(x.v);
+			a3real3Cross(y.v, x.v, z.v);
+
+			a3vec4 t = jointTransform_neck.v3;
+			//a3mat3 rotMat = { *x.v, *y.v, *z.v };
+
+			a3mat4 lookAt = a3mat4_identity;
+			lookAt.v3 = t;
+			lookAt.v0.xyz = x;
+			lookAt.v1.xyz = y;
+			lookAt.v2.xyz = z;
 
 			// ****TO-DO: 
 			// reassign resolved transforms to OBJECT-SPACE matrices
 			// resolve local and animation pose for affected joint
 			//	(instead of doing IK for whole skeleton when only one joint has changed)
-			
+			activeHS->objectSpace->pose[j].transformMat = lookAt;
+			a3animation_update_ik(activeHS, baseHS, poseGroup); //unsure if this is all thats needed to be done?
 
 		}
 
