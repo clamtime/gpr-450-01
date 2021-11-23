@@ -302,32 +302,46 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			a3real effectorDist = a3real3Distance(controlLocator_wristEffector.v, controlLocator_wristBase.v);
 			a3real chainLength = a3real3Distance(jointTransform_shoulder.v3.xyz.v, jointTransform_elbow.v3.xyz.v) + 
 				a3real3Distance(jointTransform_elbow.v3.xyz.v, jointTransform_wrist.v3.xyz.v);
+			
+			a3vec4 shoulderToEffector = jointTransform_shoulder.v3;
+
+			a3real4Sub(shoulderToEffector.v, controlLocator_wristEffector.v);
+			a3real4 sTENorm = { shoulderToEffector.v0, shoulderToEffector.v1, shoulderToEffector.v2, shoulderToEffector.v3 };
+			a3real4Normalize(sTENorm);
+
 			if (effectorDist > chainLength)
 			{
 				// make arm straight
-				a3real4 effectorToShoulder = 
-				{ controlLocator_wristEffector.v0,controlLocator_wristEffector.v1,controlLocator_wristEffector.v2,controlLocator_wristEffector.v3 };
+				
+				a3real shoulderElbowDist = a3real4Distance(jointTransform_shoulder.v3.xyz.v, jointTransform_elbow.v3.xyz.v);
+				a3real4r elbowPos = sTENorm;
+				a3real4MulS(elbowPos, shoulderElbowDist);
+				a3real shoulderWristDist = a3real4Distance(jointTransform_shoulder.v3.xyz.v, jointTransform_wrist.v3.xyz.v);
+				a3real4r wristPos = sTENorm;
+				a3real4MulS(wristPos, shoulderWristDist);
 
-				a3real4Sub(effectorToShoulder, jointTransform_shoulder.v3.xyz.v);
 
 				// dir vector -> vector from shoulder to effector
 				// elbow pos -> normalized dir vector * mag of shoulder to elbow
 				// wrist pos -> normalized dir vector * mag of shoulder to wrist
 
 				//activeHS->localSpace->pose;
-				activeHS->animPose->pose[j_wrist].transformMat = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat;
-				a3kinematicsSolveInverse(activeHS);
-				printf("not in range\n");
+				//activeHS->animPose->pose[j_wrist].transformMat = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat;
+				//a3kinematicsSolveInverse(activeHS);
 			}
 			else
 			{
-				printf("in range\n");
 				// solve for ik
 				// 
 				// wrist pos -> pos of effector
+				a3vec4* wristPos = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat.v;
 				// c = constraint pos - shoulder pos (unsure what exactly c is tho)
+				a3vec4* c = demoMode->obj_skeleton_wristConstraint_r_ctrl->modelMat.v;
+				a3real4Sub(c->v, jointTransform_shoulder.v->xyz.v);
 				// d -> shoulder to effector (should already have this)
 				// n -> cross (c, d) (also unsure of what n does exactly but good to have)
+				a3real* n = 0;
+				a3real3Cross(n, c->v, shoulderToEffector.v);
 				//a3kinematicsSolveInversePartial(activeHS, j_shoulder, activeHS->hierarchy->numNodes);
 			}
 
