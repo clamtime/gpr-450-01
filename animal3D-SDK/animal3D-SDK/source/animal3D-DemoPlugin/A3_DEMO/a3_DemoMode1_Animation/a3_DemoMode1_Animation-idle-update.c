@@ -238,12 +238,20 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			// ****TO-DO: 
 			// make "look-at" matrix
 			// in this example, +Z is towards locator, +Y is up
+			// z = v / |v|
+			// x = 
 			
+			a3real4Normalize(controlLocator_neckLookat.v);
+			a3vec4 z = controlLocator_neckLookat;
+			jointTransform_neck.v0 = z;
+			
+			//a3mat4 lookAt = jointTransform_neck;
 
 			// ****TO-DO: 
 			// reassign resolved transforms to OBJECT-SPACE matrices
 			// resolve local and animation pose for affected joint
 			//	(instead of doing IK for whole skeleton when only one joint has changed)
+			
 
 		}
 
