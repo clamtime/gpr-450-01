@@ -334,14 +334,14 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 				// solve for ik
 				// 
 				// wrist pos -> pos of effector
-				a3vec4* wristPos = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat.v;
+				//a3vec4* wristPos = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat.v;
 				// c = constraint pos - shoulder pos (unsure what exactly c is tho)
-				a3vec4* c = demoMode->obj_skeleton_wristConstraint_r_ctrl->modelMat.v;
-				a3real4Sub(c->v, jointTransform_shoulder.v->xyz.v);
+				//a3vec4* c = demoMode->obj_skeleton_wristConstraint_r_ctrl->modelMat.v;
+				//a3real4Sub(c->v, jointTransform_shoulder.v->xyz.v);
 				// d -> shoulder to effector (should already have this)
 				// n -> cross (c, d) (also unsure of what n does exactly but good to have)
-				a3real* n = 0;
-				a3real3Cross(n, c->v, shoulderToEffector.v);
+				//a3real* n = 0;
+				//a3real3Cross(n, c->v, shoulderToEffector.v);
 				//a3kinematicsSolveInversePartial(activeHS, j_shoulder, activeHS->hierarchy->numNodes);
 			}
 
