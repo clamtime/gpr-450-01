@@ -238,7 +238,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			// ****TO-DO: 
 			// make "look-at" matrix
 			// in this example, +Z is towards locator, +Y is up
-			 
+			
 
 			// ****TO-DO: 
 			// reassign resolved transforms to OBJECT-SPACE matrices
@@ -268,12 +268,37 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			jointTransform_shoulder = activeHS->objectSpace->pose[j].transformMat;
 			controlLocator_wristBase = jointTransform_shoulder.v3;
 
+
 			// ****TO-DO: 
 			// solve positions and orientations for joints
 			// in this example, +X points away from child, +Y is normal
-			// 1) check if solution exists
+			// 1) check if solution exists - done
 			//	-> get vector between base and end effector; if it extends max length, straighten limb
 			//	-> position of end effector's target is at the minimum possible distance along this vector
+			
+
+			// can we solve ik?
+			a3real effectorDist = a3real3Distance(controlLocator_wristEffector.v, controlLocator_wristBase.v);
+			a3real chainLength = a3real3Distance(jointTransform_shoulder.v3.xyz.v, jointTransform_elbow.v3.xyz.v) + 
+				a3real3Distance(jointTransform_elbow.v3.xyz.v, jointTransform_wrist.v3.xyz.v);
+			if (effectorDist > chainLength)
+			{
+				// make arm straight
+				a3real4 effectorToShoulder = 
+				{ controlLocator_wristEffector.v0,controlLocator_wristEffector.v1,controlLocator_wristEffector.v2,controlLocator_wristEffector.v3 };
+
+				a3real4Sub(effectorToShoulder, jointTransform_shoulder.v3.xyz.v);
+
+				activeHS->localSpace->pose[j_wrist].transformMat = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat;
+
+				a3kinematicsSolveInverse(activeHS);
+			}
+			else
+			{
+				// solve for ik
+				//a3kinematicsSolveInversePartial(activeHS, j_shoulder, activeHS->hierarchy->numNodes);
+			}
+
 
 			// ****TO-DO: 
 			// reassign resolved transforms to OBJECT-SPACE matrices

@@ -143,7 +143,6 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
 			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
 		}
-		// TODO: adjust clip based on axis position
 		demoMode->characterController.axes.x = (a3real)demoMode->axis_l[0];
 		demoMode->characterController.axes.y = (a3real)demoMode->axis_l[1];
 
