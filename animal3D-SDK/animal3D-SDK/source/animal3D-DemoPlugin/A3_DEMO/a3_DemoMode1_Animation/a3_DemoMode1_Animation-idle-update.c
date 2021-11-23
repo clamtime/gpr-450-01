@@ -310,6 +310,10 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 
 				a3real4Sub(effectorToShoulder, jointTransform_shoulder.v3.xyz.v);
 
+				// dir vector -> vector from shoulder to effector
+				// elbow pos -> normalized dir vector * mag of shoulder to elbow
+				// wrist pos -> normalized dir vector * mag of shoulder to wrist
+
 				//activeHS->localSpace->pose;
 				activeHS->animPose->pose[j_wrist].transformMat = demoMode->obj_skeleton_wristEffector_r_ctrl->modelMat;
 				a3kinematicsSolveInverse(activeHS);
@@ -319,6 +323,11 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			{
 				printf("in range\n");
 				// solve for ik
+				// 
+				// wrist pos -> pos of effector
+				// c = constraint pos - shoulder pos (unsure what exactly c is tho)
+				// d -> shoulder to effector (should already have this)
+				// n -> cross (c, d) (also unsure of what n does exactly but good to have)
 				//a3kinematicsSolveInversePartial(activeHS, j_shoulder, activeHS->hierarchy->numNodes);
 			}
 
