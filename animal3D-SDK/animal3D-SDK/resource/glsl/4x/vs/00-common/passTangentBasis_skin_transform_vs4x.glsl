@@ -29,7 +29,6 @@ layout (location = 2) in vec4 aNormal;
 layout (location = 8) in vec4 aTexcoord;
 layout (location = 10) in vec4 aTangent;
 layout (location = 11) in vec4 aBitangent;
-
 // skinning attributes 
 // w = weights (1) 
 // j = joints (7) 
