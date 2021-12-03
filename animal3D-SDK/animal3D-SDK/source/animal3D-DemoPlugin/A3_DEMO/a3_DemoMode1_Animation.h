@@ -163,17 +163,25 @@ typedef enum a3_DemoMode1_Animation_InputMode				a3_DemoMode1_Animation_InputMod
 		// characterController
 		struct CharacterController
 		{
+			/*basic info*/
+			a3vec3 startPos;
+
 			/*input*/
 			a3vec2 axes;
 
-			/*simulation*/
-			a3_ClipController idleClipCtrl[1], walkClipCtrl[1], runClipCtrl[1], jumpClipCtrl[1];
+			/*animation*/
+			a3_ClipController idleClipCtrl[1], walkClipCtrl[1], runClipCtrl[1], jumpClipCtrl[1]; // probably dont need these? could have an idle i guess
 			a3_ClipController* activeClip;
 
 			a3_ClipTransition* stopTransition;
 
 
 			/*display*/
+
+			/*physics*/
+			// a3rigidbody?
+			// sphere colliders?
+
 		} characterController;
 
 		// animation controllers
