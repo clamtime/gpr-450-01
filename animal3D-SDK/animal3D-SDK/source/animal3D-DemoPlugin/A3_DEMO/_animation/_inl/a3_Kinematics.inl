@@ -30,6 +30,16 @@
 
 //-----------------------------------------------------------------------------
 
+
+// update rigidbody
+a3i32 a3RigidbodyUpdate(a3_Rigidbody* rigidbody_out)
+{
+
+}
+
+
+//-----------------------------------------------------------------------------
+
 // single FK solver
 inline void a3kinematicsSolveForwardSingle(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex)
 {

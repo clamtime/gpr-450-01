@@ -49,6 +49,8 @@ struct a3_SphereCollider
 {
 	a3vec3 position;
 	a3real radius;
+
+	a3_Rigidbody * rigidbody;
 };
 
 // collider for a plane at a point in space with a normal vector
@@ -61,8 +63,31 @@ struct a3_PlaneCollider
 // rigidbody to control physics movementt
 struct a3_Rigidbody
 {
-	a3vec3 position, velocity, acceleration;
+	a3vec3 velocity, acceleration;
+
+	a3boolean gravity;
 };
+
+// initialize sphere collider
+a3i32 a3SphereColliderCreate(a3_SphereCollider *collider_out, a3vec3 position, a3real radius);
+
+// initialize plane collider
+a3i32 a3PlaneColliderCreate(a3_PlaneCollider *collider_out, a3vec3 position, a3vec4 normal);
+
+// initialize rigidbody 
+//a3i32 a3RigidbodyCreate(a3_Rigidbody *rigidbody_out, a3vec3 velocity, a3vec3 acceleration);
+
+// initialize rigidbody  with zero values
+a3i32 a3RigidbodyCreate(a3_Rigidbody *rigidbody_out);
+
+// update rigidbody
+a3i32 a3RigidbodyUpdate(a3_Rigidbody *rigidbody_out);
+
+// check sphere/sphere collision
+a3i32 a3SphereSphereCollide(a3_SphereCollider *sphere, a3_SphereCollider *sphereTwo);
+
+// check sphere/plane collision
+a3i32 a3SpherePlaneCollide(a3_SphereCollider *sphere, a3_PlaneCollider *plane);
 
 //-----------------------------------------------------------------------------
 
