@@ -161,6 +161,7 @@ typedef enum a3_DemoMode1_Animation_InputMode				a3_DemoMode1_Animation_InputMod
 		a3_HierarchyState sceneGraphState[1];
 
 		// characterController
+		// do we need to define this?
 		struct CharacterController
 		{
 			/*basic info*/

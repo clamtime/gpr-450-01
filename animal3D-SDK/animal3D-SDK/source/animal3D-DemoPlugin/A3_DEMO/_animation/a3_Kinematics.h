@@ -35,9 +35,34 @@
 extern "C"
 {
 #else	// !__cplusplus
-
+typedef struct a3_SphereCollider	a3_SphereCollider;
+typedef struct a3_PlaneCollider		a3_PlaneCollider;
+typedef struct a3_Rigidbody			a3_Rigidbody;
 #endif	// __cplusplus
 
+
+//-----------------------------------------------------------------------------
+// physics - rigidbody and collisions
+
+// single sphere collider at a point in space
+struct a3_SphereCollider
+{
+	a3vec3 position;
+	a3real radius;
+};
+
+// collider for a plane at a point in space with a normal vector
+struct a3_PlaneCollider
+{
+	a3vec3 position;
+	a3vec4 normal;
+};
+
+// rigidbody to control physics movementt
+struct a3_Rigidbody
+{
+	a3vec3 position, velocity, acceleration;
+};
 
 //-----------------------------------------------------------------------------
 
