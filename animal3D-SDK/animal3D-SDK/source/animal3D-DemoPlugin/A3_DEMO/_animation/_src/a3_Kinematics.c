@@ -33,6 +33,7 @@ a3i32 a3SphereColliderCreate(a3_SphereCollider* collider_out, a3vec3 position, a
 	collider_out->position = position;
 	collider_out->radius = radius;
 	a3RigidbodyCreate(collider_out->rigidbody);
+	return -1;
 }
 
 // initialize plane collider
@@ -40,6 +41,7 @@ a3i32 a3PlaneColliderCreate(a3_PlaneCollider* collider_out, a3vec3 position, a3v
 {
 	collider_out->position = position;
 	collider_out->normal = normal;
+	return -1;
 }
 
 // initialize rigidbody  with zero values
@@ -49,6 +51,7 @@ a3i32 a3RigidbodyCreate(a3_Rigidbody* rigidbody_out)
 	rigidbody_out->acceleration = a3vec3_zero;
 
 	rigidbody_out->gravity = false;
+	return -1;
 }
 
 

@@ -32,11 +32,24 @@
 
 
 // update rigidbody
-a3i32 a3RigidbodyUpdate(a3_Rigidbody* rigidbody_out)
+inline a3i32 a3RigidbodyUpdate(a3_Rigidbody* rigidbody_out)
 {
-
+	// apply gravity to any rigidbody that needs it
+	return -1;
 }
 
+
+// check sphere/sphere collision
+inline a3i32 a3SphereSphereCollide(a3_SphereCollider* sphere, a3_SphereCollider* sphereTwo)
+{
+	return -1;
+}
+
+// check sphere/plane collision
+inline a3i32 a3SpherePlaneCollide(a3_SphereCollider* sphere, a3_PlaneCollider* plane)
+{
+	return -1;
+}
 
 //-----------------------------------------------------------------------------
 
