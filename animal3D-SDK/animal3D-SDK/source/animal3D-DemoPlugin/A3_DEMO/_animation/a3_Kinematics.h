@@ -58,6 +58,7 @@ struct a3_PlaneCollider
 {
 	a3vec3 position;
 	a3vec4 normal;
+	a3real bounce;
 };
 
 // rigidbody to control physics movementt
@@ -72,7 +73,7 @@ struct a3_Rigidbody
 a3i32 a3SphereColliderCreate(a3_SphereCollider *collider_out, a3vec3 position, a3real radius);
 
 // initialize plane collider
-a3i32 a3PlaneColliderCreate(a3_PlaneCollider *collider_out, a3vec3 position, a3vec4 normal);
+a3i32 a3PlaneColliderCreate(a3_PlaneCollider* collider_out, a3vec3 position, a3vec4 normal, a3real bounce);
 
 // initialize rigidbody 
 //a3i32 a3RigidbodyCreate(a3_Rigidbody *rigidbody_out, a3vec3 velocity, a3vec3 acceleration);
