@@ -195,7 +195,9 @@ void a3animation_update_ik(a3_HierarchyState* activeHS,
 			baseHS->localSpace, // holds base pose (animPose is all identity poses)
 			activeHS->hierarchy->numNodes);
 		// Solve Inverse
-		a3kinematicsSolveInverse(activeHS);
+		a3i32 nodeIterator = a3kinematicsSolveInverse(activeHS);
+		a3kinematicsSolveForward(activeHS);
+		//(activeHS+nodeIterator)->localSpace
 	}
 }
 
@@ -265,6 +267,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			//	(instead of doing IK for whole skeleton when only one joint has changed)
 			activeHS->objectSpace->pose[j].transformMat = lookAt;
 			a3animation_update_ik(activeHS, baseHS, poseGroup); //unsure if this is all thats needed to be done?
+			a3animation_update_fk(activeHS, baseHS, poseGroup);
 
 		}
 
@@ -377,8 +380,9 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 		poseGroup->hpose + sampleIndex0, poseGroup->hpose + sampleIndex1,
 		(a3real)clipCtrl_fk->keyframeParam, activeHS_fk->hierarchy->numNodes);
 	// run FK pipeline
-	a3animation_update_fk(activeHS_fk, baseHS, poseGroup);
 	*/
+	a3animation_update_fk(activeHS_fk, baseHS, poseGroup);
+	
 	// resolve IK state
 	// copy FK to IK
 	a3hierarchyPoseCopy(
