@@ -233,6 +233,22 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			// do i need to get a rotation matrix before this? this feels right but im unsure
 			
 			//a3real4Normalize(controlLocator_neckLookat.v);
+			a3vec3 neckPos, xRot, yRot, zRot;
+			neckPos = jointTransform_neck.v3.xyz;
+			a3real3Diff(zRot.v, controlLocator_neckLookat.v, neckPos.v); // vector from joint to effector
+			a3real3Normalize(zRot.v);
+			a3real3CrossUnit(xRot.v, a3vec3_y.v, zRot.v);
+			a3real3CrossUnit(yRot.v, zRot.v, xRot.v);
+			activeHS->objectSpace->pose[j].transformMat.v0.xyz = xRot;
+			activeHS->objectSpace->pose[j].transformMat.v1.xyz = yRot;
+			activeHS->objectSpace->pose[j].transformMat.v2.xyz = zRot;
+
+			a3real4x4TransformInverse(activeHS->objectSpaceInv->pose[j].transformMat.m, activeHS->objectSpace->pose[j].transformMat.m);
+			a3kinematicsSolveInverseSingle(activeHS, j, activeHS->hierarchy->nodes[j].parentIndex);
+			a3spatialPoseRestore(activeHS->localSpace->pose + j, poseGroup->channel[j], poseGroup->order[j]);
+			a3spatialPoseDeconcat(activeHS->animPose->pose + j, activeHS->localSpace->pose + j, baseHS->localSpace->pose + j);
+			
+			/*
 			a3vec3 x = a3vec3_zero;
 			a3vec3 y = a3vec3_zero;
 			a3vec3 z = controlLocator_neckLookat.xyz;
@@ -256,7 +272,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 
 			activeHS->objectSpace->pose[j].transformMat = lookAt;
 			a3animation_update_ik(activeHS, baseHS, poseGroup); //unsure if this is all thats needed to be done?
-			a3animation_update_fk(activeHS, baseHS, poseGroup);
+			a3animation_update_fk(activeHS, baseHS, poseGroup);*/
 
 		}
 
