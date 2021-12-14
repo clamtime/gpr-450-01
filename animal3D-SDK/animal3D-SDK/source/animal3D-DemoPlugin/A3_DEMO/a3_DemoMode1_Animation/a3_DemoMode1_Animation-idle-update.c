@@ -371,14 +371,14 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 	// resolve FK state
 	// update clip controller, keyframe lerp
 	a3clipControllerUpdate(clipCtrl_fk, dt);
-	sampleIndex0 = demoMode->clipPool->keyframe[clipCtrl_fk->keyframeIndex].sampleIndex0;
-	sampleIndex1 = demoMode->clipPool->keyframe[clipCtrl_fk->keyframeIndex].sampleIndex1;
-	a3hierarchyPoseLerp(activeHS_fk->animPose,
+	sampleIndex0 = 0;// demoMode->clipPool->keyframe[clipCtrl_fk->keyframeIndex].sampleIndex0;
+	sampleIndex1 = 0;// demoMode->clipPool->keyframe[clipCtrl_fk->keyframeIndex].sampleIndex1;
+	/*a3hierarchyPoseLerp(activeHS_fk->animPose,
 		poseGroup->hpose + sampleIndex0, poseGroup->hpose + sampleIndex1,
 		(a3real)clipCtrl_fk->keyframeParam, activeHS_fk->hierarchy->numNodes);
 	// run FK pipeline
 	a3animation_update_fk(activeHS_fk, baseHS, poseGroup);
-
+	*/
 	// resolve IK state
 	// copy FK to IK
 	a3hierarchyPoseCopy(
