@@ -30,11 +30,12 @@
 
 //-----------------------------------------------------------------------------
 
-
 // update rigidbody
 inline a3i32 a3RigidbodyUpdate(a3_Rigidbody* rigidbody_out)
 {
-	// apply gravity to any rigidbody that needs it
+	// change rigidbody velocity using its acceleration
+	a3real3Sum(rigidbody_out->velocity.v, rigidbody_out->velocity.v, rigidbody_out->acceleration.v);
+
 	return -1;
 }
 
@@ -42,12 +43,42 @@ inline a3i32 a3RigidbodyUpdate(a3_Rigidbody* rigidbody_out)
 // check sphere/sphere collision
 inline a3i32 a3SphereSphereCollide(a3_SphereCollider* sphere, a3_SphereCollider* sphereTwo)
 {
+	a3real radiiSum = sphere->radius + sphereTwo->radius; // combined length
+	a3vec3 collisionVec;
+	a3real3Diff(collisionVec.v, sphereTwo->position.v, sphere->position.v); // vector from sphere to sphereTwo
+
+	if (a3real3LengthSquared(collisionVec.v) <= (radiiSum * radiiSum))
+	{
+		// colliding
+
+	}
 	return -1;
 }
+
+// formula for reflected vector taken from: https://www.3dkingdoms.com/weekly/weekly.php?a=2 
 
 // check sphere/plane collision
 inline a3i32 a3SpherePlaneCollide(a3_SphereCollider* sphere, a3_PlaneCollider* plane)
 {
+	a3vec3 sphereToPlane, projVec;
+	a3real3Diff(sphereToPlane.v, sphere->position.v, plane->position.v); // vector from the sphere's pos to the plane's pos
+	a3real3Projected(projVec.v, sphereToPlane.v, plane->normal.v); // gives vector from plane to sphere parrallel to the plane's normal
+
+	if (a3real3LengthSquared(projVec.v) <= sphere->radius * sphere->radius)
+	{
+		// colliding -> reflect velocity of sphere
+		// R = b * (-2*(V dot N) * N + V)
+		a3vec3 newVel;
+		newVel = plane->normal.xyz;
+		a3real3MulS(newVel.v, a3real3Dot(sphere->rigidbody->velocity.v, plane->normal.v)); // (V dot N) * N
+		a3real3Sub(newVel.v, sphere->rigidbody->velocity.v); //+ V
+		a3real3MulS(newVel.v, -2);// * -2
+		a3real3MulS(newVel.v, plane->bounce); // * bounciness
+
+		// adding to velocity
+		a3real3Add(sphere->rigidbody->velocity.v, newVel.v);
+	}
+
 	return -1;
 }
 

@@ -37,10 +37,11 @@ a3i32 a3SphereColliderCreate(a3_SphereCollider* collider_out, a3vec3 position, a
 }
 
 // initialize plane collider
-a3i32 a3PlaneColliderCreate(a3_PlaneCollider* collider_out, a3vec3 position, a3vec4 normal)
+a3i32 a3PlaneColliderCreate(a3_PlaneCollider* collider_out, a3vec3 position, a3vec4 normal, a3real bounce)
 {
 	collider_out->position = position;
 	collider_out->normal = normal;
+	collider_out->bounce = bounce;
 	return -1;
 }
 
