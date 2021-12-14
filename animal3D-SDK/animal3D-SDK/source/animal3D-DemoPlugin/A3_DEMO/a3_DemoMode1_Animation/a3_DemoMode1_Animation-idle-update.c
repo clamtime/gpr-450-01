@@ -265,6 +265,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 			// reassign resolved transforms to OBJECT-SPACE matrices
 			// resolve local and animation pose for affected joint
 			//	(instead of doing IK for whole skeleton when only one joint has changed)
+
 			activeHS->objectSpace->pose[j].transformMat = lookAt;
 			a3animation_update_ik(activeHS, baseHS, poseGroup); //unsure if this is all thats needed to be done?
 			a3animation_update_fk(activeHS, baseHS, poseGroup);
