@@ -244,7 +244,7 @@ void a3animation_update_ragdoll(a3_DemoMode1_Animation* demoMode,
 			// TO-DO: set sphere pos to be world pos of joint
 			//a3vec4 currentPos;
 			activeHS->objectSpace->pose[i].transformMat.v3.xyz = (sphereManager->sphere + i)->position; // unsure if obj space will work
-			j = a3hierarchyGetNodeIndex(activeHS->hierarchy, (activeHS->hierarchy->nodes + i)->name);
+			j = a3hierarchyGetNodeIndex(activeHS->hierarchy, "mixamorig:RightShoulder");// (activeHS->hierarchy->nodes + i)->name);
 
 			a3real4x4TransformInverse(activeHS->objectSpaceInv->pose[j].transformMat.m, activeHS->objectSpace->pose[j].transformMat.m);
 			a3kinematicsSolveInverseSingle(activeHS, j, activeHS->hierarchy->nodes[j].parentIndex);
