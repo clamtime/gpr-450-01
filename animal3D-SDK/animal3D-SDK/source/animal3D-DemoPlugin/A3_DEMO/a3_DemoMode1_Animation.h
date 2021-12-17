@@ -171,7 +171,6 @@ typedef enum a3_DemoMode1_Animation_InputMode				a3_DemoMode1_Animation_InputMod
 			a3vec2 axes;
 
 			/*animation*/
-			a3_ClipController idleClipCtrl[1], walkClipCtrl[1], runClipCtrl[1], jumpClipCtrl[1]; // probably dont need these? could have an idle i guess
 			a3_ClipController* activeClip;
 
 			a3_ClipTransition* stopTransition;

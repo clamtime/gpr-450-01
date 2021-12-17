@@ -146,45 +146,6 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 		demoMode->characterController.axes.x = (a3real)demoMode->axis_l[0];
 		demoMode->characterController.axes.y = (a3real)demoMode->axis_l[1];
 
-		if (a3keyboardIsPressed(demoState->keyboard, a3key_space) || a3XboxControlIsPressed(demoState->xcontrol, a3xbox_A))
-		{
-			demoMode->characterController.activeClip = demoMode->characterController.jumpClipCtrl;
-		}
-
-		if (demoMode->characterController.activeClip == demoMode->characterController.jumpClipCtrl)
-		{
-			if (demoMode->characterController.activeClip->clipParam >= 1.0f)
-			{
-				demoMode->characterController.activeClip = demoMode->characterController.idleClipCtrl;
-
-
-				demoMode->characterController.jumpClipCtrl->keyframeIndex =
-					demoMode->characterController.jumpClipCtrl->clip->keyframeIndex_first;
-
-				demoMode->characterController.jumpClipCtrl->keyframe =
-					demoMode->characterController.jumpClipCtrl->clipPool->keyframe + demoMode->characterController.jumpClipCtrl->keyframeIndex;
-
-				demoMode->characterController.jumpClipCtrl->keyframeTime_sec =
-					demoMode->characterController.jumpClipCtrl->keyframeTime_sec - demoMode->characterController.jumpClipCtrl->keyframe->duration_sec;
-
-				demoMode->characterController.jumpClipCtrl->clipParam = 0.0f;
-				demoMode->characterController.jumpClipCtrl->clipTime_sec = 0.0f;
-			}
-		}
-		else if (demoMode->characterController.axes.y > 0 && demoMode->characterController.axes.y <0.65f)
-		{
-			demoMode->characterController.activeClip = demoMode->characterController.walkClipCtrl;
-		}
-		else if (demoMode->characterController.axes.y >= 0.65 && demoMode->characterController.axes.y <= 1.00f)
-		{
-			demoMode->characterController.activeClip = demoMode->characterController.runClipCtrl;
-		}
-		else if (demoMode->characterController.axes.x == 0)
-		{
-			demoMode->characterController.activeClip = demoMode->characterController.idleClipCtrl;
-		}
-
-
 		break;
 	case animation_ctrl_neckLookat:
 		sceneObject = demoMode->obj_skeleton_ctrl + demoMode->ctrl_target - animation_ctrl_character;
