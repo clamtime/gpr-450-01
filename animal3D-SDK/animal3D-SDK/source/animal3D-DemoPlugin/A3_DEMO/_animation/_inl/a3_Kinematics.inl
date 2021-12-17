@@ -261,6 +261,58 @@ inline a3i32 a3kinematicsSolveInverse(const a3_HierarchyState* hierarchyState)
 	return -1;
 }
 
+// IK Ragdoll solver
+inline a3i32 a3kinematicsSolveInverseRagdoll(const a3_HierarchyState* hierarchyState)
+{
+	if (hierarchyState && hierarchyState->hierarchy)
+	{
+		return a3kinematicsSolveInverseRagdollPartial(hierarchyState, 0, hierarchyState->hierarchy->numNodes);
+	}
+	return -1;
+}
+
+inline a3i32 a3kinematicsSolveInverseRagdollPartial(const a3_HierarchyState* hierarchyState, const a3ui32 firstIndex, const a3ui32 nodeCount)
+{
+	if (hierarchyState && hierarchyState->hierarchy &&
+		firstIndex < hierarchyState->hierarchy->numNodes && nodeCount)
+	{
+		// ****TO-DO: implement inverse kinematics algorithm
+		//	- for all nodes starting at first index
+		//		- if node is not root (has parent node)
+		//			- local matrix = inverse parent object matrix * object matrix
+		//		- else
+		//			- copy object matrix to local matrix
+		const a3_HierarchyNode* itr = hierarchyState->hierarchy->nodes + firstIndex;
+		const a3_HierarchyNode* const end = itr + nodeCount;
+		for (; itr < end; ++itr)
+		{
+			if (itr->parentIndex >= 0)
+			{
+				if (itr->name == "whatever 3 things arm is")
+				{
+					a3kinematicsSolveInverseRagdollArm(hierarchyState, itr->index, itr->parentIndex);
+				}
+				if (itr->name == "whatever 3 things leg is")
+				{
+					a3kinematicsSolveInverseRagdollLeg(hierarchyState, itr->index, itr->parentIndex);
+				}
+			}
+			else
+				hierarchyState->localSpace->pose[itr->index] = hierarchyState->objectSpace->pose[itr->index];
+		}
+		return (a3i32)(end - itr);
+	}
+	return -1;
+}
+
+a3kinematicsSolveInverseRagdollArm(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex)
+{
+
+}
+a3kinematicsSolveInverseRagdollLeg(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex)
+{
+
+}
 
 //-----------------------------------------------------------------------------
 
