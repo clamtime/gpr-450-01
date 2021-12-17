@@ -96,6 +96,7 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 	a3_HierarchyState* hierarchyState = 0;
 	a3_HierarchyPoseGroup* hierarchyPoseGroup = 0;
 	a3_SpatialPose* spatialPose = 0;
+	a3_PlaneCollider* ground = 0;
 
 	a3_FileStream fileStream[1] = { 0 };
 	const a3byte* const geometryStream = "./data/gpro_base_anim_working.dat";
@@ -104,7 +105,6 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 	// next set up hierarchy poses
 	hierarchy = demoMode->hierarchy_skel;
 	hierarchyPoseGroup = demoMode->hierarchyPoseGroup_skel;
-
 
 	// stream animation assets
 	if (demoState->streaming && a3fileStreamOpenRead(fileStream, geometryStream))
@@ -528,6 +528,12 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 	hierarchyState = demoMode->hierarchyState_skel_final;
 	hierarchyState->hierarchy = 0;
 	a3hierarchyStateCreate(hierarchyState, hierarchy);
+
+	// set up ground collider
+	ground = demoMode->ground;
+	a3PlaneColliderCreate(ground, a3vec3_zero, a3vec4_z, 0.3f);
+
+	// set up spheres?
 
 	// egnaro
 	//demoMode->obj_skeleton->euler.x = -a3real_ninety;

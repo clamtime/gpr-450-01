@@ -188,6 +188,9 @@ typedef enum a3_DemoMode1_Animation_InputMode				a3_DemoMode1_Animation_InputMod
 		a3_ClipController clipCtrl[1], clipCtrlA[1], clipCtrlB[1];
 		a3_ClipPool clipPool[1];
 
+		// physics
+		a3_PlaneCollider *ground;
+
 		// skeletal animation
 		union {
 			a3_HierarchyState hierarchyState_skel[4];
