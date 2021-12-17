@@ -386,21 +386,20 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 
 	// switch controller to see different states
 	// A is idle, arms down; B is skin test, arms out
-	a3_ClipController* clipCtrl_fk = demoMode->characterController.activeClip;
+	a3_ClipController* clipCtrl_fk = demoMode->clipCtrlA;
 	a3ui32 sampleIndex0, sampleIndex1;
 
 	// resolve FK state
 	// update clip controller, keyframe lerp
 	a3clipControllerUpdate(clipCtrl_fk, dt);
-	sampleIndex0 = 0;// demoMode->clipPool->keyframe[clipCtrl_fk->keyframeIndex].sampleIndex0;
-	sampleIndex1 = 0;// demoMode->clipPool->keyframe[clipCtrl_fk->keyframeIndex].sampleIndex1;
-	/*a3hierarchyPoseLerp(activeHS_fk->animPose,
+	sampleIndex0 = demoMode->clipPool->keyframe[clipCtrl_fk->keyframeIndex].sampleIndex0;
+	sampleIndex1 = demoMode->clipPool->keyframe[clipCtrl_fk->keyframeIndex].sampleIndex1;
+	a3hierarchyPoseLerp(activeHS_fk->animPose,
 		poseGroup->hpose + sampleIndex0, poseGroup->hpose + sampleIndex1,
 		(a3real)clipCtrl_fk->keyframeParam, activeHS_fk->hierarchy->numNodes);
 	// run FK pipeline
-	*/
 	a3animation_update_fk(activeHS_fk, baseHS, poseGroup);
-	
+
 	// resolve IK state
 	// copy FK to IK
 	a3hierarchyPoseCopy(
@@ -417,7 +416,7 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 		// run solvers
 		a3animation_update_applyEffectors(demoMode, activeHS_ik, baseHS, poseGroup);
 		// run full IK pipeline (if not resolving with effectors)
-		a3animation_update_ik(activeHS_ik, baseHS, poseGroup);
+		//a3animation_update_ik(activeHS_ik, baseHS, poseGroup);
 	}
 
 	// blend FK/IK to final
@@ -431,6 +430,7 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 	a3animation_update_fk(activeHS, baseHS, poseGroup);
 	a3animation_update_skin(activeHS, baseHS);
 }
+
 
 void a3animation_update_sceneGraph(a3_DemoMode1_Animation* demoMode, a3f64 const dt)
 {
