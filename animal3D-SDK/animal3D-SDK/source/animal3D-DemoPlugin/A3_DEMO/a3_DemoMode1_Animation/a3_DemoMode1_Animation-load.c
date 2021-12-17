@@ -533,7 +533,8 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 	ground = demoMode->ground;
 	a3PlaneColliderCreate(ground, a3vec3_zero, a3vec4_z, 0.3f);
 
-	// set up spheres?
+	// set up spheres
+
 
 	// egnaro
 	//demoMode->obj_skeleton->euler.x = -a3real_ninety;
