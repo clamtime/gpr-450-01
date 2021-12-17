@@ -128,6 +128,11 @@ a3i32 a3kinematicsSolveForwardPartial(const a3_HierarchyState *hierarchyState, c
 // single node FK solver
 void a3kinematicsSolveForwardSingle(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex);
 
+a3i32 a3kinematicsSolveInverseRagdoll(const a3_HierarchyState* hierarchyState);
+a3i32 a3kinematicsSolveInverseRagdollPartial(const a3_HierarchyState* hierarchyState, const a3ui32 firstIndex, const a3ui32 nodeCount);
+a3i32 a3kinematicsSolveInverseRagdollArm(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex);
+a3i32 a3kinematicsSolveInverseRagdollLeg(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex);
+
 
 //-----------------------------------------------------------------------------
 
