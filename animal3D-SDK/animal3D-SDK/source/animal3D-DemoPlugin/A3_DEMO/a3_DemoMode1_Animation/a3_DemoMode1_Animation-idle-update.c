@@ -217,10 +217,11 @@ void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereMan
 {
 	if (sphereManager->sphere)
 	{
-		a3i32 i;
-		for (i = 0; i < sphereManager->numSpheres; i++)
+		a3_HierarchyNode* itr = activeHS->hierarchy->nodes;
+		for (; itr < sphereManager->numSpheres; ++itr)
 		{
 			// TO-DO: set sphere pos to be world pos of joint
+
 		}
 	}
 }
