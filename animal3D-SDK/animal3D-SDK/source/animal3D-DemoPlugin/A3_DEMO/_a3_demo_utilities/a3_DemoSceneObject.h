@@ -95,7 +95,6 @@ extern "C"
 		a3real fovy;						// persp: vert field of view/ortho: vert size
 		a3real aspect;						// aspect ratio
 		a3real znear, zfar;					// near and far clipping 
-		s
 		a3real ctrlMoveSpeed;				// how fast controlled camera moves
 		a3real ctrlRotateSpeed;				// control rotate speed (degrees)
 		a3real ctrlZoomSpeed;				// control zoom speed (degrees)

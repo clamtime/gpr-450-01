@@ -305,13 +305,13 @@ inline a3i32 a3kinematicsSolveInverseRagdollPartial(const a3_HierarchyState* hie
 	return -1;
 }
 
-a3kinematicsSolveInverseRagdollArm(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex)
+inline a3i32 a3kinematicsSolveInverseRagdollArm(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex)
 {
-
+	return -1;
 }
-a3kinematicsSolveInverseRagdollLeg(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex)
+inline a3i32 a3kinematicsSolveInverseRagdollLeg(const a3_HierarchyState* hierarchyState, const a3ui32 index, const a3ui32 parentIndex)
 {
-
+	return -1;
 }
 
 //-----------------------------------------------------------------------------

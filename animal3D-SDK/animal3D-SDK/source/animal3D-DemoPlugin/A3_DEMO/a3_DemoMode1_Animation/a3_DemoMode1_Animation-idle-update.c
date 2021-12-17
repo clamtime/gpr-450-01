@@ -215,8 +215,8 @@ void a3animation_update_skin(a3_HierarchyState* activeHS,
 
 void a3animation_update_spherePosition(a3_DemoMode1_Animation* demoMode, a3_HierarchyState* activeHS, a3_SphereManager* sphereManager)
 {
-	a3_DemoSceneObject* sceneObject = demoMode->obj_skeleton;
-	a3mat4 const controlToSkeleton = demoMode->sceneGraphState->localSpaceInv->pose[j].transformMat;
+	//a3_DemoSceneObject* sceneObject = demoMode->obj_skeleton;
+	//a3mat4 const controlToSkeleton = demoMode->sceneGraphState->localSpaceInv->pose[j].transformMat;
 
 
 	if (sphereManager->sphere)
@@ -226,6 +226,7 @@ void a3animation_update_spherePosition(a3_DemoMode1_Animation* demoMode, a3_Hier
 		{
 			// TO-DO: set sphere pos to be world pos of joint
 			a3vec4 currentPos;
+			(sphereManager->sphere + i)->position = activeHS->objectSpace->pose[i].translate.xyz;
 
 			/*sceneObject = demoMode->obj_skeleton_wristConstraint_r_ctrl; // something here idk;
 			a3real4Real4x4Product(currentPos.v, controlToSkeleton.m,
