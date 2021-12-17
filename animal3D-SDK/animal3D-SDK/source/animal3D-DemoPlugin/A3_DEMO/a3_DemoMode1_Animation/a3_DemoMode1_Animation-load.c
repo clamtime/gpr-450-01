@@ -535,6 +535,7 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 
 	// set up spheres
 	a3SphereManagerCreate(demoMode->sphereManager, demoMode->hierarchy_skel->numNodes, hierarchyState);
+	a3GravitySet(demoMode->sphereManager, true, -10);
 
 	// egnaro
 	//demoMode->obj_skeleton->euler.x = -a3real_ninety;
