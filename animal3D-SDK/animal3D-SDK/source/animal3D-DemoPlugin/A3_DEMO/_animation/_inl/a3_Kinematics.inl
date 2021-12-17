@@ -17,7 +17,7 @@
 /*
 	animal3D SDK: Minimal 3D Animation Framework
 	By Daniel S. Buckstein
-	
+
 	a3_Kinematics.inl
 	Implementation of kinematics solvers.
 */
@@ -31,11 +31,77 @@
 //-----------------------------------------------------------------------------
 
 // update rigidbody
-inline a3i32 a3RigidbodyUpdate(a3_Rigidbody* rigidbody_out)
+inline a3i32 a3RigidbodyUpdate(a3_Rigidbody* rigidbody_out, a3real dt)
 {
 	// change rigidbody velocity using its acceleration
-	a3real3Sum(rigidbody_out->velocity.v, rigidbody_out->velocity.v, rigidbody_out->acceleration.v);
+	a3real3Sum(rigidbody_out->velocity.v, rigidbody_out->velocity.v, a3real3MulS(rigidbody_out->acceleration.v, dt));
 
+	return -1;
+}
+
+// update sphere manager
+inline a3i32 a3SphereUpdate(a3_SphereManager* manager_out, a3real dt)
+{
+	if (manager_out)
+	{
+		if (manager_out->sphere)
+		{
+			// collision check
+			a3i32 i, j;
+			for (i = 0; i < manager_out->numSpheres - 1; i++)
+			{
+				for (j = i + 1; j < manager_out->numSpheres; j++)
+				{
+					a3SphereSphereCollide(manager_out->sphere + i, manager_out->sphere + j);
+				}
+			}
+
+			// update positions
+			for (i = 0; i < manager_out->numSpheres; i++)
+			{
+				a3vec3 tmpVel = (manager_out->sphere + i)->rigidbody->velocity;
+				a3RigidbodyUpdate((manager_out->sphere + i)->rigidbody, dt);
+				a3real3Add((manager_out->sphere + i)->position.v, a3real3MulS(tmpVel.v, dt));
+			}
+		}
+		return 1;
+	}
+	return -1;
+}
+
+// toggle gravity
+inline a3i32 a3GravitySet(a3_SphereManager* manager_out, a3boolean doGravity, a3real gravity)
+{
+	if (manager_out)
+	{
+		if (doGravity)
+		{
+			if (manager_out->sphere)
+			{
+				a3i32 i;
+				a3vec3 tmpGravity = a3vec3_z;
+				a3real3MulS(tmpGravity.v, gravity);
+				for (i = 0; i < manager_out->numSpheres; i++)
+				{
+					(manager_out->sphere + i)->rigidbody->acceleration = tmpGravity;
+					manager_out->gravity = doGravity;
+				}
+			}
+		}
+		else
+		{
+			if (manager_out->sphere)
+			{
+				a3i32 i;
+				for (i = 0; i < manager_out->numSpheres; i++)
+				{
+					(manager_out->sphere + i)->rigidbody->acceleration = a3vec3_zero;
+					manager_out->gravity = doGravity;
+				}
+			}
+			return 1;
+		}
+	}
 	return -1;
 }
 
@@ -67,6 +133,7 @@ inline a3i32 a3SphereSphereCollide(a3_SphereCollider* sphere, a3_SphereCollider*
 		// set velocities
 		a3real3Add(sphere->rigidbody->velocity.v, a3real3Add(v1Parallel.v, v1Ortho.v));
 		a3real3Add(sphereTwo->rigidbody->velocity.v, a3real3Add(v2Parallel.v, v2Ortho.v));
+		return 1;
 	}
 	return -1;
 }
@@ -93,6 +160,7 @@ inline a3i32 a3SpherePlaneCollide(a3_SphereCollider* sphere, a3_PlaneCollider* p
 
 		// adding to velocity
 		a3real3Add(sphere->rigidbody->velocity.v, newVel.v);
+		return 1;
 	}
 
 	return -1;
@@ -175,7 +243,7 @@ inline a3i32 a3kinematicsSolveInversePartial(const a3_HierarchyState* hierarchyS
 //-----------------------------------------------------------------------------
 
 // FK solver
-inline a3i32 a3kinematicsSolveForward(const a3_HierarchyState *hierarchyState)
+inline a3i32 a3kinematicsSolveForward(const a3_HierarchyState* hierarchyState)
 {
 	if (hierarchyState && hierarchyState->hierarchy)
 		return a3kinematicsSolveForwardPartial(hierarchyState, 0, hierarchyState->hierarchy->numNodes);
@@ -186,7 +254,7 @@ inline a3i32 a3kinematicsSolveForward(const a3_HierarchyState *hierarchyState)
 //-----------------------------------------------------------------------------
 
 // IK solver
-inline a3i32 a3kinematicsSolveInverse(const a3_HierarchyState *hierarchyState)
+inline a3i32 a3kinematicsSolveInverse(const a3_HierarchyState* hierarchyState)
 {
 	if (hierarchyState && hierarchyState->hierarchy)
 		return a3kinematicsSolveInversePartial(hierarchyState, 0, hierarchyState->hierarchy->numNodes);

@@ -24,6 +24,7 @@
 
 #include "../a3_Kinematics.h"
 #include <A3_DEMO/_animation/a3_KeyframeAnimationController.h>
+#include <stdlib.h>
 
 
 //-----------------------------------------------------------------------------
@@ -35,6 +36,42 @@ a3i32 a3SphereColliderCreate(a3_SphereCollider* collider_out, a3vec3 position, a
 	a3RigidbodyCreate(collider_out->rigidbody);
 	return -1;
 }
+
+// initialize sphere manager
+a3i32 a3SphereManagerCreate(a3_SphereManager* manager_out, const a3i32 numSpheres)
+{
+	if (manager_out && numSpheres)
+	{
+		if (!manager_out->sphere)
+		{
+			const a3ui32 dataSize = sizeof(a3_SphereCollider) * numSpheres;
+			manager_out->sphere = (a3_SphereCollider*)malloc(dataSize);
+			//memset(manager_out->numSpheres, 0, dataSize);
+			manager_out->numSpheres = numSpheres;
+			manager_out->gravity = false;
+			return 1;
+		}
+	}
+	return -1;
+}
+
+// free data
+a3ret a3SphereManagerRelease(a3_SphereManager* manager)
+{
+	if (manager)
+	{
+		if (manager->sphere)
+		{
+			free(manager->sphere);
+			manager->sphere = 0;
+			manager->numSpheres = 0;
+			manager->gravity = false;
+			return 1;
+		}
+	}
+	return -1;
+}
+
 
 // initialize plane collider
 a3i32 a3PlaneColliderCreate(a3_PlaneCollider* collider_out, a3vec3 position, a3vec4 normal, a3real bounce)
@@ -50,8 +87,6 @@ a3i32 a3RigidbodyCreate(a3_Rigidbody* rigidbody_out)
 {
 	rigidbody_out->velocity = a3vec3_zero;
 	rigidbody_out->acceleration = a3vec3_zero;
-
-	rigidbody_out->gravity = false;
 	return -1;
 }
 
