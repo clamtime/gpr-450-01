@@ -222,13 +222,7 @@ void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereMan
 		{
 			// TO-DO: set sphere pos to be world pos of joint
 			//a3vec4 currentPos;
-			(sphereManager->sphere + i)->position = activeHS->objectSpace->pose[i].translate.xyz;
-
-			/*sceneObject = demoMode->obj_skeleton_wristConstraint_r_ctrl; // something here idk;
-			a3real4Real4x4Product(currentPos.v, controlToSkeleton.m,
-				demoMode->sceneGraphState->localSpace->pose[sceneObject->sceneGraphIndex].transformMat.v3.v);
-			j = j_elbow = a3hierarchyGetNodeIndex(activeHS->hierarchy, "mixamorig:RightForeArm");
-			jointTransform_elbow = activeHS->objectSpace->pose[j].transformMat;*/
+			(sphereManager->sphere + i)->position = activeHS->objectSpace->pose[i].translate.xyz; // unsure if obj space will work
 		}
 	}
 }
