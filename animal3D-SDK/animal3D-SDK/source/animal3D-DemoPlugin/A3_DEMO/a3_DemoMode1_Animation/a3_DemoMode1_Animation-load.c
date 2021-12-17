@@ -534,7 +534,7 @@ void a3animation_init_animation(a3_DemoState const* demoState, a3_DemoMode1_Anim
 	a3PlaneColliderCreate(ground, a3vec3_zero, a3vec4_z, 0.3f);
 
 	// set up spheres
-	a3SphereManagerCreate(demoMode->sphereManager, demoMode->hierarchy_skel->numNodes);
+	a3SphereManagerCreate(demoMode->sphereManager, demoMode->hierarchy_skel->numNodes, hierarchyState);
 
 	// egnaro
 	//demoMode->obj_skeleton->euler.x = -a3real_ninety;

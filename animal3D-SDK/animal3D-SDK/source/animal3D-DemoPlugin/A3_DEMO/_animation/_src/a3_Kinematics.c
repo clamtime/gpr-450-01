@@ -33,12 +33,12 @@ a3i32 a3SphereColliderCreate(a3_SphereCollider* collider_out, a3vec3 position, a
 {
 	collider_out->position = position;
 	collider_out->radius = radius;
-	a3RigidbodyCreate(collider_out->rigidbody);
+	a3RigidbodyCreate(collider_out);
 	return -1;
 }
 
 // initialize sphere manager
-a3i32 a3SphereManagerCreate(a3_SphereManager* manager_out, const a3i32 numSpheres)
+a3i32 a3SphereManagerCreate(a3_SphereManager* manager_out, const a3i32 numSpheres, a3_HierarchyState* hierarchyState)
 {
 	if (manager_out && numSpheres)
 	{
@@ -49,6 +49,14 @@ a3i32 a3SphereManagerCreate(a3_SphereManager* manager_out, const a3i32 numSphere
 			//memset(manager_out->numSpheres, 0, dataSize);
 			manager_out->numSpheres = numSpheres;
 			manager_out->gravity = false;
+
+
+			for (a3i32 i = 0; i < numSpheres; i++)
+			{
+				a3vec3 pos = (manager_out->sphere + i)->position = hierarchyState->objectSpace->pose[i].translate.xyz; // unsure if obj space will work
+				a3SphereColliderCreate(manager_out->sphere + i, pos, 1);
+			}
+
 			return 1;
 		}
 	}
@@ -83,10 +91,13 @@ a3i32 a3PlaneColliderCreate(a3_PlaneCollider* collider_out, a3vec3 position, a3v
 }
 
 // initialize rigidbody  with zero values
-a3i32 a3RigidbodyCreate(a3_Rigidbody* rigidbody_out)
+a3i32 a3RigidbodyCreate(a3_SphereCollider* collider_out)
 {
-	rigidbody_out->velocity = a3vec3_zero;
-	rigidbody_out->acceleration = a3vec3_zero;
+	const a3ui32 rbSize = sizeof(a3_Rigidbody);
+	collider_out->rigidbody = (a3_Rigidbody*)malloc(rbSize);
+
+	collider_out->rigidbody->velocity = a3vec3_zero;
+	collider_out->rigidbody->acceleration = a3vec3_zero;
 	return -1;
 }
 

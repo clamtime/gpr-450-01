@@ -189,8 +189,8 @@ typedef enum a3_DemoMode1_Animation_InputMode				a3_DemoMode1_Animation_InputMod
 		a3_ClipPool clipPool[1];
 
 		// physics
-		a3_PlaneCollider *ground;
-		a3_SphereManager* sphereManager;
+		a3_PlaneCollider ground[1];
+		a3_SphereManager sphereManager[1];
 
 		// skeletal animation
 		union {

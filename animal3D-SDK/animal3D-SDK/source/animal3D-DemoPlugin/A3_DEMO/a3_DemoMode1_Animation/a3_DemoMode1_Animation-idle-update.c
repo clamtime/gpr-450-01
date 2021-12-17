@@ -420,7 +420,7 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 
 	// switch controller to see different states
 	// A is idle, arms down; B is skin test, arms out
-	a3_ClipController* clipCtrl_fk = demoMode->clipCtrl;
+	a3_ClipController* clipCtrl_fk = demoMode->clipCtrlA;
 	a3ui32 sampleIndex0, sampleIndex1;
 
 	// resolve FK state

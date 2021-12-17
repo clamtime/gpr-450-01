@@ -51,7 +51,7 @@ struct a3_SphereCollider
 	a3vec3 position;
 	a3real radius;
 
-	a3_Rigidbody * rigidbody;
+	a3_Rigidbody* rigidbody;
 };
 
 // holds all of the spheres
@@ -81,7 +81,7 @@ struct a3_Rigidbody
 a3i32 a3SphereColliderCreate(a3_SphereCollider *collider_out, a3vec3 position, a3real radius);
 
 // initialize sphere manager
-a3i32 a3SphereManagerCreate(a3_SphereManager* manager_out, const a3i32 numSpheres);
+a3i32 a3SphereManagerCreate(a3_SphereManager* manager_out, const a3i32 numSpheres, a3_HierarchyState* hierarchyState);
 
 // free data
 a3ret a3SphereManagerRelease(a3_SphereManager* manager);
@@ -93,7 +93,7 @@ a3i32 a3PlaneColliderCreate(a3_PlaneCollider* collider_out, a3vec3 position, a3v
 //a3i32 a3RigidbodyCreate(a3_Rigidbody *rigidbody_out, a3vec3 velocity, a3vec3 acceleration);
 
 // initialize rigidbody  with zero values
-a3i32 a3RigidbodyCreate(a3_Rigidbody *rigidbody_out);
+a3i32 a3RigidbodyCreate(a3_SphereCollider *collider_out);
 
 // update rigidbody
 a3i32 a3RigidbodyUpdate(a3_Rigidbody *rigidbody_out, a3real dt);
