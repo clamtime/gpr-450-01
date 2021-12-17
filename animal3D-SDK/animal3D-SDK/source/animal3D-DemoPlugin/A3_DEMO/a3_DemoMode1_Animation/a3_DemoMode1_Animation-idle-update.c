@@ -227,7 +227,37 @@ void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereMan
 	}
 }
 
-void a3animation_update_physicsUpdate(a3_HierarchyState* activeHS, a3_SphereManager* sphereManager, a3_PlaneCollider* ground, a3f64 const dt)
+void a3animation_update_ragdoll(a3_DemoMode1_Animation* demoMode, 
+	a3_HierarchyState* activeHS, a3_HierarchyState const* baseHS, a3_HierarchyPoseGroup const* poseGroup, a3_SphereManager* sphereManager)
+{
+	if (activeHS->hierarchy == baseHS->hierarchy &&
+		activeHS->hierarchy == poseGroup->hierarchy && 
+		sphereManager->sphere)
+	{
+		a3_DemoSceneObject* sceneObject = demoMode->obj_skeleton;
+		a3ui32 j = sceneObject->sceneGraphIndex;
+
+
+		a3i32 i;
+		for (i = 0; i < sphereManager->numSpheres; i++)
+		{
+			// TO-DO: set sphere pos to be world pos of joint
+			//a3vec4 currentPos;
+			activeHS->objectSpace->pose[i].transformMat.v3.xyz = (sphereManager->sphere + i)->position; // unsure if obj space will work
+			j = a3hierarchyGetNodeIndex(activeHS->hierarchy, (activeHS->hierarchy->nodes + i)->name);
+
+			a3real4x4TransformInverse(activeHS->objectSpaceInv->pose[j].transformMat.m, activeHS->objectSpace->pose[j].transformMat.m);
+			a3kinematicsSolveInverseSingle(activeHS, j, activeHS->hierarchy->nodes[j].parentIndex);
+			a3spatialPoseRestore(activeHS->localSpace->pose + j, poseGroup->channel[j], poseGroup->order[j]);
+			a3spatialPoseDeconcat(activeHS->animPose->pose + j, activeHS->localSpace->pose + j, baseHS->localSpace->pose + j);
+		}
+	}
+
+}
+
+void a3animation_update_physicsUpdate(a3_DemoMode1_Animation* demoMode,
+	a3_HierarchyState* activeHS, a3_HierarchyState const* baseHS, a3_HierarchyPoseGroup const* poseGroup,
+	a3_SphereManager* sphereManager, a3_PlaneCollider* ground, a3f64 const dt)
 {
 	if (sphereManager->sphere)
 	{
@@ -238,10 +268,9 @@ void a3animation_update_physicsUpdate(a3_HierarchyState* activeHS, a3_SphereMana
 		}
 		a3SphereUpdate(sphereManager, (a3real)dt);
 		a3animation_update_spherePosition(activeHS, sphereManager); // sphere position update
+		a3animation_update_ragdoll(demoMode, activeHS, baseHS, poseGroup, sphereManager);
 	}
 }
-
-
 
 void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 	a3_HierarchyState* activeHS, a3_HierarchyState const* baseHS, a3_HierarchyPoseGroup const* poseGroup)
@@ -443,7 +472,7 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 		activeHS_ik->hierarchy->numNodes);
 	// run FK
 	a3animation_update_fk(activeHS_ik, baseHS, poseGroup);
-	a3animation_update_physicsUpdate(activeHS_ik, sphereManager, ground, dt);
+	a3animation_update_physicsUpdate(demoMode, activeHS_ik, baseHS, poseGroup, sphereManager, ground, dt);
 	if (updateIK)
 	{
 		// invert object-space
