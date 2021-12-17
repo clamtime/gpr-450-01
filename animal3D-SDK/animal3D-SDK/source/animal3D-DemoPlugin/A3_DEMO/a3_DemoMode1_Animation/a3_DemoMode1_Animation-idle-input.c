@@ -75,10 +75,10 @@ void a3animation_input_keyCharPress(a3_DemoState const* demoState, a3_DemoMode1_
 
 void a3animation_input_keyCharHold(a3_DemoState const* demoState, a3_DemoMode1_Animation* demoMode, a3i32 const asciiKey, a3i32 const state)
 {
-//	switch (asciiKey)
-//	{
-//
-//	}
+	//	switch (asciiKey)
+	//	{
+	//
+	//	}
 }
 
 
@@ -116,7 +116,7 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 		// transform to world space
 		a3real4Real4x4Mul(projector->sceneObject->modelMat.m, coord.v);
 	}
-	
+
 	// choose control target
 	switch (demoMode->ctrl_target)
 	{
@@ -128,12 +128,21 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 	case animation_ctrl_character:
 		sceneObject = demoMode->obj_skeleton_ctrl + demoMode->ctrl_target - animation_ctrl_character;
 		a3demo_input_controlObject(demoState, sceneObject, dt, a3real_one, a3real_zero);
+
 		// capture axes
 		if (a3XboxControlIsConnected(demoState->xcontrol))
 		{
 			// ****DONE:
 			// get directly from joysticks
 			a3XboxControlGetJoysticks(demoState->xcontrol, demoMode->axis_l, demoMode->axis_r);
+			if (a3XboxControlGetState(demoState->xcontrol, a3xbox_A) == 1)
+			{
+				a3GravitySet(demoMode->sphereManager, true, -10);
+			}
+			else if (a3XboxControlGetState(demoState->xcontrol, a3xbox_B) == 1)
+			{
+				a3GravitySet(demoMode->sphereManager, false, 0);
+			}
 		}
 		else
 		{
@@ -142,6 +151,14 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 			demoMode->axis_l[0] = a3keyboardGetDifference(demoState->keyboard, a3key_D, a3key_A);
 			demoMode->axis_l[1] = a3keyboardGetDifference(demoState->keyboard, a3key_W, a3key_S);
 			demoMode->axis_r[0] = a3keyboardGetDifference(demoState->keyboard, a3key_L, a3key_J);
+			if (a3keyboardIsPressed(demoState->keyboard, a3key_G))
+			{
+				a3GravitySet(demoMode->sphereManager, true, -10);
+			}
+			else if (a3keyboardIsPressed(demoState->keyboard, a3key_F))
+			{
+				a3GravitySet(demoMode->sphereManager, false, 0);
+			}
 		}
 		demoMode->characterController.axes.x = (a3real)demoMode->axis_l[0];
 		demoMode->characterController.axes.y = (a3real)demoMode->axis_l[1];
@@ -186,7 +203,7 @@ void a3animation_input(a3_DemoState* demoState, a3_DemoMode1_Animation* demoMode
 	case animation_ctrl_wristConstraint_r:
 		sceneObject = demoMode->obj_skeleton_ctrl + demoMode->ctrl_target - animation_ctrl_character;
 		a3demo_input_controlObject(demoState, sceneObject, dt, a3real_one, a3real_zero);
-		
+
 		// capture axes
 		if (a3XboxControlIsConnected(demoState->xcontrol))
 		{
