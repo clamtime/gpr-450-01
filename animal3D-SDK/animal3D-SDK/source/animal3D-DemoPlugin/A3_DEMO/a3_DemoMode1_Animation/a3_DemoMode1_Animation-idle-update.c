@@ -220,7 +220,7 @@ void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereMan
 		a3i32 i;
 		for (i = 0; i < sphereManager->numSpheres; i++)
 		{
-			// set sphere pos to be world pos of joint
+			// TO-DO: set sphere pos to be world pos of joint
 		}
 	}
 }
@@ -235,9 +235,9 @@ void a3animation_update_physicsUpdate(a3_HierarchyState* activeHS, a3_SphereMana
 			a3SpherePlaneCollide(sphereManager->sphere + i, ground);
 		}
 		a3SphereUpdate(sphereManager, (a3real)dt);
-		a3animation_update_spherePosition(activeHS, sphereManager);
+		a3animation_update_spherePosition(activeHS, sphereManager); // sphere position update
 	}
-	// sphere position update
+	
 }
 
 
@@ -414,6 +414,8 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 	a3_HierarchyState* activeHS = demoMode->hierarchyState_skel_final;
 	a3_HierarchyState const* baseHS = demoMode->hierarchyState_skel_base;
 	a3_HierarchyPoseGroup const* poseGroup = demoMode->hierarchyPoseGroup_skel;
+	a3_SphereManager* sphereManager = demoMode->sphereManager;
+	a3_PlaneCollider* ground = demoMode->ground;
 
 	// switch controller to see different states
 	// A is idle, arms down; B is skin test, arms out
@@ -440,6 +442,7 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 		activeHS_ik->hierarchy->numNodes);
 	// run FK
 	a3animation_update_fk(activeHS_ik, baseHS, poseGroup);
+	a3animation_update_physicsUpdate(activeHS_ik, sphereManager, ground, dt);
 	if (updateIK)
 	{
 		// invert object-space
