@@ -223,10 +223,9 @@ void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereMan
 			// TO-DO: set sphere pos to be world pos of joint
 			//a3vec4 currentPos;
 			
-			(sphereManager->sphere + i)->position = activeHS->objectSpace->pose[i].translate.xyz; // unsure if obj space will work
-			a3real4MulTransform((sphereManager->sphere + i)->position.v, demoModelMatrixStack->modelMat.m);// = a3real4x4MulTransform(demoModelMatrixStack.modelMat.m); // unsure if obj space will work
+			(sphereManager->sphere + i)->position = activeHS->localSpace->pose[i].translate.xyz; // unsure if obj space will work
+			//a3real4MulTransform((sphereManager->sphere + i)->position.v, demoModelMatrixStack->modelMat.m);// = a3real4x4MulTransform(demoModelMatrixStack.modelMat.m); // unsure if obj space will work
 		}
-		
 	}
 }
 
