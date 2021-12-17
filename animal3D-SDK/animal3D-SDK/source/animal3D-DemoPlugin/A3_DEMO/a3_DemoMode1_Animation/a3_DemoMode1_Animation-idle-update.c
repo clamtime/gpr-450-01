@@ -213,7 +213,7 @@ void a3animation_update_skin(a3_HierarchyState* activeHS,
 	}
 }
 
-void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereManager* sphereManager)
+void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereManager* sphereManager, a3_DemoModelMatrixStack* demoModelMatrixStack)
 {
 	if (sphereManager->sphere)
 	{
@@ -222,8 +222,11 @@ void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereMan
 		{
 			// TO-DO: set sphere pos to be world pos of joint
 			//a3vec4 currentPos;
+			
 			(sphereManager->sphere + i)->position = activeHS->objectSpace->pose[i].translate.xyz; // unsure if obj space will work
+			a3real4MulTransform((sphereManager->sphere + i)->position.v, demoModelMatrixStack->modelMat.m);// = a3real4x4MulTransform(demoModelMatrixStack.modelMat.m); // unsure if obj space will work
 		}
+		
 	}
 }
 
@@ -259,7 +262,7 @@ void a3animation_update_ragdoll(a3_DemoMode1_Animation* demoMode,
 }
 
 void a3animation_update_physicsUpdate(a3_DemoMode1_Animation* demoMode,
-	a3_HierarchyState* activeHS, a3_HierarchyState const* baseHS, a3_HierarchyPoseGroup const* poseGroup,
+	a3_HierarchyState* activeHS, a3_HierarchyState const* baseHS, a3_HierarchyPoseGroup const* poseGroup, a3_DemoModelMatrixStack* demoModelMatrixStack,
 	a3_SphereManager* sphereManager, a3_PlaneCollider* ground, a3f64 const dt)
 {
 	if (sphereManager->sphere)
@@ -270,7 +273,7 @@ void a3animation_update_physicsUpdate(a3_DemoMode1_Animation* demoMode,
 			a3SpherePlaneCollide(sphereManager->sphere + i, ground);
 		}
 		a3SphereUpdate(sphereManager, (a3real)dt);
-		a3animation_update_spherePosition(activeHS, sphereManager); // sphere position update
+		a3animation_update_spherePosition(activeHS, sphereManager, demoModelMatrixStack); // sphere position update
 		a3animation_update_ragdoll(demoMode, activeHS, baseHS, poseGroup, sphereManager);
 	}
 }
@@ -475,7 +478,8 @@ void a3animation_update_animation(a3_DemoMode1_Animation* demoMode, a3f64 const 
 		activeHS_ik->hierarchy->numNodes);
 	// run FK
 	a3animation_update_fk(activeHS_ik, baseHS, poseGroup);
-	a3animation_update_physicsUpdate(demoMode, activeHS_ik, baseHS, poseGroup, sphereManager, ground, dt);
+	a3_DemoModelMatrixStack matrixStack[animationMaxCount_sceneObject];
+	a3animation_update_physicsUpdate(demoMode, activeHS_ik, baseHS, poseGroup, matrixStack, sphereManager, ground, dt);
 	if (updateIK)
 	{
 		// invert object-space
