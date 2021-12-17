@@ -213,6 +213,35 @@ void a3animation_update_skin(a3_HierarchyState* activeHS,
 	}
 }
 
+void a3animation_update_spherePosition(a3_HierarchyState* activeHS, a3_SphereManager* sphereManager)
+{
+	if (sphereManager->sphere)
+	{
+		a3i32 i;
+		for (i = 0; i < sphereManager->numSpheres; i++)
+		{
+			// set sphere pos to be world pos of joint
+		}
+	}
+}
+
+void a3animation_update_physicsUpdate(a3_HierarchyState* activeHS, a3_SphereManager* sphereManager, a3_PlaneCollider* ground, a3f64 const dt)
+{
+	if (sphereManager->sphere)
+	{
+		a3i32 i;
+		for (i = 0; i < sphereManager->numSpheres; i++)
+		{
+			a3SpherePlaneCollide(sphereManager->sphere + i, ground);
+		}
+		a3SphereUpdate(sphereManager, (a3real)dt);
+		a3animation_update_spherePosition(activeHS, sphereManager);
+	}
+	// sphere position update
+}
+
+
+
 void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 	a3_HierarchyState* activeHS, a3_HierarchyState const* baseHS, a3_HierarchyPoseGroup const* poseGroup)
 {
@@ -228,7 +257,7 @@ void a3animation_update_applyEffectors(a3_DemoMode1_Animation* demoMode,
 		a3mat4 jointTransform_neck = a3mat4_identity, jointTransform_wrist = a3mat4_identity, jointTransform_elbow = a3mat4_identity, jointTransform_shoulder = a3mat4_identity;
 		a3ui32 j_neck, j_wrist, j_elbow, j_shoulder;
 
-		// 
+		
 
 		// NECK LOOK-AT 
 		{
