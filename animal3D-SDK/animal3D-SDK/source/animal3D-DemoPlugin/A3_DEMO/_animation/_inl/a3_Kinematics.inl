@@ -50,7 +50,23 @@ inline a3i32 a3SphereSphereCollide(a3_SphereCollider* sphere, a3_SphereCollider*
 	if (a3real3LengthSquared(collisionVec.v) <= (radiiSum * radiiSum))
 	{
 		// colliding
+		a3real3Normalize(collisionVec.v);
 
+		a3vec3 collisionDir, v1Parallel, v1Ortho, v2Parallel, v2Ortho;
+		a3real3Set(collisionDir.v, -collisionVec.y, collisionVec.x, 0);
+		a3real3SetReal3(v1Parallel.v, collisionVec.v);
+		a3real3SetReal3(v1Ortho.v, collisionDir.v);
+		a3real3SetReal3(v2Parallel.v, collisionVec.v);
+		a3real3SetReal3(v2Ortho.v, collisionDir.v);
+
+		a3real3MulS(v1Parallel.v, a3real3Dot(collisionVec.v, sphere->rigidbody->velocity.v));
+		a3real3MulS(v1Ortho.v, a3real3Dot(collisionDir.v, sphere->rigidbody->velocity.v));
+		a3real3MulS(v2Parallel.v, a3real3Dot(collisionVec.v, sphereTwo->rigidbody->velocity.v));
+		a3real3MulS(v2Ortho.v, a3real3Dot(collisionDir.v, sphereTwo->rigidbody->velocity.v));
+
+		// set velocities
+		a3real3Add(sphere->rigidbody->velocity.v, a3real3Add(v1Parallel.v, v1Ortho.v));
+		a3real3Add(sphereTwo->rigidbody->velocity.v, a3real3Add(v2Parallel.v, v2Ortho.v));
 	}
 	return -1;
 }
